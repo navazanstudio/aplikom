@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>1#Market - Game Edukasi Belanja</title>
+  
+  <!-- Font Google untuk gaya game kartun ceria -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Game Container Wrapper -->
+  <div id="game-container">
+
+    <!-- Audio Element Rekaman Asli (Kasir 8s, Pengertian Rasio 13s, Kesamaan Rasio 14s, Es Sirup 29s, Rahasia Sirup 19s) -->
+    <audio id="audio-kasir-player" src="assets/audio-kasir.m4a" preload="auto"></audio>
+    <audio id="audio-rasio-player" src="assets/audio-pengertian-rasio.m4a" preload="auto"></audio>
+    <audio id="audio-kesamaan-player" src="assets/audio-kesamaan-rasio.m4a" preload="auto"></audio>
+    <audio id="audio-es-sirup-player" src="assets/audio-es-sirup.m4a" preload="auto"></audio>
+    <audio id="audio-rahasia-sirup-player" src="assets/audio-rahasia-sirup.m4a" preload="auto"></audio>
+
+    <!-- Tombol Suara (SFX & Voice Toggle) di pojok atas -->
+    <button id="btn-sound-toggle" class="sound-toggle-btn" title="Toggle Suara" aria-label="Toggle Suara">
+      <span id="sound-icon">🔊</span>
+    </button>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 1: Halaman Awal / Start Screen           -->
+    <!-- ============================================== -->
+    <section id="slide-1" class="game-slide active">
+      <div class="supermarket-bg" id="bg-supermarket">
+        <div class="sparkle-particle sp-1">✨</div>
+        <div class="sparkle-particle sp-2">⭐</div>
+        <div class="sparkle-particle sp-3">✨</div>
+        <div class="sparkle-particle sp-4">🌟</div>
+      </div>
+
+      <div class="bg-vignette"></div>
+
+      <div class="start-ui-layer">
+        <header class="title-banner">
+          <div class="banner-pill">
+            <span class="banner-sparkle">✨</span>
+            <span class="banner-sub">GAME PETUALANGAN BELANJA</span>
+            <span class="banner-sparkle">✨</span>
+          </div>
+          <h1 class="main-title">
+            <span class="highlight-number">1#</span> MARKET
+          </h1>
+        </header>
+
+        <div class="start-action-container">
+          <button id="btn-start" class="btn-start-interactive" aria-label="Buka Pintu & Masuk Toko">
+            <img src="https://chzxmnnehpongkqkwfti.supabase.co/storage/v1/object/public/assets/SLIDE%201/Gemini_Generated_Image_m5ylujm5ylujm5yl-removebg-preview.png" onerror="this.onerror=null; this.src='assets/start-button.png';" alt="START GAME - Buka Pintu & Masuk Toko" class="start-btn-img">
+            <div class="shine-sweep"></div>
+          </button>
+          
+          <div class="hint-container">
+            <span class="hint-arrow">👆</span>
+            <span class="hint-text">Klik tombol untuk membuka pintu & masuk ke toko</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <!-- ============================================== -->
+    <!-- SLIDE 2: POV KASIR 1# MARKET                   -->
+    <!-- ============================================== -->
+    <section id="slide-2" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide2-kasir.jpg" alt="Kasir 1# Market" class="slide-img">
+
+        <!-- Tombol Replay Suara Cewek Kasir Nisa -->
+        <button id="btn-replay-voice" class="voice-badge-btn" title="Dengarkan Suara Kasir Nisa" aria-label="Dengarkan Suara Kasir Nisa">
+          <span class="voice-anim-icon" id="voice-anim-icon">🔊</span>
+          <span class="voice-badge-text">Suara Nisa</span>
+        </button>
+
+        <!-- Tombol Interaktif: Buka Pilihan Menu -->
+        <button id="btn-s2-menu" class="hotspot-btn hotspot-s2-menu" title="Buka Pilihan Menu" aria-label="Buka Pilihan Menu">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Slide 1 (Depan Toko) -->
+        <button id="btn-s2-back" class="hotspot-btn hotspot-s2-back" title="Kembali ke Halaman Depan" aria-label="Kembali ke Depan">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 3: PILIHAN AKTIVITAS MENU                -->
+    <!-- ============================================== -->
+    <section id="slide-3" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide3-menu.jpg" alt="Pilihan Aktivitas 1# Market" class="slide-img">
+
+        <!-- Tombol Interaktif: Buka Troli Materi (Lanjut ke Slide 4) -->
+        <button id="btn-s3-troli" class="hotspot-btn hotspot-s3-troli" title="Buka Troli Materi" aria-label="Buka Troli Materi">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Mulai Belanja -->
+        <button id="btn-s3-belanja" class="hotspot-btn hotspot-s3-belanja" title="Mulai Belanja" aria-label="Mulai Belanja">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Slide 2 (Kasir POV) -->
+        <button id="btn-s3-back" class="hotspot-btn hotspot-s3-back" title="Kembali ke Kasir" aria-label="Kembali ke Kasir">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 4: PILIH MATERI DALAM TROLI             -->
+    <!-- ============================================== -->
+    <section id="slide-4" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide4-troli.jpg" alt="Pilih Materi di Dalam Troli Belanjamu" class="slide-img">
+
+        <!-- Tombol Interaktif: Pilihan 1 - Meracik Troli (Lanjut ke Slide 5) -->
+        <button id="btn-s4-meracik" class="hotspot-btn hotspot-s4-meracik" title="Pilih Meracik Troli" aria-label="Meracik Troli">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Pilihan 2 - Kesamaan Rasio Belanja -->
+        <button id="btn-s4-rasio" class="hotspot-btn hotspot-s4-rasio" title="Pilih Kesamaan Rasio Belanja" aria-label="Kesamaan Rasio Belanja">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Slide 3 (Pilihan Menu) -->
+        <button id="btn-s4-back" class="hotspot-btn hotspot-s4-back" title="Kembali ke Pilihan Menu" aria-label="Kembali ke Pilihan Menu">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Selanjutnya -->
+        <button id="btn-s4-next" class="hotspot-btn hotspot-s4-next" title="Selanjutnya" aria-label="Selanjutnya">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 5: MATERI MERACIK TROLI (GAMBAR 4 & 1)   -->
+    <!-- Background & Siswi Tetap, Teks Berubah Otomatis-->
+    <!-- ============================================== -->
+    <section id="slide-5" class="game-slide">
+      <div class="stage-frame">
+        <!-- Background Scene + Siswi + Penjelasan 1 (Apa itu Rasio?) -->
+        <img src="assets/slide5-materi1.jpg" alt="Materi Belajar Rasio - Siswi" class="slide-img" id="slide5-base-img">
+
+        <!-- Penjelasan 2 (Gambar 1: Yuk Ambil Barangmu) -->
+        <div class="bubble-2-overlay" id="bubble-2-overlay">
+          <img src="assets/bubble2.png" alt="Untuk Mengetahui Konsep Rasio" class="bubble-2-img">
+        </div>
+
+        <!-- Tombol Replay Suara Siswi Perempuan -->
+        <button id="btn-s5-voice" class="voice-badge-btn voice-badge-s5" title="Dengarkan Suara Siswi" aria-label="Dengarkan Suara Siswi">
+          <span class="voice-anim-icon" id="s5-voice-icon">🔊</span>
+          <span class="voice-badge-text">Suara Siswi</span>
+        </button>
+
+        <!-- Indikator Pill Penjelasan 1/2 atau 2/2 -->
+        <div class="explanation-pill-badge" id="explanation-badge">
+          <span class="pill-dot" id="pill-dot"></span>
+          <span id="explanation-text">Penjelasan 1 / 2</span>
+        </div>
+
+        <!-- Tombol Interaktif: Kembali (di Slide 5) -->
+        <button id="btn-s5-back" class="hotspot-btn hotspot-s5-back" title="Kembali" aria-label="Kembali">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Selanjutnya (di Slide 5) -> Menuju Slide 6 -->
+        <button id="btn-s5-next" class="hotspot-btn hotspot-s5-next" title="Selanjutnya" aria-label="Selanjutnya">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 6: ANIMASI AMBIL BARANG KE TROLI         -->
+    <!-- Semangka x2 & Susu x4 Masuk ke Keranjang        -->
+    <!-- ============================================== -->
+    <section id="slide-6" class="game-slide">
+      <div class="stage-frame" id="slide6-frame">
+        <!-- Gambar Rak dan Keranjang -->
+        <img src="assets/slide6-rak-troli.jpg" alt="Rak Supermarket dan Troli Belanja" class="slide-img">
+
+        <!-- Panggung Animasi Item Terbang -->
+        <div class="flight-stage" id="flight-stage">
+          <!-- Item Terbang Bergerak -->
+          <img src="assets/clean-item-semangka.png" class="anim-flying-item" id="flying-semangka" alt="Semangka Terbang">
+          <img src="assets/clean-item-susu.png" class="anim-flying-item" id="flying-susu" alt="Susu Terbang">
+
+          <!-- Item yang Mendarat di Dalam Keranjang (2 Semangka & 4 Susu) -->
+          <div class="cart-landing-zone" id="cart-landing-zone">
+            <!-- 2 Semangka -->
+            <img src="assets/clean-item-semangka.png" class="landed-item landed-w1" id="landed-w1" alt="Semangka 1">
+            <img src="assets/clean-item-semangka.png" class="landed-item landed-w2" id="landed-w2" alt="Semangka 2">
+            <!-- 4 Susu -->
+            <img src="assets/clean-item-susu.png" class="landed-item landed-m1" id="landed-m1" alt="Susu 1">
+            <img src="assets/clean-item-susu.png" class="landed-item landed-m2" id="landed-m2" alt="Susu 2">
+            <img src="assets/clean-item-susu.png" class="landed-item landed-m3" id="landed-m3" alt="Susu 3">
+            <img src="assets/clean-item-susu.png" class="landed-item landed-m4" id="landed-m4" alt="Susu 4">
+          </div>
+        </div>
+
+        <!-- Banner Counter Isi Keranjang -->
+        <div class="cart-summary-badge" id="cart-summary-badge">
+          <span class="summary-title">Keranjang Belanja:</span>
+          <span class="count-pill count-pill-watermelon" id="badge-count-w">🍉 0 Semangka</span>
+          <span class="count-pill count-pill-milk" id="badge-count-m">🥛 0 Susu</span>
+        </div>
+
+        <!-- Tombol Putar Ulang Animasi -->
+        <button id="btn-replay-anim6" class="btn-replay-anim" title="Ulangi Animasi Ambil Barang">
+          <span class="replay-icon">🔄</span>
+          <span>Ulangi Ambil Barang</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Slide 5 -->
+        <button id="btn-s6-back" class="hotspot-btn hotspot-s6-back" title="Kembali ke Penjelasan" aria-label="Kembali ke Penjelasan">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Selanjutnya ke Slide 7 -->
+        <button id="btn-s6-next" class="hotspot-btn hotspot-s6-next" title="Lanjut ke Hasil Rasio" aria-label="Lanjut ke Hasil Rasio">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 7: HASIL RASIO 2 : 4 (2 SEMANGKA & 4 SUSU) -->
+    <!-- Rasio 2 Semangka : 4 Susu                      -->
+    <!-- ============================================== -->
+    <section id="slide-7" class="game-slide">
+      <div class="stage-frame">
+        <!-- Gambar Baru dengan Keterangan 2 Semangka dan 4 Susu -->
+        <img src="assets/slide7-rasio-2semangka-4susu.jpg" alt="Rasio Antara Semangka dan Susu adalah 2 : 4" class="slide-img">
+
+        <!-- Tombol Suara Penjelasan Rasio -->
+        <button id="btn-s7-voice" class="voice-badge-btn voice-badge-s7" title="Dengarkan Penjelasan Rasio" aria-label="Dengarkan Penjelasan Rasio">
+          <span class="voice-anim-icon" id="s7-voice-icon">🔊</span>
+          <span class="voice-badge-text">Penjelasan</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Slide 6 (Rak Belanja) -->
+        <button id="btn-s7-back" class="hotspot-btn hotspot-s7-back" title="Kembali ke Rak Belanja" aria-label="Kembali ke Rak Belanja">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Selanjutnya ke Slide 8 (Kuis) -->
+        <button id="btn-s7-next" class="hotspot-btn hotspot-s7-next" title="Lanjut ke Soal Kuis" aria-label="Lanjut ke Soal Kuis">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 8: LATIHAN SOAL KUIS (GAMBAR 1)          -->
+    <!-- Berapakah rasio jumlah susu terhadap semangka? -->
+    <!-- ============================================== -->
+    <section id="slide-8" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide8-kuis-soal-baru.jpg" alt="Soal Kuis: Rasio Susu Terhadap Semangka" class="slide-img">
+
+        <!-- Tombol Replay Suara Soal Kuis -->
+        <button id="btn-s8-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis">
+          <span class="voice-anim-icon" id="s8-voice-icon">🔊</span>
+          <span class="voice-badge-text">Dengar Soal</span>
+        </button>
+
+        <!-- 4 Pilihan Jawaban Interaktif -->
+        <!-- Jawaban A (4 : 2) - Pilihan BENAR -->
+        <button id="btn-quiz-a" class="quiz-option-btn quiz-opt-a" data-option="A" data-correct="true" title="Pilih Jawaban A (4 : 2)" aria-label="Jawaban A Empat banding Dua">
+          <span class="quiz-badge-icon check-icon">✓</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Jawaban B (2 : 3) - Salah -->
+        <button id="btn-quiz-b" class="quiz-option-btn quiz-opt-b" data-option="B" data-correct="false" title="Pilih Jawaban B (2 : 3)" aria-label="Jawaban B Dua banding Tiga">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Jawaban C (3 : 4) - Salah -->
+        <button id="btn-quiz-c" class="quiz-option-btn quiz-opt-c" data-option="C" data-correct="false" title="Pilih Jawaban C (3 : 4)" aria-label="Jawaban C Tiga banding Empat">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Jawaban D (4 : 3) - Salah -->
+        <button id="btn-quiz-d" class="quiz-option-btn quiz-opt-d" data-option="D" data-correct="false" title="Pilih Jawaban D (4 : 3)" aria-label="Jawaban D Empat banding Tiga">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Kembali ke Slide 7 -->
+        <button id="btn-s8-back" class="hotspot-btn hotspot-s8-back" title="Kembali ke Hasil Rasio" aria-label="Kembali ke Hasil Rasio">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Pembahasan ke Slide 9 -->
+        <button id="btn-s8-next" class="hotspot-btn hotspot-s8-next" title="Buka Pembahasan" aria-label="Buka Pembahasan">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 8-SALAH: TAMPILAN SALAH (GAMBAR 2)       -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Salah       -->
+    <!-- ============================================== -->
+    <section id="slide-8-wrong" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide8-salah.jpg" alt="Jawaban Salah" class="slide-img">
+
+        <!-- Tombol Suara Layar Salah -->
+        <button id="btn-s8w-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Semangat" aria-label="Dengarkan Semangat">
+          <span class="voice-anim-icon" id="s8w-voice-icon">🔊</span>
+          <span class="voice-badge-text">Semangat</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Soal -->
+        <button id="btn-s8w-back" class="hotspot-btn hotspot-s8w-back" title="Kembali ke Soal Kuis" aria-label="Kembali ke Soal Kuis">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 9: JAWABAN BENAR & PEMBAHASAN (GAMBAR 3) -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Benar (A)  -->
+    <!-- ============================================== -->
+    <section id="slide-9" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide9-benar-pembahasan.jpg" alt="Jawaban Benar dan Pembahasan" class="slide-img">
+
+        <!-- Tombol Suara Pembahasan Benar -->
+        <button id="btn-s9-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Pembahasan" aria-label="Dengarkan Pembahasan">
+          <span class="voice-anim-icon" id="s9-voice-icon">🔊</span>
+          <span class="voice-badge-text">Penjelasan</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Soal -->
+        <button id="btn-s9-back" class="hotspot-btn hotspot-s9-back" title="Kembali ke Soal" aria-label="Kembali ke Soal">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Selanjutnya ke Slide 10 -->
+        <button id="btn-s9-next" class="hotspot-btn hotspot-s9-next" title="Lanjut ke Penjelasan Urutan Rasio" aria-label="Lanjut ke Penjelasan Urutan Rasio">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 10: URUTAN TIDAK BOLEH DIBALIK (GAMBAR 4) -->
+    <!-- ============================================== -->
+    <section id="slide-10" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide10-urutan-tidak-boleh-dibalik.jpg" alt="Urutan di Dalam Rasio Tidak Boleh Dibalik" class="slide-img">
+
+        <!-- Tombol Suara Siswi Menjelaskan -->
+        <button id="btn-s10-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Penjelasan Siswi" aria-label="Dengarkan Penjelasan Siswi">
+          <span class="voice-anim-icon" id="s10-voice-icon">🔊</span>
+          <span class="voice-badge-text">Penjelasan Siswi</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Pilihan Materi (Menuju Slide 11) -->
+        <button id="btn-s10-troli" class="hotspot-btn hotspot-s10-troli" title="Kembali ke Pilihan Materi" aria-label="Kembali ke Pilihan Materi">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 11: PILIHAN MATERI DALAM TROLI (GAMBAR 5)-->
+    <!-- Muncul Saat Tombol Kembali ke Pilihan Materi    -->
+    <!-- ============================================== -->
+    <section id="slide-11" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide11-pilihan-materi-troli.jpg" alt="Pilih Materi di Dalam Troli Belanjamu" class="slide-img">
+
+        <!-- Tombol Suara Menu Selesai -->
+        <button id="btn-s11-voice" class="voice-badge-btn voice-badge-s11" title="Dengarkan Arahan" aria-label="Dengarkan Arahan">
+          <span class="voice-anim-icon" id="s11-voice-icon">🔊</span>
+          <span class="voice-badge-text">Arahan Siswi</span>
+        </button>
+
+        <!-- Tombol Interaktif: Pilihan 1 - Meracik Troli (Kembali ke Slide 5) -->
+        <button id="btn-s11-meracik" class="hotspot-btn hotspot-s11-meracik" title="Buka Modul Meracik Troli" aria-label="Buka Modul Meracik Troli">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Pilihan 2 - Kesamaan Rasio Belanja -->
+        <button id="btn-s11-kesamaan" class="hotspot-btn hotspot-s11-kesamaan" title="Buka Modul Kesamaan Rasio Belanja" aria-label="Buka Modul Kesamaan Rasio Belanja">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Kasir POV (Slide 2) -->
+        <button id="btn-s11-back" class="hotspot-btn hotspot-s11-back" title="Kembali ke Kasir Nisa" aria-label="Kembali ke Kasir Nisa">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Selanjutnya -->
+        <button id="btn-s11-next" class="hotspot-btn hotspot-s11-next" title="Selesai & Selanjutnya" aria-label="Selesai & Selanjutnya">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 12: KESAMAAN RASIO / RASIO SENILAI (GAMBAR 2) -->
+    <!-- Muncul Saat Pilihan 'Kesamaan Rasio Belanja' Diklik -->
+    <!-- Dilengkapi Audio Rekaman Asli Siswi            -->
+    <!-- ============================================== -->
+    <section id="slide-12" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide12-kesamaan-rasio.jpg" alt="Kesamaan Rasio! Apa itu Rasio Senilai?" class="slide-img">
+
+        <!-- Tombol Replay Suara Rekaman Kesamaan Rasio -->
+        <button id="btn-s12-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Penjelasan Kesamaan Rasio" aria-label="Dengarkan Penjelasan Kesamaan Rasio">
+          <span class="voice-anim-icon" id="s12-voice-icon">🔊</span>
+          <span class="voice-badge-text">Penjelasan Siswi</span>
+        </button>
+
+        <!-- Tombol Interaktif: Selanjutnya ke Slide 13 -->
+        <button id="btn-s12-next" class="hotspot-btn hotspot-s12-next" title="Lanjut ke Cerita Es Sirup" aria-label="Lanjut ke Cerita Es Sirup">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 13: MENJAGA RASA! ES SIRUP DAN RASIO (GAMBAR 3) -->
+    <!-- ============================================== -->
+    <section id="slide-13" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide13-es-sirup-dan-rasio.jpg" alt="Menjaga Rasa! Es Sirup dan Rasio" class="slide-img">
+
+        <!-- Tombol Replay Suara Es Sirup dan Rasio -->
+        <button id="btn-s13-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Penjelasan Es Sirup" aria-label="Dengarkan Penjelasan Es Sirup">
+          <span class="voice-anim-icon" id="s13-voice-icon">🔊</span>
+          <span class="voice-badge-text">Penjelasan Siswi</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Slide 12 -->
+        <button id="btn-s13-back" class="hotspot-btn hotspot-s13-back" title="Kembali ke Pengertian Rasio Senilai" aria-label="Kembali ke Pengertian Rasio Senilai">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Selanjutnya ke Slide 14 -->
+        <button id="btn-s13-next" class="hotspot-btn hotspot-s13-next" title="Lanjut ke Rahasia Es Sirup Enak" aria-label="Lanjut ke Rahasia Es Sirup Enak">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 14: RASA YANG PAS! RAHASIA ES SIRUP ENAK (GAMBAR 4) -->
+    <!-- ============================================== -->
+    <section id="slide-14" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide14-rahasia-es-sirup.jpg" alt="Rasa yang Pas! Rahasia Es Sirup Enak" class="slide-img">
+
+        <!-- Tombol Replay Suara Rahasia Es Sirup -->
+        <button id="btn-s14-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Rahasia Es Sirup" aria-label="Dengarkan Rahasia Es Sirup">
+          <span class="voice-anim-icon" id="s14-voice-icon">🔊</span>
+          <span class="voice-badge-text">Penjelasan Siswi</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Slide 13 -->
+        <button id="btn-s14-back" class="hotspot-btn hotspot-s14-back" title="Kembali ke Menjaga Rasa Es Sirup" aria-label="Kembali ke Menjaga Rasa Es Sirup">
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Interaktif: Selanjutnya / Selesai -->
+        <button id="btn-s14-next" class="hotspot-btn hotspot-s14-next" title="Lanjut ke Simulasi Es Sirup" aria-label="Lanjut ke Simulasi Es Sirup">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 15: SIMULASI INTERAKTIF PERBANDINGAN     -->
+    <!-- ES SIRUP & RASIO SENILAI (SEPERTI VIDEO)      -->
+    <!-- ============================================== -->
+    <section id="slide-15" class="game-slide">
+      <div class="stage-frame sim-stage-frame">
+        <div class="sim-container">
+          <!-- Header Simulasi -->
+          <header class="sim-header">
+            <div class="sim-header-pill">
+              <span class="sim-header-icon">🧪</span>
+              <span class="sim-header-title">Laboratorium Rasa: Simulasi Es Sirup & Rasio Senilai</span>
+            </div>
+            <p class="sim-header-desc">Geser takaran <strong>Sirup</strong> dan <strong>Air</strong> untuk menemukan bentuk rasio senilai!</p>
+          </header>
+
+          <!-- Area Utama Simulasi: 2 Kolom (Kontrol & Visual) -->
+          <div class="sim-body">
+            <!-- Kolom Kiri: Slider Kontrol & Output Rasio -->
+            <div class="sim-controls-card">
+              <!-- Slider 1: Takaran Air (Kelipatan 3: 3 s/d 12) -->
+              <div class="sim-slider-group group-air">
+                <div class="sim-slider-header">
+                  <span class="sim-slider-label">💧 Gelas Air Jernih:</span>
+                  <span id="label-val-air" class="sim-slider-val val-air">3</span>
+                </div>
+                <input type="range" id="slider-air" class="sim-range range-air" min="3" max="12" value="3" step="3">
+                <div class="sim-slider-ticks">
+                  <span>3</span><span>6</span><span>9</span><span>12</span>
+                </div>
+              </div>
+
+              <!-- Slider 2: Takaran Sirup (Kelipatan 2: 2 s/d 12) -->
+              <div class="sim-slider-group group-sirup">
+                <div class="sim-slider-header">
+                  <span class="sim-slider-label">🥄 Sendok Sirup Orange:</span>
+                  <span id="label-val-sirup" class="sim-slider-val val-sirup">2</span>
+                </div>
+                <input type="range" id="slider-sirup" class="sim-range range-sirup" min="2" max="12" value="2" step="2">
+                <div class="sim-slider-ticks">
+                  <span>2</span><span>4</span><span>6</span><span>8</span><span>10</span><span>12</span>
+                </div>
+              </div>
+
+              <!-- Kotak Hasil Perhitungan Rasio -->
+              <div class="sim-results-box">
+                <div class="sim-results-title">📊 HASIL PERHITUNGAN RASIO:</div>
+                <div class="sim-result-row">
+                  <span class="result-name">Rasio Mentah (Air : Sirup):</span>
+                  <span id="text-rasio-mentah" class="result-val val-raw">3 : 2</span>
+                </div>
+                <div class="sim-result-row highlight-row">
+                  <span class="result-name">Bentuk Sederhana:</span>
+                  <span id="text-rasio-sederhana" class="result-val val-simplified">3 : 2</span>
+                </div>
+                <div class="sim-result-row total-mixture-row">
+                  <span class="result-name">Total Campuran:</span>
+                  <span id="text-total-campuran" class="result-val val-total">5 bagian</span>
+                </div>
+                <div id="badge-taste-status" class="taste-badge taste-balanced">
+                  <span id="taste-icon">🍹</span>
+                  <span id="taste-text">Rasa Pas Banget! (Rasio Senilai 3 : 2)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Kolom Kanan: Visual Proporsi Campuran Gelas Beaker -->
+            <div class="sim-visual-card">
+              <div class="sim-visual-title">Visual Proporsi Campuran</div>
+              
+              <div class="beaker-wrapper">
+                <!-- Gelas Ukur Transparan -->
+                <div class="measuring-beaker">
+                  <div class="beaker-lip"></div>
+                  <div class="beaker-markings">
+                    <span class="mark m-100">100%</span>
+                    <span class="mark m-75">75%</span>
+                    <span class="mark m-50">50%</span>
+                    <span class="mark m-25">25%</span>
+                  </div>
+
+                  <!-- Wadah Cairan Bertingkat -->
+                  <div class="liquid-container">
+                    <!-- Lapisan Air (Atas) -->
+                    <div id="liquid-air" class="liquid-layer liquid-air" style="height: 50%;">
+                      <div class="liquid-wave-top"></div>
+                      <div class="liquid-bubbles">
+                        <span class="bubble b1"></span>
+                        <span class="bubble b2"></span>
+                      </div>
+                      <div class="liquid-label-inner" id="label-liquid-air">Air (4)</div>
+                    </div>
+
+                    <!-- Lapisan Sirup (Bawah) -->
+                    <div id="liquid-sirup" class="liquid-layer liquid-sirup" style="height: 50%;">
+                      <div class="liquid-label-inner" id="label-liquid-sirup">Sirup (4)</div>
+                      <span class="liquid-arrow">⬇</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sim-caption">
+                Ketinggian cairan mencerminkan proporsi perbandingan sirup dan air di dalam gelas!
+              </div>
+            </div>
+          </div>
+
+          <!-- Tombol Suara Simulasi -->
+          <button id="btn-s15-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Panduan Simulasi" aria-label="Dengarkan Panduan Simulasi">
+            <span class="voice-anim-icon" id="s15-voice-icon">🔊</span>
+            <span class="voice-badge-text">Panduan Simulasi</span>
+          </button>
+
+          <!-- Tombol Navigasi Bawah -->
+          <div class="sim-nav-footer">
+            <button id="btn-s15-back" class="sim-nav-btn btn-sim-back" title="Kembali ke Rahasia Es Sirup">
+              <span>↩ Kembali</span>
+            </button>
+            <button id="btn-s15-next" class="sim-nav-btn btn-sim-next" title="Lanjut ke Contoh Soal">
+              <span>Selanjutnya ➔</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <!-- ============================================== -->
+    <!-- SLIDE 16: CONTOH SOAL ES JERUK (GAMBAR 1)      -->
+    <!-- ============================================== -->
+    <section id="slide-16" class="game-slide">
+      <div class="stage-frame frame-4-3-wrapper">
+        <div class="stage-4-3-inner">
+          <img src="assets/slide16-contoh-soal-esjeruk.jpg" alt="Contoh Soal: Rasio Es Jeruk Ibu" class="slide-img">
+
+          <!-- Tombol Suara Penjelasan Contoh Soal -->
+          <button id="btn-s16-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Penjelasan Contoh Soal" aria-label="Dengarkan Penjelasan Contoh Soal">
+            <span class="voice-anim-icon" id="s16-voice-icon">🔊</span>
+            <span class="voice-badge-text">Penjelasan Siswi</span>
+          </button>
+
+          <!-- Tombol Navigasi Bawah -->
+          <div class="slide16-nav-footer">
+            <button id="btn-s16-back" class="sim-nav-btn btn-sim-back" title="Kembali ke Simulasi Es Sirup">
+              <span>↩ Kembali</span>
+            </button>
+            <button id="btn-s16-next" class="sim-nav-btn btn-sim-next" title="Lanjut ke Latihan Soal Kuis">
+              <span>Lanjut ke Latihan Soal ➔</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <!-- ============================================== -->
+    <!-- SLIDE 17: LATIHAN SOAL KUIS SIRUP (GAMBAR 2)   -->
+    <!-- 1 Gelas = 5 Sendok Sirup, 3 Gelas = ?          -->
+    <!-- Jawaban Benar = C (15 Sendok Makan)           -->
+    <!-- ============================================== -->
+    <section id="slide-17" class="game-slide">
+      <div class="stage-frame frame-4-3-wrapper">
+        <div class="stage-4-3-inner">
+          <img src="assets/slide17-latihan-soal-sirup.jpg" alt="Latihan Soal Kuis: Es Sirup Kakak" class="slide-img">
+
+          <!-- Tombol Suara Soal Kuis -->
+          <button id="btn-s17-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis">
+            <span class="voice-anim-icon" id="s17-voice-icon">🔊</span>
+            <span class="voice-badge-text">Dengar Soal</span>
+          </button>
+
+          <!-- 4 Pilihan Jawaban Interaktif (A, B, C, D) -->
+          <!-- Option A: 10 sendok makan (Salah) -->
+          <button id="btn-quiz2-a" class="quiz-option-btn quiz2-opt-a" data-option="A" data-correct="false" title="Pilih A (10 sendok makan)" aria-label="Jawaban A 10 sendok makan">
+            <span class="quiz-badge-icon cross-icon">✗</span>
+            <span class="hotspot-glow"></span>
+          </button>
+
+          <!-- Option B: 12 sendok makan (Salah) -->
+          <button id="btn-quiz2-b" class="quiz-option-btn quiz2-opt-b" data-option="B" data-correct="false" title="Pilih B (12 sendok makan)" aria-label="Jawaban B 12 sendok makan">
+            <span class="quiz-badge-icon cross-icon">✗</span>
+            <span class="hotspot-glow"></span>
+          </button>
+
+          <!-- Option C: 15 sendok makan (BENAR!) -->
+          <button id="btn-quiz2-c" class="quiz-option-btn quiz2-opt-c" data-option="C" data-correct="true" title="Pilih C (15 sendok makan)" aria-label="Jawaban C 15 sendok makan">
+            <span class="quiz-badge-icon check-icon">✓</span>
+            <span class="hotspot-glow"></span>
+          </button>
+
+          <!-- Option D: 20 sendok makan (Salah) -->
+          <button id="btn-quiz2-d" class="quiz-option-btn quiz2-opt-d" data-option="D" data-correct="false" title="Pilih D (20 sendok makan)" aria-label="Jawaban D 20 sendok makan">
+            <span class="quiz-badge-icon cross-icon">✗</span>
+            <span class="hotspot-glow"></span>
+          </button>
+
+          <!-- Tombol Navigasi Kembali ke Slide 16 -->
+          <div class="slide17-nav-footer">
+            <button id="btn-s17-back" class="sim-nav-btn btn-sim-back" title="Kembali ke Contoh Soal">
+              <span>↩ Kembali ke Contoh Soal</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <!-- ============================================== -->
+    <!-- SLIDE 17-SALAH: TAMPILAN SALAH (GAMBAR 3)      -->
+    <!-- Muncul Otomatis Jika Jawaban Kuis 2 Salah      -->
+    <!-- ============================================== -->
+    <section id="slide-17-wrong" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/slide17-salah.jpg" alt="Jawaban Salah" class="slide-img">
+
+        <!-- Tombol Suara Layar Salah -->
+        <button id="btn-s17w-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Semangat" aria-label="Dengarkan Semangat">
+          <span class="voice-anim-icon" id="s17w-voice-icon">🔊</span>
+          <span class="voice-badge-text">Semangat</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Soal -->
+        <button id="btn-s17w-back" class="hotspot-btn hotspot-s17w-back" title="Kembali ke Soal Kuis" aria-label="Kembali ke Soal Kuis">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 18: JAWABAN BENAR & PEMBAHASAN (GAMBAR 4)-->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Benar (C)  -->
+    <!-- ============================================== -->
+    <section id="slide-18" class="game-slide">
+      <div class="stage-frame frame-4-3-wrapper">
+        <div class="stage-4-3-inner">
+          <img src="assets/slide18-benar-pembahasan-sirup.jpg" alt="Jawaban Benar dan Pembahasan Es Sirup" class="slide-img">
+
+          <!-- Tombol Suara Pembahasan Benar -->
+          <button id="btn-s18-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Pembahasan" aria-label="Dengarkan Pembahasan">
+            <span class="voice-anim-icon" id="s18-voice-icon">🔊</span>
+            <span class="voice-badge-text">Penjelasan Siswi</span>
+          </button>
+
+          <!-- Tombol Interaktif: Kembali ke Menu Utama (Slide 3) -->
+          <button id="btn-s18-menu" class="hotspot-btn hotspot-s18-menu" title="Kembali ke Menu Utama" aria-label="Kembali ke Menu Utama">
+            <span class="hotspot-glow"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 19: KUIS 1 MULAI BELANJA                -->
+    <!-- Apel Merah (12) thd Apel Hijau (18)            -->
+    <!-- Kunci Jawaban BENAR: A (12 : 18)               -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-kuis1" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-kuis1.jpg" alt="Kuis 1 Belanja: Rasio Apel Merah terhadap Apel Hijau" class="slide-img">
+
+        <!-- Tombol Suara Soal Kuis 1 Belanja -->
+        <button id="btn-bk1-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis">
+          <span class="voice-anim-icon" id="bk1-voice-icon">🔊</span>
+          <span class="voice-badge-text">Dengar Soal</span>
+        </button>
+
+        <!-- 4 Pilihan Jawaban Interaktif (A, B, C, D) -->
+        <!-- Option A: 12 : 18 (KUNCI BENAR!) -->
+        <button id="btn-bk1-opt-a" class="quiz-option-btn quiz-option-belanja bk1-opt-a" data-option="A" data-correct="true" title="Pilih A (12 : 18)" aria-label="Jawaban A Dua Belas banding Delapan Belas">
+          <span class="quiz-badge-icon check-icon">✓</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option B: 18 : 12 (Salah) -->
+        <button id="btn-bk1-opt-b" class="quiz-option-btn quiz-option-belanja bk1-opt-b" data-option="B" data-correct="false" title="Pilih B (18 : 12)" aria-label="Jawaban B Delapan Belas banding Dua Belas">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option C: 2 : 3 (Salah) -->
+        <button id="btn-bk1-opt-c" class="quiz-option-btn quiz-option-belanja bk1-opt-c" data-option="C" data-correct="false" title="Pilih C (2 : 3)" aria-label="Jawaban C Dua banding Tiga">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option D: 3 : 2 (Salah) -->
+        <button id="btn-bk1-opt-d" class="quiz-option-btn quiz-option-belanja bk1-opt-d" data-option="D" data-correct="false" title="Pilih D (3 : 2)" aria-label="Jawaban D Tiga banding Dua">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Navigasi Kembali ke Menu (Slide 3) -->
+        <button id="btn-bk1-back" class="sim-nav-btn btn-sim-back quiz-belanja-back-btn" title="Kembali ke Menu Pilihan">
+          <span>↩ Menu</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 20: TAMPILAN SALAH KUIS 1 BELANJA        -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Salah      -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-q1-wrong" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-salah.jpg" alt="Jawaban Salah Kuis 1" class="slide-img">
+
+        <!-- Tombol Suara Layar Salah -->
+        <button id="btn-bk1w-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Semangat" aria-label="Dengarkan Semangat">
+          <span class="voice-anim-icon" id="bk1w-voice-icon">🔊</span>
+          <span class="voice-badge-text">Semangat</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Soal Kuis 1 -->
+        <button id="btn-bk1w-back" class="hotspot-btn hotspot-belanja-salah-back" title="Kembali ke Soal Kuis 1" aria-label="Kembali ke Soal Kuis 1">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 21: TAMPILAN BENAR KUIS 1 BELANJA        -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Benar (A)  -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-q1-right" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-benar.jpg" alt="Jawaban Benar Kuis 1" class="slide-img">
+
+        <!-- Tombol Suara Pembahasan / Apresiasi Benar -->
+        <button id="btn-bk1r-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Apresiasi" aria-label="Dengarkan Apresiasi">
+          <span class="voice-anim-icon" id="bk1r-voice-icon">🔊</span>
+          <span class="voice-badge-text">Hore Benar!</span>
+        </button>
+
+        <!-- Tombol Interaktif: Lanjut ke Kuis 2 -->
+        <button id="btn-bk1r-next" class="hotspot-btn hotspot-belanja-benar-next" title="Lanjut ke Kuis 2" aria-label="Lanjut ke Kuis 2">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 22: KUIS 2 MULAI BELANJA                -->
+    <!-- Tepung Terigu (9) thd Gula Pasir (6)           -->
+    <!-- Kunci Jawaban BENAR: D (3 : 2)                 -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-kuis2" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-kuis2.jpg" alt="Kuis 2 Belanja: Rasio Sederhana Tepung dan Gula Pasir" class="slide-img">
+
+        <!-- Tombol Suara Soal Kuis 2 Belanja -->
+        <button id="btn-bk2-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis">
+          <span class="voice-anim-icon" id="bk2-voice-icon">🔊</span>
+          <span class="voice-badge-text">Dengar Soal</span>
+        </button>
+
+        <!-- 4 Pilihan Jawaban Interaktif (A, B, C, D) -->
+        <!-- Option A: 2 : 3 (Salah) -->
+        <button id="btn-bk2-opt-a" class="quiz-option-btn quiz-option-belanja bk2-opt-a" data-option="A" data-correct="false" title="Pilih A (2 : 3)" aria-label="Jawaban A Dua banding Tiga">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option B: 6 : 9 (Salah) -->
+        <button id="btn-bk2-opt-b" class="quiz-option-btn quiz-option-belanja bk2-opt-b" data-option="B" data-correct="false" title="Pilih B (6 : 9)" aria-label="Jawaban B Enam banding Sembilan">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option C: 9 : 6 (Salah) -->
+        <button id="btn-bk2-opt-c" class="quiz-option-btn quiz-option-belanja bk2-opt-c" data-option="C" data-correct="false" title="Pilih C (9 : 6)" aria-label="Jawaban C Sembilan banding Enam">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option D: 3 : 2 (KUNCI BENAR!) -->
+        <button id="btn-bk2-opt-d" class="quiz-option-btn quiz-option-belanja bk2-opt-d" data-option="D" data-correct="true" title="Pilih D (3 : 2)" aria-label="Jawaban D Tiga banding Dua">
+          <span class="quiz-badge-icon check-icon">✓</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Navigasi Kembali ke Kuis 1 -->
+        <button id="btn-bk2-back" class="sim-nav-btn btn-sim-back quiz-belanja-back-btn" title="Kembali ke Kuis 1">
+          <span>↩ Kuis 1</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 23: TAMPILAN SALAH KUIS 2 BELANJA        -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Salah      -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-q2-wrong" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-salah.jpg" alt="Jawaban Salah Kuis 2" class="slide-img">
+
+        <!-- Tombol Suara Layar Salah -->
+        <button id="btn-bk2w-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Semangat" aria-label="Dengarkan Semangat">
+          <span class="voice-anim-icon" id="bk2w-voice-icon">🔊</span>
+          <span class="voice-badge-text">Semangat</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Soal Kuis 2 -->
+        <button id="btn-bk2w-back" class="hotspot-btn hotspot-belanja-salah-back" title="Kembali ke Soal Kuis 2" aria-label="Kembali ke Soal Kuis 2">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 24: TAMPILAN BENAR KUIS 2 BELANJA        -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Benar (D)  -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-q2-right" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-benar.jpg" alt="Jawaban Benar Kuis 2" class="slide-img">
+
+        <!-- Tombol Suara Apresiasi Benar -->
+        <button id="btn-bk2r-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Apresiasi" aria-label="Dengarkan Apresiasi">
+          <span class="voice-anim-icon" id="bk2r-voice-icon">🔊</span>
+          <span class="voice-badge-text">Hore Benar!</span>
+        </button>
+
+        <!-- Tombol Interaktif: Lanjut ke Kuis 3 -->
+        <button id="btn-bk2r-next" class="hotspot-btn hotspot-belanja-benar-next" title="Lanjut ke Kuis 3" aria-label="Lanjut ke Kuis 3">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 25: KUIS 3 MULAI BELANJA                -->
+    <!-- Laki-laki (16) thd Total Siswa (40)           -->
+    <!-- Kunci Jawaban BENAR: C (2 : 5)                 -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-kuis3" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-kuis3.jpg" alt="Kuis 3 Belanja: Rasio Siswa Laki-laki terhadap Total Siswa" class="slide-img">
+
+        <!-- Tombol Suara Soal Kuis 3 Belanja -->
+        <button id="btn-bk3-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis">
+          <span class="voice-anim-icon" id="bk3-voice-icon">🔊</span>
+          <span class="voice-badge-text">Dengar Soal</span>
+        </button>
+
+        <!-- 4 Pilihan Jawaban Interaktif (A, B, C, D) -->
+        <!-- Option A: 1 : 2 (Salah) -->
+        <button id="btn-bk3-opt-a" class="quiz-option-btn quiz-option-belanja bk3-opt-a" data-option="A" data-correct="false" title="Pilih A (1 : 2)" aria-label="Jawaban A Satu banding Dua">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option B: 3 : 2 (Salah) -->
+        <button id="btn-bk3-opt-b" class="quiz-option-btn quiz-option-belanja bk3-opt-b" data-option="B" data-correct="false" title="Pilih B (3 : 2)" aria-label="Jawaban B Tiga banding Dua">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option C: 2 : 5 (KUNCI BENAR!) -->
+        <button id="btn-bk3-opt-c" class="quiz-option-btn quiz-option-belanja bk3-opt-c" data-option="C" data-correct="true" title="Pilih C (2 : 5)" aria-label="Jawaban C Dua banding Lima">
+          <span class="quiz-badge-icon check-icon">✓</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option D: 3 : 5 (Salah) -->
+        <button id="btn-bk3-opt-d" class="quiz-option-btn quiz-option-belanja bk3-opt-d" data-option="D" data-correct="false" title="Pilih D (3 : 5)" aria-label="Jawaban D Tiga banding Lima">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Navigasi Kembali ke Kuis 2 -->
+        <button id="btn-bk3-back" class="sim-nav-btn btn-sim-back quiz-belanja-back-btn" title="Kembali ke Kuis 2">
+          <span>↩ Kuis 2</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 26: TAMPILAN SALAH KUIS 3 BELANJA        -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Salah      -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-q3-wrong" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-salah.jpg" alt="Jawaban Salah Kuis 3" class="slide-img">
+
+        <!-- Tombol Suara Layar Salah -->
+        <button id="btn-bk3w-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Semangat" aria-label="Dengarkan Semangat">
+          <span class="voice-anim-icon" id="bk3w-voice-icon">🔊</span>
+          <span class="voice-badge-text">Semangat</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Soal Kuis 3 -->
+        <button id="btn-bk3w-back" class="hotspot-btn hotspot-belanja-salah-back" title="Kembali ke Soal Kuis 3" aria-label="Kembali ke Soal Kuis 3">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 27: TAMPILAN BENAR KUIS 3 BELANJA        -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Benar (C)  -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-q3-right" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-benar.jpg" alt="Jawaban Benar Kuis 3" class="slide-img">
+
+        <!-- Tombol Suara Apresiasi -->
+        <button id="btn-bk3r-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Apresiasi" aria-label="Dengarkan Apresiasi">
+          <span class="voice-anim-icon" id="bk3r-voice-icon">🔊</span>
+          <span class="voice-badge-text">Hore Benar!</span>
+        </button>
+
+        <!-- Tombol Interaktif: Lanjut ke Kuis 4 -->
+        <button id="btn-bk3r-next" class="hotspot-btn hotspot-belanja-benar-next" title="Lanjut ke Kuis 4" aria-label="Lanjut ke Kuis 4">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 28: KUIS 4 MULAI BELANJA                -->
+    <!-- Bensin 4 Liter thd 60 km, 120 km = ? Liter    -->
+    <!-- Kunci Jawaban BENAR: B (8)                     -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-kuis4" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-kuis4.jpg" alt="Kuis 4 Belanja: Bensin untuk Jarak 120 km" class="slide-img">
+
+        <!-- Tombol Suara Soal Kuis 4 Belanja -->
+        <button id="btn-bk4-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis">
+          <span class="voice-anim-icon" id="bk4-voice-icon">🔊</span>
+          <span class="voice-badge-text">Dengar Soal</span>
+        </button>
+
+        <!-- 4 Pilihan Jawaban Interaktif (A, B, C, D) -->
+        <!-- Option A: 6 (Salah) -->
+        <button id="btn-bk4-opt-a" class="quiz-option-btn quiz-option-belanja bk4-opt-a" data-option="A" data-correct="false" title="Pilih A (6)" aria-label="Jawaban A Enam">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option B: 8 (KUNCI BENAR!) -->
+        <button id="btn-bk4-opt-b" class="quiz-option-btn quiz-option-belanja bk4-opt-b" data-option="B" data-correct="true" title="Pilih B (8)" aria-label="Jawaban B Delapan">
+          <span class="quiz-badge-icon check-icon">✓</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option C: 12 (Salah) -->
+        <button id="btn-bk4-opt-c" class="quiz-option-btn quiz-option-belanja bk4-opt-c" data-option="C" data-correct="false" title="Pilih C (12)" aria-label="Jawaban C Dua Belas">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option D: 14 (Salah) -->
+        <button id="btn-bk4-opt-d" class="quiz-option-btn quiz-option-belanja bk4-opt-d" data-option="D" data-correct="false" title="Pilih D (14)" aria-label="Jawaban D Empat Belas">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Navigasi Kembali ke Kuis 3 -->
+        <button id="btn-bk4-back" class="sim-nav-btn btn-sim-back quiz-belanja-back-btn" title="Kembali ke Kuis 3">
+          <span>↩ Kuis 3</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 29: TAMPILAN SALAH KUIS 4 BELANJA        -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Salah      -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-q4-wrong" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-salah.jpg" alt="Jawaban Salah Kuis 4" class="slide-img">
+
+        <!-- Tombol Suara Layar Salah -->
+        <button id="btn-bk4w-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Semangat" aria-label="Dengarkan Semangat">
+          <span class="voice-anim-icon" id="bk4w-voice-icon">🔊</span>
+          <span class="voice-badge-text">Semangat</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Soal Kuis 4 -->
+        <button id="btn-bk4w-back" class="hotspot-btn hotspot-belanja-salah-back" title="Kembali ke Soal Kuis 4" aria-label="Kembali ke Soal Kuis 4">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 30: TAMPILAN BENAR KUIS 4 BELANJA        -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Benar (B)  -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-q4-right" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-benar.jpg" alt="Jawaban Benar Kuis 4" class="slide-img">
+
+        <!-- Tombol Suara Apresiasi -->
+        <button id="btn-bk4r-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Apresiasi" aria-label="Dengarkan Apresiasi">
+          <span class="voice-anim-icon" id="bk4r-voice-icon">🔊</span>
+          <span class="voice-badge-text">Hore Benar!</span>
+        </button>
+
+        <!-- Tombol Interaktif: Lanjut ke Kuis 5 -->
+        <button id="btn-bk4r-next" class="hotspot-btn hotspot-belanja-benar-next" title="Lanjut ke Kuis 5" aria-label="Lanjut ke Kuis 5">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 31: KUIS 5 MULAI BELANJA                -->
+    <!-- Lembar Rp5.000 (8) thd Rp10.000 (4)           -->
+    <!-- Kunci Jawaban BENAR: D (2 : 1)                 -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-kuis5" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-kuis5.jpg" alt="Kuis 5 Belanja: Rasio Lembar Rp5.000 terhadap Rp10.000" class="slide-img">
+
+        <!-- Tombol Suara Soal Kuis 5 Belanja -->
+        <button id="btn-bk5-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis">
+          <span class="voice-anim-icon" id="bk5-voice-icon">🔊</span>
+          <span class="voice-badge-text">Dengar Soal</span>
+        </button>
+
+        <!-- 4 Pilihan Jawaban Interaktif (A, B, C, D) -->
+        <!-- Option A: 5 : 10 (Salah) -->
+        <button id="btn-bk5-opt-a" class="quiz-option-btn quiz-option-belanja bk5-opt-a" data-option="A" data-correct="false" title="Pilih A (5 : 10)" aria-label="Jawaban A Lima banding Sepuluh">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option B: 4 : 2 (Salah) -->
+        <button id="btn-bk5-opt-b" class="quiz-option-btn quiz-option-belanja bk5-opt-b" data-option="B" data-correct="false" title="Pilih B (4 : 2)" aria-label="Jawaban B Empat banding Dua">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option C: 1 : 2 (Salah) -->
+        <button id="btn-bk5-opt-c" class="quiz-option-btn quiz-option-belanja bk5-opt-c" data-option="C" data-correct="false" title="Pilih C (1 : 2)" aria-label="Jawaban C Satu banding Dua">
+          <span class="quiz-badge-icon cross-icon">✗</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Option D: 2 : 1 (KUNCI BENAR!) -->
+        <button id="btn-bk5-opt-d" class="quiz-option-btn quiz-option-belanja bk5-opt-d" data-option="D" data-correct="true" title="Pilih D (2 : 1)" aria-label="Jawaban D Dua banding Satu">
+          <span class="quiz-badge-icon check-icon">✓</span>
+          <span class="hotspot-glow"></span>
+        </button>
+
+        <!-- Tombol Navigasi Kembali ke Kuis 4 -->
+        <button id="btn-bk5-back" class="sim-nav-btn btn-sim-back quiz-belanja-back-btn" title="Kembali ke Kuis 4">
+          <span>↩ Kuis 4</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 32: TAMPILAN SALAH KUIS 5 BELANJA        -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Salah      -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-q5-wrong" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-salah.jpg" alt="Jawaban Salah Kuis 5" class="slide-img">
+
+        <!-- Tombol Suara Layar Salah -->
+        <button id="btn-bk5w-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Semangat" aria-label="Dengarkan Semangat">
+          <span class="voice-anim-icon" id="bk5w-voice-icon">🔊</span>
+          <span class="voice-badge-text">Semangat</span>
+        </button>
+
+        <!-- Tombol Interaktif: Kembali ke Soal Kuis 5 -->
+        <button id="btn-bk5w-back" class="hotspot-btn hotspot-belanja-salah-back" title="Kembali ke Soal Kuis 5" aria-label="Kembali ke Soal Kuis 5">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 33: TAMPILAN BENAR KUIS 5 & SELESAI      -->
+    <!-- Muncul Otomatis Jika Siswa Menjawab Benar (D)  -->
+    <!-- ============================================== -->
+    <section id="slide-belanja-q5-right" class="game-slide">
+      <div class="stage-frame">
+        <img src="assets/belanja-benar.jpg" alt="Jawaban Benar Kuis 5" class="slide-img">
+
+        <!-- Tombol Suara Apresiasi Selesai Seluruh Misi -->
+        <button id="btn-bk5r-voice" class="voice-badge-btn voice-badge-card" title="Dengarkan Apresiasi" aria-label="Dengarkan Apresiasi">
+          <span class="voice-anim-icon" id="bk5r-voice-icon">🔊</span>
+          <span class="voice-badge-text">Hore Selesai!</span>
+        </button>
+
+        <!-- Tombol Interaktif: Selesai Seluruh Misi & Kembali ke Menu (Slide 3) -->
+        <button id="btn-bk5r-next" class="hotspot-btn hotspot-belanja-benar-next" title="Selesai Seluruh Misi & Kembali ke Menu" aria-label="Selesai Seluruh Misi & Kembali ke Menu">
+          <span class="hotspot-glow"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Overlay Efek Transisi Pintu Terbuka / Zoom -->
+    <div id="transition-screen" class="transition-screen">
+      <div class="door-panel door-left"></div>
+      <div class="door-panel door-right"></div>
+      <div class="transition-message">
+        <div class="market-cart-spinner">🛒</div>
+        <p id="transition-label">Membuka pintu 1# Market...</p>
+      </div>
+    </div>
+
+    <!-- Toast Notifikasi Game Interaktif -->
+    <div id="toast-notification" class="toast-notification">
+      <span id="toast-icon">✨</span>
+      <span id="toast-message">Pilihan dipilih!</span>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
