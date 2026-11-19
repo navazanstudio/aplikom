@@ -1,12 +1,12 @@
 /**
  * ============================================================
- * GAMES 1# MARKET - JAVASCRIPT LENGKAP (TAILWIND + JSDELIVR)
+ * GAMES 1# MARKET - JAVASCRIPT LENGKAP (TAILWIND + GITHUB PAGES)
  * ============================================================
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Base URL CDN GitHub (jsDelivr)
-  const CDN_BASE = 'https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom';
+  // Base URL GitHub Pages
+  const CDN_BASE = 'https://navazanstudio.github.io/aplikom/assets-aplikom';
 
   // ------------------------------------------------------------
   // REFERENSI DOM SEMUA SLIDE
@@ -69,6 +69,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnS2Menu = document.getElementById('btn-s2-menu');
   const btnS2Back = document.getElementById('btn-s2-back');
 
+  const kasirNisaImg = document.getElementById('kasir-nisa-img');
+  const kasirFrames = [
+    `${CDN_BASE}/SLIDE%202/KASIR%20CROP/1%20(1).png`,
+    `${CDN_BASE}/SLIDE%202/KASIR%20CROP/2%20(1).png`,
+    `${CDN_BASE}/SLIDE%202/KASIR%20CROP/3%20(1).png`,
+    `${CDN_BASE}/SLIDE%202/KASIR%20CROP/4%20(1).png`,
+    `${CDN_BASE}/SLIDE%202/KASIR%20CROP/5%20(1).png`,
+    `${CDN_BASE}/SLIDE%202/KASIR%20CROP/6%20(1).png`
+  ];
+  let kasirAnimInterval = null;
+  let kasirFrameIndex = 0;
+
+  // Preload seluruh frame agar pergantian ekspresi mulus tanpa kedip
+  kasirFrames.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+
+  function startKasirAnimation() {
+    stopKasirAnimation();
+    if (!kasirNisaImg) return;
+    kasirFrameIndex = 0;
+    kasirNisaImg.src = kasirFrames[0];
+    kasirAnimInterval = setInterval(() => {
+      kasirFrameIndex = (kasirFrameIndex + 1) % kasirFrames.length;
+      kasirNisaImg.src = kasirFrames[kasirFrameIndex];
+    }, 600);
+  }
+
+  function stopKasirAnimation() {
+    if (kasirAnimInterval) {
+      clearInterval(kasirAnimInterval);
+      kasirAnimInterval = null;
+    }
+  }
+
   // Slide 3
   const btnS3Troli = document.getElementById('btn-s3-troli');
   const btnS3Belanja = document.getElementById('btn-s3-belanja');
@@ -81,27 +117,55 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnS4Next = document.getElementById('btn-s4-next');
 
   // Slide 5
+  const bubble1Overlay = document.getElementById('bubble-1-overlay');
   const bubble2Overlay = document.getElementById('bubble-2-overlay');
+  const siswi5Frames = document.querySelectorAll('#siswi-s5-stage .siswi-frame');
   const btnS5Voice = document.getElementById('btn-s5-voice');
   const s5VoiceIcon = document.getElementById('s5-voice-icon');
   const explanationText = document.getElementById('explanation-text');
   const btnS5Back = document.getElementById('btn-s5-back');
   const btnS5Next = document.getElementById('btn-s5-next');
 
-  // Slide 6
-  const flightStage = document.getElementById('flight-stage');
-  const flyingSemangkaTemplate = document.getElementById('flying-semangka');
-  const flyingSusuTemplate = document.getElementById('flying-susu');
-  const cartLandingZone = document.getElementById('cart-landing-zone');
-  const landedW1 = document.getElementById('landed-w1');
-  const landedW2 = document.getElementById('landed-w2');
-  const landedM1 = document.getElementById('landed-m1');
-  const landedM2 = document.getElementById('landed-m2');
-  const landedM3 = document.getElementById('landed-m3');
-  const landedM4 = document.getElementById('landed-m4');
-  const badgeCountW = document.getElementById('badge-count-w');
-  const badgeCountM = document.getElementById('badge-count-m');
-  const btnReplayAnim6 = document.getElementById('btn-replay-anim6');
+  let siswi5AnimInterval = null;
+  const siswi5Order = [0, 1, 2, 3, 4, 3, 2, 1];
+  let siswi5Step = 0;
+
+  function startSiswi5Animation() {
+    stopSiswi5Animation();
+    if (!siswi5Frames || siswi5Frames.length === 0) return;
+    siswi5Step = 0;
+    siswi5Frames.forEach((frame, idx) => {
+      frame.classList.toggle('opacity-100', idx === 0);
+      frame.classList.toggle('opacity-0', idx !== 0);
+    });
+    siswi5AnimInterval = setInterval(() => {
+      siswi5Step = (siswi5Step + 1) % siswi5Order.length;
+      const activeIdx = siswi5Order[siswi5Step];
+      siswi5Frames.forEach((frame, idx) => {
+        frame.classList.toggle('opacity-100', idx === activeIdx);
+        frame.classList.toggle('opacity-0', idx !== activeIdx);
+      });
+    }, 480);
+  }
+
+  function stopSiswi5Animation() {
+    if (siswi5AnimInterval) {
+      clearInterval(siswi5AnimInterval);
+      siswi5AnimInterval = null;
+    }
+  }
+
+  // Slide 6 (Interaktif Drag & Drop Troli)
+  const trolleyDropZone = document.getElementById('trolley-drop-zone');
+  const cartItemsVisual = document.getElementById('cart-items-visual');
+  const badgeCountTotal = document.getElementById('badge-count-total');
+  const countSemangkaEl = document.getElementById('count-semangka');
+  const countSusuEl = document.getElementById('count-susu');
+  const countSayurEl = document.getElementById('count-sayur');
+  const countBotolEl = document.getElementById('count-botol');
+  const cartDetailSummary = document.getElementById('cart-detail-summary');
+  const btnResetTroli = document.getElementById('btn-reset-troli');
+  const btnCekTroli = document.getElementById('btn-cek-troli');
   const btnS6Back = document.getElementById('btn-s6-back');
   const btnS6Next = document.getElementById('btn-s6-next');
 
@@ -114,13 +178,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Slide 8 & 8-Wrong
   const btnS8Voice = document.getElementById('btn-s8-voice');
   const s8VoiceIcon = document.getElementById('s8-voice-icon');
-  const btnQuizA = document.getElementById('btn-quiz-a');
-  const btnQuizB = document.getElementById('btn-quiz-b');
-  const btnQuizC = document.getElementById('btn-quiz-c');
-  const btnQuizD = document.getElementById('btn-quiz-d');
+  const quizOptionButtons = [
+    document.getElementById('btn-quiz-a'),
+    document.getElementById('btn-quiz-b'),
+    document.getElementById('btn-quiz-c'),
+    document.getElementById('btn-quiz-d')
+  ];
   const btnS8Back = document.getElementById('btn-s8-back');
   const btnS8Next = document.getElementById('btn-s8-next');
-  const quizOptionButtons = [btnQuizA, btnQuizB, btnQuizC, btnQuizD];
   const btnS8wVoice = document.getElementById('btn-s8w-voice');
   const s8wVoiceIcon = document.getElementById('s8w-voice-icon');
   const btnS8wBack = document.getElementById('btn-s8w-back');
@@ -180,11 +245,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnS16Next = document.getElementById('btn-s16-next');
   const btnS17Voice = document.getElementById('btn-s17-voice');
   const s17VoiceIcon = document.getElementById('s17-voice-icon');
-  const btnQuiz2A = document.getElementById('btn-quiz2-a');
-  const btnQuiz2B = document.getElementById('btn-quiz2-b');
-  const btnQuiz2C = document.getElementById('btn-quiz2-c');
-  const btnQuiz2D = document.getElementById('btn-quiz2-d');
-  const quiz2OptionButtons = [btnQuiz2A, btnQuiz2B, btnQuiz2C, btnQuiz2D];
+  const quiz2OptionButtons = [
+    document.getElementById('btn-quiz2-a'),
+    document.getElementById('btn-quiz2-b'),
+    document.getElementById('btn-quiz2-c'),
+    document.getElementById('btn-quiz2-d')
+  ];
   const btnS17Back = document.getElementById('btn-s17-back');
   const btnS17wVoice = document.getElementById('btn-s17w-voice');
   const s17wVoiceIcon = document.getElementById('s17w-voice-icon');
@@ -322,6 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let slide5Stage = 1;
   let slide5Timer = null;
   let slide6Timers = [];
+  let ttsFallbackTimer = null;
 
   // ------------------------------------------------------------
   // AUDIO CONTEXT & SFX GENERATOR
@@ -334,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume();
+      audioCtx.resume().catch(() => {});
     }
   }
 
@@ -466,6 +533,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function stopAllAudio() {
+    if (ttsFallbackTimer) {
+      clearTimeout(ttsFallbackTimer);
+      ttsFallbackTimer = null;
+    }
     allAudioPlayers.forEach(player => {
       if (player) {
         player.pause();
@@ -473,7 +544,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
+      try {
+        window.speechSynthesis.cancel();
+      } catch (e) {}
     }
     clearSpeakingState();
   }
@@ -495,64 +568,6 @@ document.addEventListener('DOMContentLoaded', () => {
         playTone(600, 'sine', 0.1, 0, 0.15);
       }
     });
-  }
-
-  // ------------------------------------------------------------
-  // PEMUTAR AUDIO REKAMAN ASLI (DENGAN FALLBACK TTS)
-  // ------------------------------------------------------------
-  function playRecordedOrTTS(player, fallbackText, targetBtn, targetIcon, onCompleteCallback = null) {
-    initAudioContext();
-    if (!isSoundEnabled) {
-      if (onCompleteCallback) onCompleteCallback();
-      return;
-    }
-
-    stopAllAudio();
-    if (targetBtn) targetBtn.classList.add('speaking');
-    if (targetIcon) targetIcon.textContent = '🗣️';
-
-    if (player) {
-      player.currentTime = 0;
-      const fallbackToTTS = () => {
-        speakSiswi(fallbackText, () => {
-          if (targetBtn) targetBtn.classList.remove('speaking');
-          if (targetIcon) targetIcon.textContent = '🔊';
-          if (onCompleteCallback) onCompleteCallback();
-        }, targetBtn, targetIcon);
-      };
-
-      player.onended = () => {
-        if (targetBtn) targetBtn.classList.remove('speaking');
-        if (targetIcon) targetIcon.textContent = '🔊';
-        if (onCompleteCallback) onCompleteCallback();
-      };
-      player.onerror = () => {
-        fallbackToTTS();
-      };
-
-      const playPromise = player.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => fallbackToTTS());
-      }
-    } else {
-      speakSiswi(fallbackText, onCompleteCallback, targetBtn, targetIcon);
-    }
-  }
-
-  function playKasirAudio(cb = null) {
-    playRecordedOrTTS(audioKasirPlayer, nisaDialogue, btnReplayVoice, voiceAnimIcon, cb);
-  }
-  function playRasioAudio(cb = null) {
-    playRecordedOrTTS(audioRasioPlayer, siswiSpeech1, btnS5Voice, s5VoiceIcon, cb);
-  }
-  function playKesamaanAudio(cb = null) {
-    playRecordedOrTTS(audioKesamaanPlayer, siswiSpeech12, btnS12Voice, s12VoiceIcon, cb);
-  }
-  function playEsSirupAudio(cb = null) {
-    playRecordedOrTTS(audioEsSirupPlayer, siswiSpeech13, btnS13Voice, s13VoiceIcon, cb);
-  }
-  function playRahasiaSirupAudio(cb = null) {
-    playRecordedOrTTS(audioRahasiaSirupPlayer, siswiSpeech14, btnS14Voice, s14VoiceIcon, cb);
   }
 
   // ------------------------------------------------------------
@@ -601,42 +616,112 @@ document.addEventListener('DOMContentLoaded', () => {
   function speakSiswi(text, onCompleteCallback = null, targetBtn = null, targetIcon = null) {
     const btn = targetBtn || btnS5Voice;
     const icon = targetIcon || s5VoiceIcon;
+    const estimatedMs = Math.max(1600, Math.min(18000, (text.length / 13) * 1000));
+
+    let finished = false;
+    const done = () => {
+      if (finished) return;
+      finished = true;
+      if (ttsFallbackTimer) {
+        clearTimeout(ttsFallbackTimer);
+        ttsFallbackTimer = null;
+      }
+      if (btn) btn.classList.remove('speaking');
+      if (icon) icon.textContent = '🔊';
+      if (onCompleteCallback) onCompleteCallback();
+    };
 
     if (!window.speechSynthesis || !isSoundEnabled) {
-      if (onCompleteCallback) {
-        const estimatedTime = Math.max(1200, (text.length / 15) * 1000);
-        setTimeout(onCompleteCallback, estimatedTime);
-      }
+      ttsFallbackTimer = setTimeout(done, estimatedMs);
       return;
     }
 
-    window.speechSynthesis.cancel();
+    try {
+      window.speechSynthesis.cancel();
+    } catch (e) {}
     clearSpeakingState();
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'id-ID';
     utterance.rate = 0.98;
-    utterance.pitch = 1.50;
+    utterance.pitch = 1.45;
 
     const voice = getFemaleIndonesianVoice();
     if (voice) utterance.voice = voice;
+
+    if (btn) btn.classList.add('speaking');
+    if (icon) icon.textContent = '🗣️';
 
     utterance.onstart = () => {
       if (btn) btn.classList.add('speaking');
       if (icon) icon.textContent = '🗣️';
     };
-    utterance.onend = () => {
-      if (btn) btn.classList.remove('speaking');
-      if (icon) icon.textContent = '🔊';
+    utterance.onend = done;
+    utterance.onerror = done;
+
+    // Timer cadangan agar alur slide tetap jalan bila browser tidak memicu onend
+    ttsFallbackTimer = setTimeout(done, estimatedMs + 1200);
+
+    try {
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      done();
+    }
+  }
+
+  // ------------------------------------------------------------
+  // PEMUTAR AUDIO REKAMAN ASLI (DENGAN FALLBACK TTS)
+  // ------------------------------------------------------------
+  function playRecordedOrTTS(player, fallbackText, targetBtn, targetIcon, onCompleteCallback = null) {
+    initAudioContext();
+    if (!isSoundEnabled) {
       if (onCompleteCallback) onCompleteCallback();
-    };
-    utterance.onerror = () => {
-      if (btn) btn.classList.remove('speaking');
-      if (icon) icon.textContent = '🔊';
-      if (onCompleteCallback) onCompleteCallback();
+      return;
+    }
+
+    stopAllAudio();
+    if (targetBtn) targetBtn.classList.add('speaking');
+    if (targetIcon) targetIcon.textContent = '🗣️';
+
+    const fallbackToTTS = () => {
+      speakSiswi(fallbackText, onCompleteCallback, targetBtn, targetIcon);
     };
 
-    window.speechSynthesis.speak(utterance);
+    if (!player || !player.src) {
+      fallbackToTTS();
+      return;
+    }
+
+    player.currentTime = 0;
+    player.onended = () => {
+      if (targetBtn) targetBtn.classList.remove('speaking');
+      if (targetIcon) targetIcon.textContent = '🔊';
+      if (onCompleteCallback) onCompleteCallback();
+    };
+    player.onerror = () => {
+      fallbackToTTS();
+    };
+
+    const playPromise = player.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => fallbackToTTS());
+    }
+  }
+
+  function playKasirAudio(cb = null) {
+    playRecordedOrTTS(audioKasirPlayer, nisaDialogue, btnReplayVoice, voiceAnimIcon, cb);
+  }
+  function playRasioAudio(cb = null) {
+    playRecordedOrTTS(audioRasioPlayer, siswiSpeech1, btnS5Voice, s5VoiceIcon, cb);
+  }
+  function playKesamaanAudio(cb = null) {
+    playRecordedOrTTS(audioKesamaanPlayer, siswiSpeech12, btnS12Voice, s12VoiceIcon, cb);
+  }
+  function playEsSirupAudio(cb = null) {
+    playRecordedOrTTS(audioEsSirupPlayer, siswiSpeech13, btnS13Voice, s13VoiceIcon, cb);
+  }
+  function playRahasiaSirupAudio(cb = null) {
+    playRecordedOrTTS(audioRahasiaSirupPlayer, siswiSpeech14, btnS14Voice, s14VoiceIcon, cb);
   }
 
   if (window.speechSynthesis) {
@@ -700,6 +785,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (slide5Timer) clearTimeout(slide5Timer);
     clearSlide6Timers();
 
+    // Tambahkan tepat di bawah clearSlide6Timers();
+    if (nextSlide === slide2) {
+      startKasirAnimation();
+    } else {
+      stopKasirAnimation();
+    }
+
+    if (nextSlide === slide5) {
+      startSiswi5Animation();
+    } else {
+      stopSiswi5Animation();
+    }
+
     if (useDoorTransition && transitionScreen) {
       if (transitionLabel) transitionLabel.textContent = customMessage;
       transitionScreen.classList.add('active', 'closed');
@@ -713,15 +811,15 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(() => {
             transitionScreen.classList.remove('active');
             isTransitioning = false;
-          }, 600);
-        }, 400);
-      }, 700);
+          }, 550);
+        }, 350);
+      }, 650);
     } else {
       currentSlide.classList.remove('active', 'zooming');
+      nextSlide.classList.add('active');
       setTimeout(() => {
-        nextSlide.classList.add('active');
         isTransitioning = false;
-      }, 320);
+      }, 300);
     }
   }
 
@@ -742,21 +840,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ------------------------------------------------------------
-  // SLIDE 5: PENJELASAN MATERI
+  // SLIDE 5: PENJELASAN MATERI (MANUAL KLIK SELANJUTNYA)
   // ------------------------------------------------------------
   function startSlide5Sequence() {
     slide5Stage = 1;
+    if (bubble1Overlay) bubble1Overlay.classList.add('active');
     if (bubble2Overlay) bubble2Overlay.classList.remove('active');
+    if (btnS5Next) btnS5Next.classList.remove('ready');
     if (explanationText) explanationText.textContent = "Penjelasan 1 / 2";
     if (slide5Timer) clearTimeout(slide5Timer);
 
     setTimeout(() => {
       playRasioAudio(() => {
-        slide5Timer = setTimeout(() => {
-          advanceToSlide5Stage2();
-        }, 900);
+        if (btnS5Next) btnS5Next.classList.add('ready');
+        showToast("👉 Klik tombol Selanjutnya untuk percakapan berikutnya!", "✨");
       });
-    }, 450);
+    }, 400);
   }
 
   function advanceToSlide5Stage2() {
@@ -764,13 +863,16 @@ document.addEventListener('DOMContentLoaded', () => {
     playBubbleShiftSFX();
     stopAllAudio();
 
+    if (bubble1Overlay) bubble1Overlay.classList.remove('active');
     if (bubble2Overlay) bubble2Overlay.classList.add('active');
+    if (btnS5Next) btnS5Next.classList.remove('ready');
     if (explanationText) explanationText.textContent = "Penjelasan 2 / 2";
 
     showToast("✨ Yuk ambil barangmu di troli belanja!", "🍉");
 
     setTimeout(() => {
       speakSiswi(siswiSpeech2, () => {
+        if (btnS5Next) btnS5Next.classList.add('ready');
         showToast("👉 Klik tombol Selanjutnya untuk mengambil barang!", "🛍️");
       }, btnS5Voice, s5VoiceIcon);
     }, 200);
@@ -779,142 +881,286 @@ document.addEventListener('DOMContentLoaded', () => {
   function backToSlide5Stage1() {
     slide5Stage = 1;
     playBackSFX();
+    if (bubble1Overlay) bubble1Overlay.classList.add('active');
     if (bubble2Overlay) bubble2Overlay.classList.remove('active');
+    if (btnS5Next) btnS5Next.classList.remove('ready');
     if (explanationText) explanationText.textContent = "Penjelasan 1 / 2";
     stopAllAudio();
-    setTimeout(() => playRasioAudio(), 300);
+    setTimeout(() => {
+      playRasioAudio(() => {
+        if (btnS5Next) btnS5Next.classList.add('ready');
+      });
+    }, 250);
   }
 
   // ------------------------------------------------------------
-  // SLIDE 6: ANIMASI 2 SEMANGKA & 4 SUSU KE KERANJANG
+  // SLIDE 6: INTERAKTIF DRAG & DROP 4 JENIS BARANG KE TROLI
   // ------------------------------------------------------------
+  const cartCounts = { semangka: 0, susu: 0, sayur: 0, botol: 0 };
+  const itemMeta = {
+    semangka: { label: 'Semangka', emoji: '🍉', sfx: 'pop' },
+    susu: { label: 'Susu', emoji: '🥛', sfx: 'chime' },
+    sayur: { label: 'Sayur', emoji: '🥦', sfx: 'pop' },
+    botol: { label: 'Air Mineral', emoji: '💧', sfx: 'chime' }
+  };
+
   function clearSlide6Timers() {
     slide6Timers.forEach(t => clearTimeout(t));
     slide6Timers = [];
   }
 
-  function animateItemFly(type, startX, startY, endX, endY, onLand) {
-    if (!flightStage) return;
-    const item = document.createElement('img');
-
-    // Ambil URL dari template HTML agar selalu sinkron dengan link jsDelivr
-    const wmSrc = flyingSemangkaTemplate?.src || `${CDN_BASE}/SLIDE%206/clean-item-semangka.png`;
-    const mkSrc = flyingSusuTemplate?.src || `${CDN_BASE}/SLIDE%206/clean-item-susu.png`;
-    item.src = type === 'watermelon' ? wmSrc : mkSrc;
-    item.className = 'anim-flying-item ' + (type === 'watermelon' ? 'flying-wm' : 'flying-mk');
-    flightStage.appendChild(item);
-
-    const midX = (startX + endX) / 2;
-    const midY = Math.min(startY, endY) - 14;
-
-    const keyframes = [
-      { left: `${startX}%`, top: `${startY}%`, opacity: 0, transform: 'scale(0.8) rotate(0deg)' },
-      { left: `${startX + 3}%`, top: `${startY - 3}%`, opacity: 1, transform: 'scale(1.15) rotate(-12deg)', offset: 0.15 },
-      { left: `${midX}%`, top: `${midY}%`, opacity: 1, transform: 'scale(1.3) rotate(15deg)', offset: 0.55 },
-      { left: `${endX}%`, top: `${endY}%`, opacity: 1, transform: 'scale(0.95) rotate(-6deg)', offset: 0.90 },
-      { left: `${endX}%`, top: `${endY}%`, opacity: 0, transform: 'scale(0.8) rotate(0deg)', offset: 1.00 }
-    ];
-
-    const anim = item.animate(keyframes, {
-      duration: 720,
-      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-      fill: 'forwards'
-    });
-
-    anim.onfinish = () => {
-      item.remove();
-      if (onLand) onLand();
-    };
+  function triggerCartBounce() {
+    if (!trolleyDropZone) return;
+    trolleyDropZone.classList.remove('bounce');
+    void trolleyDropZone.offsetWidth;
+    trolleyDropZone.classList.add('bounce');
+    setTimeout(() => trolleyDropZone.classList.remove('bounce'), 200);
   }
 
-  function triggerCartBounce() {
-    if (!cartLandingZone) return;
-    cartLandingZone.classList.remove('bounce');
-    void cartLandingZone.offsetWidth;
-    cartLandingZone.classList.add('bounce');
-    setTimeout(() => cartLandingZone.classList.remove('bounce'), 200);
+  function setCartSummaryStyle(status) {
+    if (!cartDetailSummary) return;
+    cartDetailSummary.classList.remove(
+      'bg-slate-100', 'border-slate-300', 'text-slate-700',
+      'bg-green-100', 'border-green-500', 'text-green-900',
+      'bg-red-100', 'border-red-500', 'text-red-900'
+    );
+    if (status === 'correct') {
+      cartDetailSummary.classList.add('bg-green-100', 'border-green-500', 'text-green-900');
+    } else if (status === 'wrong') {
+      cartDetailSummary.classList.add('bg-red-100', 'border-red-500', 'text-red-900');
+    } else {
+      cartDetailSummary.classList.add('bg-slate-100', 'border-slate-300', 'text-slate-700');
+    }
+  }
+
+  function isSlide6MissionValid() {
+    return (
+      cartCounts.semangka === 2 &&
+      cartCounts.susu === 4 &&
+      cartCounts.sayur === 0 &&
+      cartCounts.botol === 0
+    );
+  }
+
+  function updateCartUI() {
+    if (countSemangkaEl) countSemangkaEl.textContent = cartCounts.semangka;
+    if (countSusuEl) countSusuEl.textContent = cartCounts.susu;
+    if (countSayurEl) countSayurEl.textContent = cartCounts.sayur;
+    if (countBotolEl) countBotolEl.textContent = cartCounts.botol;
+
+    const total = cartCounts.semangka + cartCounts.susu + cartCounts.sayur + cartCounts.botol;
+    if (badgeCountTotal) badgeCountTotal.textContent = `Total: ${total}`;
+
+    setCartSummaryStyle('neutral');
+    if (cartDetailSummary) {
+      const filled = Object.keys(cartCounts)
+        .filter(k => cartCounts[k] > 0)
+        .map(k => `${cartCounts[k]} ${itemMeta[k].label}`);
+
+      if (filled.length === 0) {
+        cartDetailSummary.innerHTML = 'Target: <strong>2 Semangka</strong> &amp; <strong>4 Susu</strong> (tanpa barang lain).';
+      } else {
+        cartDetailSummary.textContent = `Di troli: ${filled.join(', ')}. Klik Cek Troli!`;
+      }
+    }
+
+    if (btnS6Next) {
+      btnS6Next.classList.toggle('ready', isSlide6MissionValid());
+    }
+  }
+
+  function checkSlide6Mission() {
+    if (isSlide6MissionValid()) {
+      playCorrectSFX();
+      setCartSummaryStyle('correct');
+      if (cartDetailSummary) {
+        cartDetailSummary.textContent = '✅ BENAR! Troli berisi tepat 2 Semangka & 4 Susu!';
+      }
+      if (btnS6Next) btnS6Next.classList.add('ready');
+      showToast('🎉 Benar! Tepat 2 Semangka & 4 Susu! Klik Selanjutnya ➔', '🌟');
+      speakSiswi(siswiSpeech6, null);
+      return true;
+    }
+
+    playWrongSFX();
+    setCartSummaryStyle('wrong');
+    let msg = '';
+    if (cartCounts.sayur > 0 || cartCounts.botol > 0) {
+      msg = '❌ SALAH! Jangan masukkan Sayur atau Air Mineral. Harus tepat 2 Semangka & 4 Susu!';
+    } else {
+      msg = `❌ SALAH! Sekarang ${cartCounts.semangka} Semangka & ${cartCounts.susu} Susu. Harus tepat 2 Semangka & 4 Susu!`;
+    }
+    if (cartDetailSummary) cartDetailSummary.textContent = msg;
+    showToast(msg, '⚠️');
+    return false;
+  }
+
+  if (btnCekTroli) {
+    btnCekTroli.addEventListener('click', (e) => {
+      e.stopPropagation();
+      initAudioContext();
+      checkSlide6Mission();
+    });
+  }
+
+  function addItemToCart(type, imgSrc) {
+    if (!itemMeta[type]) return;
+    cartCounts[type] += 1;
+
+    if (itemMeta[type].sfx === 'pop') playPopSFX();
+    else playChimeSFX();
+
+    triggerCartBounce();
+
+    // Tampilkan miniatur barang di dalam keranjang (maks 24 ikon biar tetap rapi)
+    if (cartItemsVisual && cartItemsVisual.children.length < 24) {
+      const mini = document.createElement('img');
+      mini.src = imgSrc;
+      mini.alt = itemMeta[type].label;
+      mini.dataset.cartType = type;
+      const rot = Math.round((Math.random() - 0.5) * 20);
+      mini.className = 'w-[22%] max-h-[46%] object-contain drop-shadow transition-transform duration-200';
+      mini.style.transform = `rotate(${rot}deg) scale(0.4)`;
+      cartItemsVisual.appendChild(mini);
+      requestAnimationFrame(() => {
+        mini.style.transform = `rotate(${rot}deg) scale(1)`;
+      });
+    }
+
+    updateCartUI();
+  }
+
+  function removeOneItemFromCart(type) {
+    if (!itemMeta[type] || cartCounts[type] <= 0) return;
+    cartCounts[type] -= 1;
+    playBackSFX();
+
+    if (cartItemsVisual) {
+      const matches = cartItemsVisual.querySelectorAll(`img[data-cart-type="${type}"]`);
+      if (matches.length > 0) {
+        matches[matches.length - 1].remove();
+      }
+    }
+    updateCartUI();
+  }
+
+  function resetSlide6Cart(showNotif = false) {
+    cartCounts.semangka = 0;
+    cartCounts.susu = 0;
+    cartCounts.sayur = 0;
+    cartCounts.botol = 0;
+    if (cartItemsVisual) cartItemsVisual.innerHTML = '';
+    updateCartUI();
+    if (showNotif) {
+      playBackSFX();
+      showToast('🔄 Troli dikosongkan kembali ke 0!', '🛒');
+    }
+  }
+
+  // Inisialisasi Pointer Drag & Drop (support mouse & touchscreen)
+  const shelfItems = document.querySelectorAll('#slide-6 .shelf-item');
+  let activeDrag = null;
+
+  function isOverTrolley(clientX, clientY) {
+    if (!trolleyDropZone) return false;
+    const rect = trolleyDropZone.getBoundingClientRect();
+    const pad = 20;
+    return (
+      clientX >= rect.left - pad &&
+      clientX <= rect.right + pad &&
+      clientY >= rect.top - pad &&
+      clientY <= rect.bottom + pad
+    );
+  }
+
+  shelfItems.forEach(itemEl => {
+    itemEl.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      initAudioContext();
+
+      const type = itemEl.dataset.itemType;
+      const rect = itemEl.getBoundingClientRect();
+
+      const ghost = document.createElement('img');
+      ghost.src = itemEl.src;
+      ghost.style.position = 'fixed';
+      ghost.style.left = `${e.clientX}px`;
+      ghost.style.top = `${e.clientY}px`;
+      ghost.style.width = `${Math.max(54, rect.width * 1.15)}px`;
+      ghost.style.height = 'auto';
+      ghost.style.transform = 'translate(-50%, -50%) scale(1.12)';
+      ghost.style.pointerEvents = 'none';
+      ghost.style.zIndex = '9999';
+      ghost.style.filter = 'drop-shadow(0 12px 18px rgba(0,0,0,0.4))';
+      document.body.appendChild(ghost);
+
+      if (trolleyDropZone) trolleyDropZone.classList.add('drop-active');
+
+      activeDrag = {
+        type,
+        src: itemEl.src,
+        ghost,
+        startX: e.clientX,
+        startY: e.clientY
+      };
+    });
+  });
+
+  window.addEventListener('pointermove', (e) => {
+    if (!activeDrag) return;
+    activeDrag.ghost.style.left = `${e.clientX}px`;
+    activeDrag.ghost.style.top = `${e.clientY}px`;
+
+    if (trolleyDropZone) {
+      trolleyDropZone.classList.toggle('drop-hover', isOverTrolley(e.clientX, e.clientY));
+    }
+  });
+
+  function finishDrag(e) {
+    if (!activeDrag) return;
+    const { type, src, ghost, startX, startY } = activeDrag;
+    activeDrag = null;
+
+    ghost.remove();
+    if (trolleyDropZone) {
+      trolleyDropZone.classList.remove('drop-active', 'drop-hover');
+    }
+
+    if (isOverTrolley(e.clientX, e.clientY)) {
+      addItemToCart(type, src);
+    } else {
+      const moved = Math.hypot(e.clientX - startX, e.clientY - startY);
+      if (moved < 10) {
+        showToast('👆 Tahan dan tarik (drag) barangnya ke dalam troli ya!', '🛒');
+      }
+    }
+  }
+
+  window.addEventListener('pointerup', finishDrag);
+  window.addEventListener('pointercancel', finishDrag);
+
+  // Tombol kurangi (−) tiap item di panel kiri
+  document.querySelectorAll('#slide-6 [data-dec-item]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      initAudioContext();
+      removeOneItemFromCart(btn.dataset.decItem);
+    });
+  });
+
+  // Tombol Reset Troli
+  if (btnResetTroli) {
+    btnResetTroli.addEventListener('click', (e) => {
+      e.stopPropagation();
+      initAudioContext();
+      resetSlide6Cart(true);
+    });
   }
 
   function startSlide6Sequence() {
     clearSlide6Timers();
-
-    [landedW1, landedW2, landedM1, landedM2, landedM3, landedM4].forEach(el => {
-      if (el) el.classList.remove('visible');
-    });
-    if (badgeCountW) badgeCountW.textContent = "🍉 0 Semangka";
-    if (badgeCountM) badgeCountM.textContent = "🥛 0 Susu";
-    if (btnS6Next) btnS6Next.classList.remove('ready');
-
-    showToast("🍉 Mengambil 2 semangka & 4 susu ke keranjang...", "🛒");
-
-    slide6Timers.push(setTimeout(() => {
-      animateItemFly('watermelon', 34, 21, 67, 52, () => {
-        playPopSFX();
-        triggerCartBounce();
-        if (landedW1) landedW1.classList.add('visible');
-        if (badgeCountW) badgeCountW.textContent = "🍉 1 Semangka";
-      });
-    }, 400));
-
-    slide6Timers.push(setTimeout(() => {
-      animateItemFly('watermelon', 44, 21, 77, 52, () => {
-        playPopSFX();
-        triggerCartBounce();
-        if (landedW2) landedW2.classList.add('visible');
-        if (badgeCountW) badgeCountW.textContent = "🍉 2 Semangka";
-      });
-    }, 1500));
-
-    slide6Timers.push(setTimeout(() => {
-      animateItemFly('milk', 32, 53, 66, 47, () => {
-        playChimeSFX();
-        triggerCartBounce();
-        if (landedM1) landedM1.classList.add('visible');
-        if (badgeCountM) badgeCountM.textContent = "🥛 1 Susu";
-      });
-    }, 2600));
-
-    slide6Timers.push(setTimeout(() => {
-      animateItemFly('milk', 38, 53, 72, 46, () => {
-        playChimeSFX();
-        triggerCartBounce();
-        if (landedM2) landedM2.classList.add('visible');
-        if (badgeCountM) badgeCountM.textContent = "🥛 2 Susu";
-      });
-    }, 3600));
-
-    slide6Timers.push(setTimeout(() => {
-      animateItemFly('milk', 44, 53, 77, 46, () => {
-        playChimeSFX();
-        triggerCartBounce();
-        if (landedM3) landedM3.classList.add('visible');
-        if (badgeCountM) badgeCountM.textContent = "🥛 3 Susu";
-      });
-    }, 4600));
-
-    slide6Timers.push(setTimeout(() => {
-      animateItemFly('milk', 50, 53, 83, 47, () => {
-        playChimeSFX();
-        triggerCartBounce();
-        if (landedM4) landedM4.classList.add('visible');
-        if (badgeCountM) badgeCountM.textContent = "🥛 4 Susu";
-      });
-    }, 5600));
-
-    slide6Timers.push(setTimeout(() => {
-      playSuccessSFX();
-      if (btnS6Next) btnS6Next.classList.add('ready');
-      showToast("✨ 2 Semangka & 4 Susu siap di keranjang! Klik Selanjutnya ➔", "🛒");
-      speakSiswi(siswiSpeech6, null);
-    }, 6600));
-  }
-
-  if (btnReplayAnim6) {
-    btnReplayAnim6.addEventListener('click', (e) => {
-      e.stopPropagation();
-      playNavSFX();
-      startSlide6Sequence();
-    });
+    resetSlide6Cart(false);
+    showToast('🛒 Yuk tarik barang dari rak ke dalam troli!', '🍉');
   }
 
   // ------------------------------------------------------------
@@ -922,7 +1168,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ------------------------------------------------------------
   function startSlide7Sequence() {
     showToast("⚖️ Rasio Semangka terhadap Susu = 2 : 4", "📊");
-    setTimeout(() => speakSiswi(siswiSpeech7, null, btnS7Voice, s7VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeech7, null, btnS7Voice, s7VoiceIcon), 400);
   }
 
   function resetQuizButtons(buttons) {
@@ -938,7 +1184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetQuizButtons(quizOptionButtons);
     if (btnS8Next) btnS8Next.classList.remove('ready');
     showToast("🎯 Kuis: Berapakah rasio susu terhadap semangka?", "❓");
-    setTimeout(() => speakSiswi(siswiSpeech8, null, btnS8Voice, s8VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeech8, null, btnS8Voice, s8VoiceIcon), 400);
   }
 
   function handleQuizSelection(selectedBtn) {
@@ -959,16 +1205,16 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast("🎉 Hore! Jawabanmu BENAR (4 : 2)!", "🌟");
       setTimeout(() => {
         switchSlide(slide8, slide9, false);
-        setTimeout(() => startSlide9Sequence(), 450);
-      }, 700);
+        setTimeout(() => startSlide9Sequence(), 400);
+      }, 650);
     } else {
       playWrongSFX();
       selectedBtn.classList.add('selected', 'wrong');
       showToast("❌ Ups, jawabanmu masih salah!", "⚠️");
       setTimeout(() => {
         switchSlide(slide8, slide8Wrong, false);
-        setTimeout(() => startSlide8WrongSequence(), 450);
-      }, 700);
+        setTimeout(() => startSlide8WrongSequence(), 400);
+      }, 650);
     }
   }
 
@@ -981,24 +1227,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startSlide8WrongSequence() {
     showToast("💪 Jangan menyerah, yuk coba lagi!", "💡");
-    setTimeout(() => speakSiswi(siswiWrongSpeech, null, btnS8wVoice, s8wVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiWrongSpeech, null, btnS8wVoice, s8wVoiceIcon), 400);
   }
 
   function startSlide9Sequence() {
     playSuccessSFX();
     showToast("✓ Benar! Rasio Susu terhadap Semangka = 4 : 2", "🥛");
-    setTimeout(() => speakSiswi(siswiSpeech9, null, btnS9Voice, s9VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeech9, null, btnS9Voice, s9VoiceIcon), 400);
   }
 
   function startSlide10Sequence() {
     showToast("⚠️ Urutan di dalam rasio tidak boleh dibalik! 2 : 4 ≠ 4 : 2", "💡");
-    setTimeout(() => speakSiswi(siswiSpeech10, null, btnS10Voice, s10VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeech10, null, btnS10Voice, s10VoiceIcon), 400);
   }
 
   function startSlide11Sequence() {
     playSuccessSFX();
     showToast("🛒 Pilihan Materi di Dalam Troli Belanjamu!", "✨");
-    setTimeout(() => speakSiswi(siswiSpeech11, null, btnS11Voice, s11VoiceIcon), 500);
+    setTimeout(() => speakSiswi(siswiSpeech11, null, btnS11Voice, s11VoiceIcon), 450);
   }
 
   function startSlide12Sequence() {
@@ -1008,7 +1254,7 @@ document.addEventListener('DOMContentLoaded', () => {
       playKesamaanAudio(() => {
         if (btnS12Next) btnS12Next.classList.add('ready');
       });
-    }, 450);
+    }, 400);
   }
 
   function startSlide13Sequence() {
@@ -1018,7 +1264,7 @@ document.addEventListener('DOMContentLoaded', () => {
       playEsSirupAudio(() => {
         if (btnS13Next) btnS13Next.classList.add('ready');
       });
-    }, 450);
+    }, 400);
   }
 
   function startSlide14Sequence() {
@@ -1028,7 +1274,7 @@ document.addEventListener('DOMContentLoaded', () => {
       playRahasiaSirupAudio(() => {
         if (btnS14Next) btnS14Next.classList.add('ready');
       });
-    }, 450);
+    }, 400);
   }
 
   // ------------------------------------------------------------
@@ -1108,7 +1354,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function startSlide15Sequence() {
     showToast("🧪 Laboratorium Rasa: Geser takaran Sirup & Air!", "🍹");
     updateSimulation();
-    setTimeout(() => speakSiswi(siswiSpeech15, null, btnS15Voice, s15VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeech15, null, btnS15Voice, s15VoiceIcon), 400);
   }
 
   // ------------------------------------------------------------
@@ -1116,24 +1362,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // ------------------------------------------------------------
   function startSlide16Sequence() {
     showToast("🍊 Contoh Soal: Rasio Es Jeruk Ibu", "📖");
-    setTimeout(() => speakSiswi(siswiSpeech16, null, btnS16Voice, s16VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeech16, null, btnS16Voice, s16VoiceIcon), 400);
   }
 
   function startSlide17Sequence() {
     resetQuizButtons(quiz2OptionButtons);
     showToast("❓ Latihan Soal: Takaran Sirup untuk 3 Gelas", "🎯");
-    setTimeout(() => speakSiswi(siswiSpeech17, null, btnS17Voice, s17VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeech17, null, btnS17Voice, s17VoiceIcon), 400);
   }
 
   function startSlide17WrongSequence() {
     showToast("💪 Jangan menyerah, yuk coba lagi!", "💪");
-    setTimeout(() => speakSiswi(siswiSpeech17Wrong, null, btnS17wVoice, s17wVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeech17Wrong, null, btnS17wVoice, s17wVoiceIcon), 400);
   }
 
   function startSlide18Sequence() {
     playCelebrationChime();
     showToast("🏆 Jawaban Benar: C (15 Sendok Makan)!", "🌟");
-    setTimeout(() => speakSiswi(siswiSpeech18, null, btnS18Voice, s18VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeech18, null, btnS18Voice, s18VoiceIcon), 400);
   }
 
   quiz2OptionButtons.forEach(btn => {
@@ -1150,15 +1396,15 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast("🎉 HORE! Jawabanmu Benar (C)!", "⭐");
         setTimeout(() => {
           switchSlide(slide17, slide18, false);
-          setTimeout(() => startSlide18Sequence(), 450);
-        }, 700);
+          setTimeout(() => startSlide18Sequence(), 400);
+        }, 650);
       } else {
         playWrongSFX();
         showToast("❌ Jawabanmu Belum Tepat! Coba lagi ya!", "😢");
         setTimeout(() => {
           switchSlide(slide17, slide17Wrong, false);
-          setTimeout(() => startSlide17WrongSequence(), 450);
-        }, 700);
+          setTimeout(() => startSlide17WrongSequence(), 400);
+        }, 650);
       }
     });
   });
@@ -1185,34 +1431,33 @@ document.addEventListener('DOMContentLoaded', () => {
           showToast(rightToast, "⭐");
           setTimeout(() => {
             switchSlide(currentSlide, rightSlide, false);
-            setTimeout(onRightEnter, 450);
-          }, 700);
+            setTimeout(onRightEnter, 400);
+          }, 650);
         } else {
           playWrongSFX();
           showToast("❌ Jawabanmu Belum Tepat! Coba lagi ya!", "😢");
           setTimeout(() => {
             switchSlide(currentSlide, wrongSlide, false);
-            setTimeout(onWrongEnter, 450);
-          }, 700);
+            setTimeout(onWrongEnter, 400);
+          }, 650);
         }
       });
     });
   }
 
-  // Kuis 1 Belanja
   function startBelanjaKuis1Sequence() {
     resetQuizButtons(bk1OptionButtons);
     showToast("🛒 Kuis 1 Belanja: Rasio Apel Merah thd Apel Hijau", "🍎");
-    setTimeout(() => speakSiswi(siswiSpeechBK1, null, btnBk1Voice, bk1VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBK1, null, btnBk1Voice, bk1VoiceIcon), 400);
   }
   function startBelanjaQ1WrongSequence() {
     showToast("💪 Jangan menyerah, coba lagi yuk!", "🍉");
-    setTimeout(() => speakSiswi(siswiSpeechBKWrong, null, btnBk1wVoice, bk1wVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBKWrong, null, btnBk1wVoice, bk1wVoiceIcon), 400);
   }
   function startBelanjaQ1RightSequence() {
     playCelebrationChime();
     showToast("🌟 Benar! Rasio Apel Merah thd Hijau = 12 : 18", "🎉");
-    setTimeout(() => speakSiswi(siswiSpeechBK1Right, null, btnBk1rVoice, bk1rVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBK1Right, null, btnBk1rVoice, bk1rVoiceIcon), 400);
   }
   bindBelanjaQuiz({
     buttons: bk1OptionButtons,
@@ -1224,20 +1469,19 @@ document.addEventListener('DOMContentLoaded', () => {
     onWrongEnter: startBelanjaQ1WrongSequence
   });
 
-  // Kuis 2 Belanja
   function startBelanjaKuis2Sequence() {
     resetQuizButtons(bk2OptionButtons);
     showToast("🧁 Kuis 2 Belanja: Rasio Sederhana Tepung & Gula", "🎯");
-    setTimeout(() => speakSiswi(siswiSpeechBK2, null, btnBk2Voice, bk2VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBK2, null, btnBk2Voice, bk2VoiceIcon), 400);
   }
   function startBelanjaQ2WrongSequence() {
     showToast("💪 Jangan menyerah, coba lagi yuk!", "🍉");
-    setTimeout(() => speakSiswi(siswiSpeechBKWrong, null, btnBk2wVoice, bk2wVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBKWrong, null, btnBk2wVoice, bk2wVoiceIcon), 400);
   }
   function startBelanjaQ2RightSequence() {
     playCelebrationChime();
     showToast("🌟 Benar! Rasio Sederhana Tepung & Gula = 3 : 2", "🎉");
-    setTimeout(() => speakSiswi(siswiSpeechBK2Right, null, btnBk2rVoice, bk2rVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBK2Right, null, btnBk2rVoice, bk2rVoiceIcon), 400);
   }
   bindBelanjaQuiz({
     buttons: bk2OptionButtons,
@@ -1249,20 +1493,19 @@ document.addEventListener('DOMContentLoaded', () => {
     onWrongEnter: startBelanjaQ2WrongSequence
   });
 
-  // Kuis 3 Belanja
   function startBelanjaKuis3Sequence() {
     resetQuizButtons(bk3OptionButtons);
     showToast("🏫 Kuis 3 Belanja: Rasio Siswa Laki-laki thd Total", "🎯");
-    setTimeout(() => speakSiswi(siswiSpeechBK3, null, btnBk3Voice, bk3VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBK3, null, btnBk3Voice, bk3VoiceIcon), 400);
   }
   function startBelanjaQ3WrongSequence() {
     showToast("💪 Jangan menyerah, coba lagi yuk!", "🍉");
-    setTimeout(() => speakSiswi(siswiSpeechBKWrong, null, btnBk3wVoice, bk3wVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBKWrong, null, btnBk3wVoice, bk3wVoiceIcon), 400);
   }
   function startBelanjaQ3RightSequence() {
     playCelebrationChime();
     showToast("🌟 Benar! 16 : 40 disederhanakan menjadi 2 : 5", "🎉");
-    setTimeout(() => speakSiswi(siswiSpeechBK3Right, null, btnBk3rVoice, bk3rVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBK3Right, null, btnBk3rVoice, bk3rVoiceIcon), 400);
   }
   bindBelanjaQuiz({
     buttons: bk3OptionButtons,
@@ -1274,20 +1517,19 @@ document.addEventListener('DOMContentLoaded', () => {
     onWrongEnter: startBelanjaQ3WrongSequence
   });
 
-  // Kuis 4 Belanja
   function startBelanjaKuis4Sequence() {
     resetQuizButtons(bk4OptionButtons);
     showToast("🚗 Kuis 4 Belanja: Bensin untuk Jarak 120 km", "⛽");
-    setTimeout(() => speakSiswi(siswiSpeechBK4, null, btnBk4Voice, bk4VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBK4, null, btnBk4Voice, bk4VoiceIcon), 400);
   }
   function startBelanjaQ4WrongSequence() {
     showToast("💪 Jangan menyerah, coba lagi yuk!", "🍉");
-    setTimeout(() => speakSiswi(siswiSpeechBKWrong, null, btnBk4wVoice, bk4wVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBKWrong, null, btnBk4wVoice, bk4wVoiceIcon), 400);
   }
   function startBelanjaQ4RightSequence() {
     playCelebrationChime();
     showToast("🌟 Benar! 120 km butuh 2 x 4 = 8 Liter Bensin", "🎉");
-    setTimeout(() => speakSiswi(siswiSpeechBK4Right, null, btnBk4rVoice, bk4rVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBK4Right, null, btnBk4rVoice, bk4rVoiceIcon), 400);
   }
   bindBelanjaQuiz({
     buttons: bk4OptionButtons,
@@ -1299,20 +1541,19 @@ document.addEventListener('DOMContentLoaded', () => {
     onWrongEnter: startBelanjaQ4WrongSequence
   });
 
-  // Kuis 5 Belanja
   function startBelanjaKuis5Sequence() {
     resetQuizButtons(bk5OptionButtons);
     showToast("💰 Kuis 5 Belanja: Rasio Lembar Uang Andi", "💵");
-    setTimeout(() => speakSiswi(siswiSpeechBK5, null, btnBk5Voice, bk5VoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBK5, null, btnBk5Voice, bk5VoiceIcon), 400);
   }
   function startBelanjaQ5WrongSequence() {
     showToast("💪 Jangan menyerah, coba lagi yuk!", "🍉");
-    setTimeout(() => speakSiswi(siswiSpeechBKWrong, null, btnBk5wVoice, bk5wVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBKWrong, null, btnBk5wVoice, bk5wVoiceIcon), 400);
   }
   function startBelanjaQ5RightSequence() {
     playCelebrationChime();
     showToast("👑 LUAR BIASA! Seluruh Kuis Belanja (1-5) Selesai!", "🏆");
-    setTimeout(() => speakSiswi(siswiSpeechBK5Right, null, btnBk5rVoice, bk5rVoiceIcon), 450);
+    setTimeout(() => speakSiswi(siswiSpeechBK5Right, null, btnBk5rVoice, bk5rVoiceIcon), 400);
   }
   bindBelanjaQuiz({
     buttons: bk5OptionButtons,
@@ -1336,7 +1577,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         playDoorBellSFX();
         switchSlide(slide1, slide2, true, "Membuka pintu First Market...");
-        setTimeout(() => playKasirAudio(), 1400);
+        setTimeout(() => playKasirAudio(), 1350);
       }, 350);
     });
   }
@@ -1366,14 +1607,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS3Belanja.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide3, slideBelanjaKuis1, false);
-      setTimeout(() => startBelanjaKuis1Sequence(), 450);
+      setTimeout(() => startBelanjaKuis1Sequence(), 400);
     });
   }
   if (btnS3Back) {
     btnS3Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide3, slide2, false);
-      setTimeout(() => playKasirAudio(), 450);
+      setTimeout(() => playKasirAudio(), 400);
     });
   }
 
@@ -1381,14 +1622,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS4Meracik.addEventListener('click', () => {
       playSelectSFX();
       switchSlide(slide4, slide5, false);
-      setTimeout(() => startSlide5Sequence(), 450);
+      setTimeout(() => startSlide5Sequence(), 400);
     });
   }
   if (btnS4Rasio) {
     btnS4Rasio.addEventListener('click', () => {
       playSelectSFX();
       switchSlide(slide4, slide12, false);
-      setTimeout(() => startSlide12Sequence(), 450);
+      setTimeout(() => startSlide12Sequence(), 400);
     });
   }
   if (btnS4Back) {
@@ -1401,7 +1642,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS4Next.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide4, slide5, false);
-      setTimeout(() => startSlide5Sequence(), 450);
+      setTimeout(() => startSlide5Sequence(), 400);
     });
   }
 
@@ -1423,7 +1664,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         playNavSFX();
         switchSlide(slide5, slide6, false);
-        setTimeout(() => startSlide6Sequence(), 450);
+        setTimeout(() => startSlide6Sequence(), 400);
       }
     });
   }
@@ -1433,30 +1674,34 @@ document.addEventListener('DOMContentLoaded', () => {
       playBackSFX();
       clearSlide6Timers();
       switchSlide(slide6, slide5, false);
-      setTimeout(() => startSlide5Sequence(), 450);
+      setTimeout(() => startSlide5Sequence(), 400);
     });
   }
   if (btnS6Next) {
-    btnS6Next.addEventListener('click', () => {
-      playNavSFX();
-      clearSlide6Timers();
-      switchSlide(slide6, slide7, false);
-      setTimeout(() => startSlide7Sequence(), 450);
-    });
-  }
+      btnS6Next.addEventListener('click', () => {
+        if (!isSlide6MissionValid()) {
+          checkSlide6Mission();
+          return;
+        }
+        playNavSFX();
+        clearSlide6Timers();
+        switchSlide(slide6, slide7, false);
+        setTimeout(() => startSlide7Sequence(), 400);
+      });
+    }
 
   if (btnS7Back) {
     btnS7Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide7, slide6, false);
-      setTimeout(() => startSlide6Sequence(), 450);
+      setTimeout(() => startSlide6Sequence(), 400);
     });
   }
   if (btnS7Next) {
     btnS7Next.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide7, slide8, false);
-      setTimeout(() => startSlide8Sequence(), 450);
+      setTimeout(() => startSlide8Sequence(), 400);
     });
   }
 
@@ -1464,21 +1709,21 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS8Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide8, slide7, false);
-      setTimeout(() => startSlide7Sequence(), 450);
+      setTimeout(() => startSlide7Sequence(), 400);
     });
   }
   if (btnS8Next) {
     btnS8Next.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide8, slide9, false);
-      setTimeout(() => startSlide9Sequence(), 450);
+      setTimeout(() => startSlide9Sequence(), 400);
     });
   }
   if (btnS8wBack) {
     btnS8wBack.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide8Wrong, slide8, false);
-      setTimeout(() => startSlide8Sequence(), 450);
+      setTimeout(() => startSlide8Sequence(), 400);
     });
   }
 
@@ -1486,14 +1731,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS9Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide9, slide8, false);
-      setTimeout(() => startSlide8Sequence(), 450);
+      setTimeout(() => startSlide8Sequence(), 400);
     });
   }
   if (btnS9Next) {
     btnS9Next.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide9, slide10, false);
-      setTimeout(() => startSlide10Sequence(), 450);
+      setTimeout(() => startSlide10Sequence(), 400);
     });
   }
 
@@ -1501,7 +1746,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS10Troli.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide10, slide11, true, "Kembali ke Pilihan Materi Troli...");
-      setTimeout(() => startSlide11Sequence(), 1200);
+      setTimeout(() => startSlide11Sequence(), 1150);
     });
   }
 
@@ -1509,21 +1754,21 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS11Meracik.addEventListener('click', () => {
       playSelectSFX();
       switchSlide(slide11, slide5, false);
-      setTimeout(() => startSlide5Sequence(), 450);
+      setTimeout(() => startSlide5Sequence(), 400);
     });
   }
   if (btnS11Kesamaan) {
     btnS11Kesamaan.addEventListener('click', () => {
       playSelectSFX();
       switchSlide(slide11, slide12, false);
-      setTimeout(() => startSlide12Sequence(), 450);
+      setTimeout(() => startSlide12Sequence(), 400);
     });
   }
   if (btnS11Back) {
     btnS11Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide11, slide2, false);
-      setTimeout(() => playKasirAudio(), 450);
+      setTimeout(() => playKasirAudio(), 400);
     });
   }
   if (btnS11Next) {
@@ -1537,35 +1782,35 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS12Next.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide12, slide13, false);
-      setTimeout(() => startSlide13Sequence(), 450);
+      setTimeout(() => startSlide13Sequence(), 400);
     });
   }
   if (btnS13Back) {
     btnS13Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide13, slide12, false);
-      setTimeout(() => startSlide12Sequence(), 450);
+      setTimeout(() => startSlide12Sequence(), 400);
     });
   }
   if (btnS13Next) {
     btnS13Next.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide13, slide14, false);
-      setTimeout(() => startSlide14Sequence(), 450);
+      setTimeout(() => startSlide14Sequence(), 400);
     });
   }
   if (btnS14Back) {
     btnS14Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide14, slide13, false);
-      setTimeout(() => startSlide13Sequence(), 450);
+      setTimeout(() => startSlide13Sequence(), 400);
     });
   }
   if (btnS14Next) {
     btnS14Next.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide14, slide15, false);
-      setTimeout(() => startSlide15Sequence(), 450);
+      setTimeout(() => startSlide15Sequence(), 400);
     });
   }
 
@@ -1573,14 +1818,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS15Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide15, slide14, false);
-      setTimeout(() => startSlide14Sequence(), 450);
+      setTimeout(() => startSlide14Sequence(), 400);
     });
   }
   if (btnS15Next) {
     btnS15Next.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide15, slide16, false);
-      setTimeout(() => startSlide16Sequence(), 450);
+      setTimeout(() => startSlide16Sequence(), 400);
     });
   }
 
@@ -1588,14 +1833,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS16Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide16, slide15, false);
-      setTimeout(() => startSlide15Sequence(), 450);
+      setTimeout(() => startSlide15Sequence(), 400);
     });
   }
   if (btnS16Next) {
     btnS16Next.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slide16, slide17, false);
-      setTimeout(() => startSlide17Sequence(), 450);
+      setTimeout(() => startSlide17Sequence(), 400);
     });
   }
 
@@ -1603,14 +1848,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnS17Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide17, slide16, false);
-      setTimeout(() => startSlide16Sequence(), 450);
+      setTimeout(() => startSlide16Sequence(), 400);
     });
   }
   if (btnS17wBack) {
     btnS17wBack.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slide17Wrong, slide17, false);
-      setTimeout(() => startSlide17Sequence(), 450);
+      setTimeout(() => startSlide17Sequence(), 400);
     });
   }
   if (btnS18Menu) {
@@ -1632,14 +1877,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnBk1wBack.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slideBelanjaQ1Wrong, slideBelanjaKuis1, false);
-      setTimeout(() => startBelanjaKuis1Sequence(), 450);
+      setTimeout(() => startBelanjaKuis1Sequence(), 400);
     });
   }
   if (btnBk1rNext) {
     btnBk1rNext.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slideBelanjaQ1Right, slideBelanjaKuis2, false);
-      setTimeout(() => startBelanjaKuis2Sequence(), 450);
+      setTimeout(() => startBelanjaKuis2Sequence(), 400);
     });
   }
 
@@ -1647,21 +1892,21 @@ document.addEventListener('DOMContentLoaded', () => {
     btnBk2Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slideBelanjaKuis2, slideBelanjaQ1Right, false);
-      setTimeout(() => startBelanjaQ1RightSequence(), 450);
+      setTimeout(() => startBelanjaQ1RightSequence(), 400);
     });
   }
   if (btnBk2wBack) {
     btnBk2wBack.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slideBelanjaQ2Wrong, slideBelanjaKuis2, false);
-      setTimeout(() => startBelanjaKuis2Sequence(), 450);
+      setTimeout(() => startBelanjaKuis2Sequence(), 400);
     });
   }
   if (btnBk2rNext) {
     btnBk2rNext.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slideBelanjaQ2Right, slideBelanjaKuis3, false);
-      setTimeout(() => startBelanjaKuis3Sequence(), 450);
+      setTimeout(() => startBelanjaKuis3Sequence(), 400);
     });
   }
 
@@ -1669,21 +1914,21 @@ document.addEventListener('DOMContentLoaded', () => {
     btnBk3Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slideBelanjaKuis3, slideBelanjaQ2Right, false);
-      setTimeout(() => startBelanjaQ2RightSequence(), 450);
+      setTimeout(() => startBelanjaQ2RightSequence(), 400);
     });
   }
   if (btnBk3wBack) {
     btnBk3wBack.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slideBelanjaQ3Wrong, slideBelanjaKuis3, false);
-      setTimeout(() => startBelanjaKuis3Sequence(), 450);
+      setTimeout(() => startBelanjaKuis3Sequence(), 400);
     });
   }
   if (btnBk3rNext) {
     btnBk3rNext.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slideBelanjaQ3Right, slideBelanjaKuis4, false);
-      setTimeout(() => startBelanjaKuis4Sequence(), 450);
+      setTimeout(() => startBelanjaKuis4Sequence(), 400);
     });
   }
 
@@ -1691,21 +1936,21 @@ document.addEventListener('DOMContentLoaded', () => {
     btnBk4Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slideBelanjaKuis4, slideBelanjaQ3Right, false);
-      setTimeout(() => startBelanjaQ3RightSequence(), 450);
+      setTimeout(() => startBelanjaQ3RightSequence(), 400);
     });
   }
   if (btnBk4wBack) {
     btnBk4wBack.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slideBelanjaQ4Wrong, slideBelanjaKuis4, false);
-      setTimeout(() => startBelanjaKuis4Sequence(), 450);
+      setTimeout(() => startBelanjaKuis4Sequence(), 400);
     });
   }
   if (btnBk4rNext) {
     btnBk4rNext.addEventListener('click', () => {
       playNavSFX();
       switchSlide(slideBelanjaQ4Right, slideBelanjaKuis5, false);
-      setTimeout(() => startBelanjaKuis5Sequence(), 450);
+      setTimeout(() => startBelanjaKuis5Sequence(), 400);
     });
   }
 
@@ -1713,14 +1958,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnBk5Back.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slideBelanjaKuis5, slideBelanjaQ4Right, false);
-      setTimeout(() => startBelanjaQ4RightSequence(), 450);
+      setTimeout(() => startBelanjaQ4RightSequence(), 400);
     });
   }
   if (btnBk5wBack) {
     btnBk5wBack.addEventListener('click', () => {
       playBackSFX();
       switchSlide(slideBelanjaQ5Wrong, slideBelanjaKuis5, false);
-      setTimeout(() => startBelanjaKuis5Sequence(), 450);
+      setTimeout(() => startBelanjaKuis5Sequence(), 400);
     });
   }
   if (btnBk5rNext) {

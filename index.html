@@ -64,16 +64,21 @@
     }
   </script>
 
-  <!-- Minimal CSS khusus untuk state dinamis dari script.js, slider thumb, & text-stroke -->
+  <!-- Minimal CSS untuk state dinamis dari script.js -->
   <style>
     * { -webkit-tap-highlight-color: transparent; user-select: none; }
 
     /* State Slide Aktif & Zoom */
+    /* State Slide Aktif & Zoom */
+    .game-slide {
+      z-index: 1;
+    }
     .game-slide.active {
       opacity: 1 !important;
       pointer-events: auto !important;
       visibility: visible !important;
       transform: scale(1) !important;
+      z-index: 50 !important;
     }
     #slide-1.zooming #bg-supermarket {
       transform: scale(1.22);
@@ -100,47 +105,35 @@
       100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
     }
 
-    /* Slide 5 Bubble 2 State */
-    .bubble-2-overlay.active {
-      opacity: 1 !important;
-      pointer-events: auto !important;
-      visibility: visible !important;
-      transform: scale(1) translateY(0) !important;
-    }
-
-    /* Slide 6 Animasi Keranjang & Item Terbang (dipakai dinamis oleh script.js) */
+    /* Slide 6 Animasi Keranjang & Item Terbang */
     .anim-flying-item {
       position: absolute;
       opacity: 0;
       pointer-events: none;
       z-index: 40;
-      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.4));
+      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.35));
       transform-origin: center center;
     }
-    #flying-semangka, .flying-wm { width: 7.5%; aspect-ratio: 1; object-fit: contain; }
-    #flying-susu, .flying-mk { width: 5.5%; aspect-ratio: 38 / 58; object-fit: contain; }
+    #flying-semangka, .flying-wm { width: 8.5%; aspect-ratio: 1; object-fit: contain; }
+    #flying-susu, .flying-mk { width: 6.5%; aspect-ratio: 38 / 58; object-fit: contain; }
     .cart-landing-zone.bounce { transform: scale(1.08) translateY(-4px); }
     .landed-item.visible { opacity: 1 !important; transform: scale(1) !important; }
 
     /* State Tombol Ready */
     .hotspot-s6-next.ready { animation: pulseReady 1.1s infinite alternate; }
     @keyframes pulseReady {
-      0% { box-shadow: 0 0 10px rgba(249,115,22,.7); border: 3px solid #ff7b25; background: rgba(255,255,255,.2); transform: scale(1); }
-      100% { box-shadow: 0 0 26px rgba(249,115,22,1); border: 3px solid #fff; background: rgba(255,255,255,.38); transform: scale(1.04); }
+      0% { filter: drop-shadow(0 0 6px rgba(249,115,22,.8)); transform: scale(1); }
+      100% { filter: drop-shadow(0 0 18px rgba(249,115,22,1)); transform: scale(1.06); }
     }
 
     /* State Pilihan Kuis (Benar / Salah) */
     .quiz-option-btn.selected.correct {
-      border-color: #16a34a !important;
-      background-color: rgba(34, 197, 94, 0.15) !important;
-      box-shadow: 0 0 24px rgba(22, 163, 74, 0.9), inset 0 0 12px rgba(34, 197, 94, 0.35) !important;
-      transform: scale(1.03);
+      filter: drop-shadow(0 0 16px rgba(22, 163, 74, 0.95));
+      transform: scale(1.04);
     }
     .quiz-option-btn.selected.correct .check-icon { opacity: 1 !important; transform: scale(1) !important; }
     .quiz-option-btn.selected.wrong {
-      border-color: #dc2626 !important;
-      background-color: rgba(239, 68, 68, 0.12) !important;
-      box-shadow: 0 0 20px rgba(220, 38, 38, 0.85) !important;
+      filter: drop-shadow(0 0 16px rgba(220, 38, 38, 0.95));
       animation: shakeWrong 0.4s ease;
     }
     .quiz-option-btn.selected.wrong .cross-icon { opacity: 1 !important; transform: scale(1) !important; }
@@ -172,6 +165,64 @@
     .transition-screen.closed .door-right { transform: translateX(0%) !important; }
     .transition-screen.closed .transition-message { opacity: 1 !important; transform: scale(1) !important; }
     .toast-notification.show { opacity: 1 !important; transform: translateX(-50%) translateY(0) !important; }
+
+    /* Animasi gerak halus karakter Kasir Nisa */
+    @keyframes kasirIdle {
+      0%, 100% { transform: translate(-50%, 0px) scale(1); }
+      50% { transform: translate(-50%, -4px) scale(1.015); }
+    }
+    .kasir-idle {
+      animation: kasirIdle 2.6s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    /* Transisi halus ganti bubble Slide 5 */
+
+#slide-5.active .bubble-stage.active {
+  opacity: 1 !important;
+  pointer-events: none !important;
+  visibility: visible !important;
+  transform: scale(1) translateY(0) !important;
+}
+
+/* Efek denyut halus tombol Selanjutnya saat audio selesai */
+.btn-next-ready.ready {
+  animation: pulseReady 1.1s infinite alternate;
+}
+
+/* Animasi gerak halus karakter Siswi */
+@keyframes siswiIdle {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-4px) scale(1.012); }
+}
+.siswi-idle {
+  animation: siswiIdle 2.4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* Efek Drag & Drop Slide 6 */
+.shelf-item {
+  touch-action: none;
+  cursor: grab;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.shelf-item:hover {
+  transform: scale(1.12) translateY(-3px);
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+}
+.shelf-item:active {
+  cursor: grabbing;
+}
+#trolley-drop-zone.drop-active {
+  filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.85));
+}
+#trolley-drop-zone.drop-hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 22px rgba(34, 197, 94, 0.95));
+}
+#trolley-drop-zone.bounce {
+  transform: scale(1.07) translateY(-5px);
+}
   </style>
 </head>
 <body class="w-full h-full overflow-hidden bg-[#121824] font-game">
@@ -179,12 +230,12 @@
   <!-- Game Container Wrapper -->
   <div id="game-container" class="relative w-screen h-screen max-w-full overflow-hidden flex items-center justify-center bg-[radial-gradient(circle_at_50%_50%,#1e293b_0%,#0f172a_100%)]">
 
-    <!-- Audio Element Rekaman Asli (sesuaikan path jika file .m4a ikut di-upload ke GitHub assets-aplikom) -->
-    <audio id="audio-kasir-player" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/audio-kasir.m4a" preload="auto"></audio>
-    <audio id="audio-rasio-player" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/audio-pengertian-rasio.m4a" preload="auto"></audio>
-    <audio id="audio-kesamaan-player" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/audio-kesamaan-rasio.m4a" preload="auto"></audio>
-    <audio id="audio-es-sirup-player" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/audio-es-sirup.m4a" preload="auto"></audio>
-    <audio id="audio-rahasia-sirup-player" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/audio-rahasia-sirup.m4a" preload="auto"></audio>
+    <!-- Audio Element Rekaman Asli -->
+    <audio id="audio-kasir-player" src="https://navazanstudio.github.io/aplikom/assets-aplikom/audio-kasir.m4a" preload="auto"></audio>
+    <audio id="audio-rasio-player" src="https://navazanstudio.github.io/aplikom/assets-aplikom/audio-pengertian-rasio.m4a" preload="auto"></audio>
+    <audio id="audio-kesamaan-player" src="https://navazanstudio.github.io/aplikom/assets-aplikom/audio-kesamaan-rasio.m4a" preload="auto"></audio>
+    <audio id="audio-es-sirup-player" src="https://navazanstudio.github.io/aplikom/assets-aplikom/audio-es-sirup.m4a" preload="auto"></audio>
+    <audio id="audio-rahasia-sirup-player" src="https://navazanstudio.github.io/aplikom/assets-aplikom/audio-rahasia-sirup.m4a" preload="auto"></audio>
 
     <!-- Tombol Suara Global (Pojok Kanan Atas) -->
     <button id="btn-sound-toggle" title="Toggle Suara" aria-label="Toggle Suara"
@@ -198,7 +249,7 @@
     <section id="slide-1" class="game-slide active absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div id="bg-supermarket"
         class="supermarket-bg absolute inset-0 w-full h-full bg-cover bg-bottom bg-no-repeat z-[1] transition-all duration-[1200ms]"
-        style="background-image: url('https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%201/latar-belakang.jpeg');">
+        style="background-image: url('https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%201/latar-belakang.jpeg');">
         <div class="absolute top-[15%] left-[8%] text-[22px] pointer-events-none z-[5] animate-twinkle" style="animation-delay:0.2s;">✨</div>
         <div class="absolute top-[22%] right-[10%] text-[22px] pointer-events-none z-[5] animate-twinkle" style="animation-delay:1.1s;">⭐</div>
         <div class="absolute bottom-[35%] left-[14%] text-[22px] pointer-events-none z-[5] animate-twinkle" style="animation-delay:0.7s;">✨</div>
@@ -221,11 +272,11 @@
 
         <div class="flex flex-col items-center gap-3 mb-2.5 animate-float-btn">
           <button id="btn-start" aria-label="Buka Pintu & Masuk Toko"
-            class="relative bg-transparent border-0 p-0 cursor-pointer outline-none inline-block w-[min(88vw,420px)] overflow-hidden rounded-full drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)] transition-all duration-200 hover:scale-105 hover:-translate-y-1 active:scale-95 active:translate-y-1">
-            <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%201/tombol-start.jpg"
+            class="relative bg-transparent border-0 p-0 cursor-pointer outline-none inline-block w-[min(80vw,340px)] drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)] transition-all duration-200 hover:scale-105 hover:-translate-y-1 active:scale-95 active:translate-y-1">
+            <img data-remove-bg="auto" data-trim-bg data-strip-border="4" data-bg-tolerance="48" crossorigin="anonymous"
+              src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%201/tombol-start.jpg"
               alt="START GAME - Buka Pintu & Masuk Toko"
-              class="w-full h-auto block pointer-events-none rounded-full">
-            <div class="absolute top-[10%] -left-[120%] w-1/2 h-[80%] bg-gradient-to-r from-transparent via-white/45 to-transparent -skew-x-[25deg] pointer-events-none animate-shine-sweep rounded-full"></div>
+              class="w-full h-auto block pointer-events-none">
           </button>
 
           <div class="inline-flex items-center gap-2 bg-black/65 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/30">
@@ -241,26 +292,73 @@
     <!-- ============================================== -->
     <section id="slide-2" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <!-- Opsi lain di folder SLIDE 2: kasir%20ful.jpeg / Gemini_Generated_Image_2fj74q2fj74q2fj7.jpg -->
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%202/latar-kasir.jpg" alt="Kasir 1# Market" class="w-full h-full object-contain block pointer-events-none">
 
+        <!-- Layer 1: Background Rak Kasir -->
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%202/latar-kasir.jpg"
+          alt="Latar Kasir 1# Market"
+          class="absolute inset-0 w-full h-full object-cover block pointer-events-none z-[1]">
+
+      <!-- Layer 2: Orang Kasir Nisa -->
+        <img id="kasir-nisa-img"
+          src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%202/KASIR%20CROP/1%20(1).png"
+          alt="Kasir Nisa"
+          class="kasir-idle absolute left-[42%] bottom-[14%] h-[57%] w-auto object-contain object-bottom pointer-events-none z-[10] drop-shadow-[0_6px_14px_rgba(0,0,0,0.3)]">
+
+        <!-- Layer 3: Meja Kasir (Hapus BG Putih + Potong Garis Kanan + Auto Trim) -->
+        <img data-remove-bg="white" data-trim-bg data-strip-border="16" data-keep-left data-keep-bottom crossorigin="anonymous"
+          src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%202/meja-kasir.jpg"
+          alt="Meja Kasir"
+          class="absolute left-0 bottom-0 w-[71%] max-h-[47%] object-contain object-left-bottom pointer-events-none z-[22] drop-shadow-[0_-4px_12px_rgba(0,0,0,0.22)]">
+        
+          <!-- Layer 4: Balon Dialog Kasir Nisa + Teks Lebih Besar -->
+        <div class="absolute right-[4.5%] top-[22%] w-[43%] h-[59%] bg-white border-[3.5px] border-[#1a2a44] rounded-[24px] p-4 sm:p-6 shadow-[0_7px_0_#1a2a44,0_14px_26px_rgba(0,0,0,0.3)] z-[20] flex flex-col justify-between">
+          <!-- Ekor Penunjuk Balon ke Arah Nisa -->
+          <div class="absolute -left-[13px] top-[18%] w-6 h-6 bg-white border-l-[3.5px] border-b-[3.5px] border-[#1a2a44] rotate-45"></div>
+
+          <!-- Header & Teks Dialog Diperbesar -->
+          <div>
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-[2.5px] border-[#1a2a44] bg-sky-100 overflow-hidden shrink-0">
+                <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%202/KASIR%20CROP/1%20(1).png"
+                  alt="Avatar Nisa" class="w-full h-full object-cover object-top">
+              </div>
+              <div class="leading-tight">
+                <div class="font-sub text-[clamp(10px,1vw,13px)] font-extrabold tracking-wider text-sky-600 uppercase">KASIR 1# MARKET</div>
+                <div class="font-game text-[clamp(16px,1.8vw,24px)] font-bold text-[#1a2a44]">Nisa</div>
+              </div>
+            </div>
+
+            <p class="font-sub font-extrabold text-[clamp(13px,1.55vw,21px)] text-[#1a2a44] leading-snug mt-1">
+              &ldquo;Halo! Selamat datang di 1# Market!<br>
+              Mau pilih Troli Materi atau langsung Mulai Belanja?&rdquo;
+            </p>
+          </div>
+
+          <!-- Tombol Navigasi di Dalam Bubble (Kanan Bawah) -->
+          <div class="flex flex-col items-end gap-2.5 mt-2">
+            <button id="btn-s2-menu" title="Buka Pilihan Menu" aria-label="Buka Pilihan Menu"
+              class="w-[56%] bg-transparent border-0 p-0 cursor-pointer transition-transform hover:scale-105 active:scale-95">
+              <img data-remove-bg="white" crossorigin="anonymous"
+                src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%202/tombol-buka-pilihan-menu.jpeg"
+                alt="Buka Pilihan Menu" class="w-full h-auto object-contain block pointer-events-none">
+            </button>
+
+            <button id="btn-s2-back" title="Kembali ke Halaman Depan" aria-label="Kembali ke Depan"
+              class="w-[56%] bg-transparent border-0 p-0 cursor-pointer transition-transform hover:scale-105 active:scale-95">
+              <img data-remove-bg="white" crossorigin="anonymous"
+                src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%203/tombol-kembali.jpeg"
+                alt="Kembali" class="w-full h-auto object-contain block pointer-events-none">
+            </button>
+          </div>
+        </div>
+
+        <!-- Tombol Replay Suara Nisa -->
         <button id="btn-replay-voice" title="Dengarkan Suara Kasir Nisa" aria-label="Dengarkan Suara Kasir Nisa"
-          class="voice-badge-btn absolute top-[10%] right-[5%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
+          class="voice-badge-btn absolute top-[6%] right-[5%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[30] transition-transform hover:scale-105">
           <span id="voice-anim-icon">🔊</span>
           <span>Suara Nisa</span>
         </button>
 
-        <!-- Tombol Interaktif: Buka Pilihan Menu -->
-        <button id="btn-s2-menu" title="Buka Pilihan Menu" aria-label="Buka Pilihan Menu"
-          class="absolute left-[74.2%] top-[51.5%] w-[19.8%] h-[6.8%] rounded-full overflow-hidden border-2 border-transparent hover:border-black hover:shadow-[0_0_16px_rgba(248,194,39,0.85)] cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%202/tombol-buka-pilihan-menu.jpeg" alt="Buka Pilihan Menu" class="w-full h-full object-cover pointer-events-none">
-        </button>
-
-        <!-- Tombol Interaktif: Kembali ke Slide 1 -->
-        <button id="btn-s2-back" title="Kembali ke Halaman Depan" aria-label="Kembali ke Depan"
-          class="absolute left-[74.2%] top-[59.8%] w-[19.8%] h-[9.6%] rounded-full overflow-hidden border-2 border-transparent hover:border-[#1a2a44] hover:shadow-[0_0_16px_rgba(59,130,246,0.65)] cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%203/tombol-kembali.jpeg" alt="Kembali" class="w-full h-full object-cover pointer-events-none">
-        </button>
       </div>
     </section>
 
@@ -269,123 +367,295 @@
     <!-- ============================================== -->
     <section id="slide-3" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%203/main-latar.jpg" alt="Pilihan Aktivitas 1# Market" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%203/main-latar.jpg" alt="Pilihan Aktivitas 1# Market" class="w-full h-full object-contain block pointer-events-none">
 
+        <!-- Tombol Kiri: Buka Troli Materi (Tengah Kartu Kiri) -->
         <button id="btn-s3-troli" title="Buka Troli Materi" aria-label="Buka Troli Materi"
-          class="absolute left-[13.5%] top-[63.5%] w-[22.8%] h-[9.2%] rounded-full overflow-hidden border-2 border-transparent hover:border-emerald-900 hover:shadow-[0_0_18px_rgba(34,197,94,0.85)] cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%203/tombol-buka-troli.jpg" alt="Buka Troli Materi" class="w-full h-full object-cover pointer-events-none">
+          class="absolute left-[26.25%] top-[68%] -translate-x-1/2 w-[32%] h-[8.8%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.28)]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+            src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%203/tombol-buka-troli.jpg"
+            alt="Buka Troli Materi" class="w-full h-full object-contain pointer-events-none">
         </button>
 
+        <!-- Tombol Kanan: Mulai Belanja (Tengah Kartu Kanan, Sejajar) -->
         <button id="btn-s3-belanja" title="Mulai Belanja" aria-label="Mulai Belanja"
-          class="absolute left-[62.0%] top-[64.0%] w-[22.8%] h-[9.2%] rounded-full overflow-hidden border-2 border-transparent hover:border-orange-950 hover:shadow-[0_0_18px_rgba(249,115,22,0.85)] cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%203/tombol-mulai-belanja.jpg" alt="Mulai Belanja" class="w-full h-full object-cover pointer-events-none">
+          class="absolute left-[73.75%] top-[68%] -translate-x-1/2 w-[32%] h-[8.8%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.28)]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+            src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%203/tombol-mulai-belanja.jpg"
+            alt="Mulai Belanja" class="w-full h-full object-contain pointer-events-none">
         </button>
 
+        <!-- Tombol Bawah: Kembali (Tengah Layar) -->
         <button id="btn-s3-back" title="Kembali ke Kasir" aria-label="Kembali ke Kasir"
-          class="absolute left-[39.0%] top-[88.0%] w-[22.0%] h-[8.8%] rounded-full overflow-hidden border-2 border-transparent hover:border-[#1a2a44] hover:shadow-[0_0_16px_rgba(59,130,246,0.65)] cursor-pointer z-20 transition-all hover:scale-[1.02] active:scale-95">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%203/tombol-kembali.jpeg" alt="Kembali" class="w-full h-full object-cover pointer-events-none">
+          class="absolute left-1/2 top-[87.5%] -translate-x-1/2 w-[24%] h-[8.2%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.28)]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+            src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%203/tombol-kembali.jpeg"
+            alt="Kembali" class="w-full h-full object-contain pointer-events-none">
         </button>
       </div>
     </section>
 
-    <!-- ============================================== -->
+   <!-- ============================================== -->
     <!-- SLIDE 4: PILIH MATERI DALAM TROLI              -->
     <!-- ============================================== -->
     <section id="slide-4" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%204/latar.jpg" alt="Pilih Materi di Dalam Troli Belanjamu" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/latar.jpg" alt="Pilih Materi di Dalam Troli Belanjamu" class="w-full h-full object-contain block pointer-events-none">
 
+        <!-- Tombol Kiri: Meracik Troli (Tengah Kartu Kiri) -->
         <button id="btn-s4-meracik" title="Pilih Meracik Troli" aria-label="Meracik Troli"
-          class="absolute left-[23.8%] top-[66.0%] w-[19.8%] h-[10.0%] rounded-full overflow-hidden border-2 border-transparent hover:border-green-950 hover:shadow-[0_0_18px_rgba(34,197,94,0.9)] cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%204/tombol-meracik-troli.jpg" alt="Meracik Troli" class="w-full h-full object-cover pointer-events-none">
+          class="absolute left-[33.5%] top-[70.5%] -translate-x-1/2 w-[28%] h-[8.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.28)]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+            src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-meracik-troli.jpg"
+            alt="Meracik Troli" class="w-full h-full object-contain pointer-events-none">
         </button>
 
+        <!-- Tombol Kanan: Kesamaan Rasio Belanja (Tengah Kartu Kanan, Sejajar) -->
         <button id="btn-s4-rasio" title="Pilih Kesamaan Rasio Belanja" aria-label="Kesamaan Rasio Belanja"
-          class="absolute left-[56.5%] top-[66.8%] w-[22.2%] h-[14.0%] rounded-full overflow-hidden border-2 border-transparent hover:border-yellow-950 hover:shadow-[0_0_18px_rgba(248,194,39,0.9)] cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%204/tombol-kesamaan-rasio.jpg" alt="Kesamaan Rasio Belanja" class="w-full h-full object-cover pointer-events-none">
+          class="absolute left-[66.5%] top-[70.5%] -translate-x-1/2 w-[28%] h-[8.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.28)]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+            src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-kesamaan-rasio.jpg"
+            alt="Kesamaan Rasio Belanja" class="w-full h-full object-contain pointer-events-none">
         </button>
 
+        <!-- Tombol Bawah Kiri: Kembali -->
         <button id="btn-s4-back" title="Kembali ke Pilihan Menu" aria-label="Kembali ke Pilihan Menu"
-          class="absolute left-[5.5%] top-[88.0%] w-[16.0%] h-[8.2%] rounded-full overflow-hidden border-2 border-transparent hover:border-[#1a2a44] hover:shadow-[0_0_16px_rgba(59,130,246,0.65)] cursor-pointer z-20 transition-all hover:scale-[1.02] active:scale-95">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%204/tombol-kembali.jpeg" alt="Kembali" class="w-full h-full object-cover pointer-events-none">
+          class="absolute left-[5.5%] top-[87.5%] w-[22%] h-[8%] bg-transparent border-0 p-0 cursor-pointer z-20 origin-left transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.28)]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+            src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-kembali.jpeg"
+            alt="Kembali" class="w-full h-full object-contain object-left pointer-events-none">
         </button>
 
+        <!-- Tombol Bawah Kanan: Selanjutnya (Sejajar & Sama Tinggi dengan Kembali) -->
         <button id="btn-s4-next" title="Selanjutnya" aria-label="Selanjutnya"
-          class="absolute left-[76.5%] top-[88.8%] w-[18.5%] h-[8.0%] rounded-full overflow-hidden border-2 border-transparent hover:border-orange-950 hover:shadow-[0_0_18px_rgba(249,115,22,0.9)] cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%204/tombol-selanjutnya.png" alt="Selanjutnya" class="w-full h-full object-contain pointer-events-none">
+          class="absolute right-[5.5%] top-[87.5%] w-[22%] h-[8%] bg-transparent border-0 p-0 cursor-pointer z-20 origin-right transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.28)]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+            src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-selanjutnya.png"
+            alt="Selanjutnya" class="w-full h-full object-contain object-right pointer-events-none">
         </button>
       </div>
     </section>
 
     <!-- ============================================== -->
     <!-- SLIDE 5: MATERI MERACIK TROLI                  -->
-    <!-- (Sesuaikan nama file di dalam SLIDE 5 dst.)    -->
+    <!-- Latar Rak Buah + Animasi 5 Pose Siswi + Bubble -->
     <!-- ============================================== -->
     <section id="slide-5" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img id="slide5-base-img" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%205/slide5-materi1.jpg" alt="Materi Belajar Rasio - Siswi" class="w-full h-full object-contain block pointer-events-none">
+        <!-- Background Rak Buah -->
+        <img id="slide5-base-img" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%205/rak-buah.jpeg" alt="Latar Rak Buah" class="absolute inset-0 w-full h-full object-cover block pointer-events-none z-[1]">
 
-        <div id="bubble-2-overlay" class="bubble-2-overlay absolute left-[36.5%] top-[11.5%] w-[50.5%] aspect-[724/444] z-[15] opacity-0 pointer-events-none invisible scale-90 translate-y-2 transition-all duration-500">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%205/bubble2.png" alt="Untuk Mengetahui Konsep Rasio" class="w-full h-full object-contain block drop-shadow-[0_8px_18px_rgba(0,0,0,0.3)]">
+        <!-- Karakter Siswi (Animasi 5 Frame: char-1 s/d char-5, otomatis hapus BG putih) -->
+        <div id="siswi-s5-stage" class="siswi-idle absolute left-[3%] bottom-0 w-[30%] h-[84%] pointer-events-none z-[10] drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)]">
+          <img data-remove-bg="white" crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%205/char-1.jpeg" alt="Siswi Pose 1" class="siswi-frame absolute inset-0 w-full h-full object-contain object-bottom transition-opacity duration-150 opacity-100">
+          <img data-remove-bg="white" crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%205/char-2.jpeg" alt="Siswi Pose 2" class="siswi-frame absolute inset-0 w-full h-full object-contain object-bottom transition-opacity duration-150 opacity-0">
+          <img data-remove-bg="white" crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%205/char-3.jpeg" alt="Siswi Pose 3" class="siswi-frame absolute inset-0 w-full h-full object-contain object-bottom transition-opacity duration-150 opacity-0">
+          <img data-remove-bg="white" crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%205/char-4.jpeg" alt="Siswi Pose 4" class="siswi-frame absolute inset-0 w-full h-full object-contain object-bottom transition-opacity duration-150 opacity-0">
+          <img data-remove-bg="white" crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%205/char-5.jpeg" alt="Siswi Pose 5" class="siswi-frame absolute inset-0 w-full h-full object-contain object-bottom transition-opacity duration-150 opacity-0">
         </div>
 
+        <!-- Balon Penjelasan 1 (Aktif di awal, tersembunyi saat pindah ke Penjelasan 2) -->
+        <div id="bubble-1-overlay" class="bubble-stage active absolute left-[36.5%] top-[16%] w-[58%] h-[64%] z-[14] opacity-0 pointer-events-none invisible scale-95 translate-y-2 transition-all duration-400 flex items-center justify-center">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+            src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%205/teks-bubble-1.jpg"
+            alt="Penjelasan 1 Konsep Rasio"
+            class="max-w-full max-h-full w-auto h-auto object-contain block drop-shadow-[0_8px_18px_rgba(0,0,0,0.28)]">
+        </div>
+
+        <!-- Balon Penjelasan 2 (Muncul menggantikan Balon 1 hanya saat tombol Selanjutnya diklik) -->
+        <div id="bubble-2-overlay" class="bubble-stage absolute left-[36.5%] top-[16%] w-[58%] h-[64%] z-[15] opacity-0 pointer-events-none invisible scale-95 translate-y-2 transition-all duration-400 flex items-center justify-center">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+            src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%205/teks-bubble-2.jpg"
+            alt="Untuk Mengetahui Konsep Rasio"
+            class="max-w-full max-h-full w-auto h-auto object-contain block drop-shadow-[0_10px_20px_rgba(0,0,0,0.35)]">
+        </div>
+
+        <!-- Tombol Replay Suara Siswi -->
         <button id="btn-s5-voice" title="Dengarkan Suara Siswi" aria-label="Dengarkan Suara Siswi"
           class="voice-badge-btn absolute top-[5.5%] right-[4.5%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="s5-voice-icon">🔊</span>
           <span>Suara Siswi</span>
         </button>
 
-        <div id="explanation-badge" class="absolute top-[5.5%] left-[31.7%] bg-white/95 border-2 border-yellow-600 rounded-full px-3 py-0.5 font-sub font-extrabold text-[clamp(9px,1.05vw,12px)] text-yellow-900 shadow-sm inline-flex items-center gap-1.5 z-[25]">
+        <!-- Indikator Penjelasan 1/2 atau 2/2 -->
+        <div id="explanation-badge" class="absolute top-[5.5%] left-[38%] bg-white/95 border-2 border-yellow-600 rounded-full px-3 py-0.5 font-sub font-extrabold text-[clamp(9px,1.05vw,12px)] text-yellow-900 shadow-sm inline-flex items-center gap-1.5 z-[25]">
           <span id="pill-dot" class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
           <span id="explanation-text">Penjelasan 1 / 2</span>
         </div>
 
-        <button id="btn-s5-back" title="Kembali" aria-label="Kembali"
-          class="absolute left-[55.0%] top-[86.0%] w-[19.8%] h-[7.5%] bg-transparent border-2 border-transparent hover:bg-blue-500/20 hover:border-[#1a2a44] hover:shadow-[0_0_16px_rgba(59,130,246,0.65)] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.02] active:scale-95"></button>
+        <!-- Tombol Navigasi Bawah (Sejajar, Sama Tinggi, Proporsional) -->
+        <div class="absolute left-[42%] right-[4.5%] bottom-[3.5%] h-[8.5%] flex items-center justify-end gap-5 z-[25]">
+          <button id="btn-s5-back" title="Kembali" aria-label="Kembali"
+            class="h-full bg-transparent border-0 p-0 cursor-pointer transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.3)]">
+            <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+              src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-kembali.jpeg"
+              alt="Kembali" class="h-full w-auto object-contain block pointer-events-none">
+          </button>
 
-        <button id="btn-s5-next" title="Selanjutnya" aria-label="Selanjutnya"
-          class="absolute left-[78.0%] top-[86.2%] w-[18.0%] h-[8.0%] bg-transparent border-2 border-transparent hover:bg-white/25 hover:border-orange-950 hover:shadow-[0_0_18px_rgba(249,115,22,0.9)] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.02] active:scale-95"></button>
+          <button id="btn-s5-next" title="Selanjutnya" aria-label="Selanjutnya"
+            class="btn-next-ready h-full bg-transparent border-0 p-0 cursor-pointer transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.3)]">
+            <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+              src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-selanjutnya.png"
+              alt="Selanjutnya" class="h-full w-auto object-contain block pointer-events-none">
+          </button>
+        </div>
       </div>
     </section>
 
     <!-- ============================================== -->
-    <!-- SLIDE 6: ANIMASI AMBIL BARANG KE TROLI         -->
+    <!-- SLIDE 6: INTERAKTIF DRAG & DROP KE TROLI       -->
+    <!-- Misi: Tepat 2 Semangka & 4 Susu + Cek + Reset  -->
     <!-- ============================================== -->
     <section id="slide-6" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div id="slide6-frame" class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%206/slide6-rak-troli.jpg" alt="Rak Supermarket dan Troli Belanja" class="w-full h-full object-contain block pointer-events-none">
 
-        <div id="flight-stage" class="absolute inset-0 pointer-events-none z-30">
-          <img id="flying-semangka" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%206/clean-item-semangka.png" class="anim-flying-item" alt="Semangka Terbang">
-          <img id="flying-susu" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%206/clean-item-susu.png" class="anim-flying-item" alt="Susu Terbang">
+        <!-- Layer 1: Background Rak Supermarket -->
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/rak.jpg"
+          alt="Rak Supermarket"
+          class="absolute inset-0 w-full h-full object-cover block pointer-events-none z-[1]">
 
-          <div id="cart-landing-zone" class="cart-landing-zone absolute left-[65%] top-[46%] w-[24%] h-[20%] pointer-events-none z-[35] transition-transform duration-200">
-            <img id="landed-w1" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%206/clean-item-semangka.png" alt="Semangka 1" class="landed-item absolute w-[38%] left-[8%] top-[32%] -rotate-[8deg] opacity-0 scale-0 transition-all duration-300 drop-shadow">
-            <img id="landed-w2" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%206/clean-item-semangka.png" alt="Semangka 2" class="landed-item absolute w-[38%] left-[50%] top-[32%] rotate-[10deg] opacity-0 scale-0 transition-all duration-300 drop-shadow">
-            <img id="landed-m1" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%206/clean-item-susu.png" alt="Susu 1" class="landed-item absolute w-[20%] left-[4%] top-[6%] -rotate-[8deg] opacity-0 scale-0 transition-all duration-300 drop-shadow">
-            <img id="landed-m2" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%206/clean-item-susu.png" alt="Susu 2" class="landed-item absolute w-[20%] left-[27%] top-[4%] rotate-[5deg] opacity-0 scale-0 transition-all duration-300 drop-shadow">
-            <img id="landed-m3" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%206/clean-item-susu.png" alt="Susu 3" class="landed-item absolute w-[20%] left-[50%] top-[4%] -rotate-[6deg] opacity-0 scale-0 transition-all duration-300 drop-shadow">
-            <img id="landed-m4" src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%206/clean-item-susu.png" alt="Susu 4" class="landed-item absolute w-[20%] left-[73%] top-[6%] rotate-[8deg] opacity-0 scale-0 transition-all duration-300 drop-shadow">
+        <!-- Banner Misi Atas -->
+        <div class="absolute top-[3.5%] left-1/2 -translate-x-1/2 bg-white/95 border-[3px] border-slate-800 shadow-[0_4px_0_#1e293b] rounded-full px-4 py-1 inline-flex items-center gap-2 z-[25]">
+          <span class="text-base">🎯</span>
+          <span class="font-sub font-extrabold text-[clamp(10px,1.2vw,14px)] text-slate-800">
+            Misi Belanja: Tarik tepat <span class="text-green-700">2 Semangka</span> &amp; <span class="text-sky-700">4 Susu</span> ke dalam troli!
+          </span>
+        </div>
+
+        <!-- Panel Penghitung Isi Troli (Sisi Kiri) -->
+        <aside id="cart-counter-panel" class="absolute left-[2.2%] top-[14%] w-[24.5%] bg-white/95 backdrop-blur-sm border-[3px] border-[#1a2a44] rounded-2xl p-2.5 sm:p-3.5 shadow-[0_6px_0_#1a2a44,0_12px_24px_rgba(0,0,0,0.3)] z-[25] flex flex-col gap-2">
+          <div class="flex items-center justify-between border-b-2 border-slate-200 pb-1.5">
+            <div class="flex items-center gap-1.5">
+              <span class="text-base sm:text-lg">🛒</span>
+              <span class="font-game font-bold text-[clamp(12px,1.35vw,16px)] text-[#1a2a44]">Isi Troli</span>
+            </div>
+            <span id="badge-count-total" class="font-sub font-black text-[clamp(10px,1.05vw,12px)] px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-500">
+              Total: 0
+            </span>
           </div>
+
+          <!-- Rincian 4 Jenis Barang -->
+          <div class="flex flex-col gap-1.5 font-sub text-[clamp(10px,1.05vw,13px)]">
+            <div class="flex items-center justify-between bg-green-50 border border-green-300 rounded-xl px-2 py-1">
+              <span class="font-extrabold text-green-950">🍉 Semangka</span>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-dec-item="semangka" title="Kurangi 1 Semangka"
+                  class="w-5 h-5 rounded-full bg-white border border-green-600 text-green-800 font-black leading-none flex items-center justify-center cursor-pointer hover:bg-green-200 active:scale-90">−</button>
+                <span id="count-semangka" class="min-w-[1.5rem] text-center font-game font-bold text-green-900 text-[clamp(12px,1.25vw,15px)]">0</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between bg-sky-50 border border-sky-300 rounded-xl px-2 py-1">
+              <span class="font-extrabold text-sky-950">🥛 Susu</span>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-dec-item="susu" title="Kurangi 1 Susu"
+                  class="w-5 h-5 rounded-full bg-white border border-sky-600 text-sky-800 font-black leading-none flex items-center justify-center cursor-pointer hover:bg-sky-200 active:scale-90">−</button>
+                <span id="count-susu" class="min-w-[1.5rem] text-center font-game font-bold text-sky-900 text-[clamp(12px,1.25vw,15px)]">0</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between bg-emerald-50 border border-emerald-300 rounded-xl px-2 py-1">
+              <span class="font-extrabold text-emerald-950">🥦 Sayur</span>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-dec-item="sayur" title="Kurangi 1 Sayur"
+                  class="w-5 h-5 rounded-full bg-white border border-emerald-600 text-emerald-800 font-black leading-none flex items-center justify-center cursor-pointer hover:bg-emerald-200 active:scale-90">−</button>
+                <span id="count-sayur" class="min-w-[1.5rem] text-center font-game font-bold text-emerald-900 text-[clamp(12px,1.25vw,15px)]">0</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between bg-cyan-50 border border-cyan-300 rounded-xl px-2 py-1">
+              <span class="font-extrabold text-cyan-950">💧 Air Mineral</span>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-dec-item="botol" title="Kurangi 1 Air Mineral"
+                  class="w-5 h-5 rounded-full bg-white border border-cyan-600 text-cyan-800 font-black leading-none flex items-center justify-center cursor-pointer hover:bg-cyan-200 active:scale-90">−</button>
+                <span id="count-botol" class="min-w-[1.5rem] text-center font-game font-bold text-cyan-900 text-[clamp(12px,1.25vw,15px)]">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ringkasan & Status Benar/Salah -->
+          <div id="cart-detail-summary" class="bg-slate-100 border border-slate-300 rounded-xl px-2.5 py-1.5 font-sub font-bold text-[clamp(9px,0.95vw,11.5px)] text-slate-700 leading-snug transition-colors">
+            Target: <strong>2 Semangka</strong> &amp; <strong>4 Susu</strong> (tanpa barang lain).
+          </div>
+
+          <!-- Tombol Cek Troli & Reset Troli -->
+          <div class="grid grid-cols-2 gap-1.5">
+            <button id="btn-cek-troli" type="button" title="Periksa isi troli"
+              class="py-1.5 px-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white border-2 border-[#1a2a44] shadow-[0_3px_0_#1a2a44] font-game font-bold text-[clamp(10px,1.05vw,12.5px)] cursor-pointer flex items-center justify-center gap-1 transition-transform active:translate-y-0.5">
+              <span>✅</span>
+              <span>Cek Troli</span>
+            </button>
+
+            <button id="btn-reset-troli" type="button" title="Kosongkan & Reset Troli ke 0"
+              class="py-1.5 px-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white border-2 border-[#1a2a44] shadow-[0_3px_0_#1a2a44] font-game font-bold text-[clamp(10px,1.05vw,12.5px)] cursor-pointer flex items-center justify-center gap-1 transition-transform active:translate-y-0.5">
+              <span>🔄</span>
+              <span>Reset</span>
+            </button>
+          </div>
+        </aside>
+
+        <!-- Layer 2: 4 Tingkat Rak Barang (Draggable) -->
+        <!-- Rak 1 (Atas): Semangka -->
+        <div class="absolute left-[28.5%] top-[26.5%] w-[29.2%] h-[13.8%] flex items-end justify-around px-2 z-[15]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="semangka" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/semongko.jpg" alt="Semangka" class="shelf-item h-[86%] w-auto max-w-[23%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="semangka" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/semongko.jpg" alt="Semangka" class="shelf-item h-[86%] w-auto max-w-[23%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="semangka" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/semongko.jpg" alt="Semangka" class="shelf-item h-[86%] w-auto max-w-[23%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="semangka" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/semongko.jpg" alt="Semangka" class="shelf-item h-[86%] w-auto max-w-[23%] object-contain">
         </div>
 
-        <div id="cart-summary-badge" class="absolute top-[10%] left-1/2 -translate-x-1/2 bg-white/95 border-[3px] border-slate-800 shadow-[0_4px_0_#1e293b,0_10px_20px_rgba(0,0,0,0.25)] rounded-full px-4 py-1.5 inline-flex items-center gap-2.5 z-[35]">
-          <span class="font-sub font-extrabold text-[clamp(11px,1.3vw,14px)] text-slate-800">Keranjang Belanja:</span>
-          <span id="badge-count-w" class="font-sub font-extrabold text-[clamp(10px,1.15vw,13px)] px-3 py-1 rounded-full border-2 border-[#111] shadow-[0_2px_0_#111] bg-green-200 text-green-950">🍉 0 Semangka</span>
-          <span id="badge-count-m" class="font-sub font-extrabold text-[clamp(10px,1.15vw,13px)] px-3 py-1 rounded-full border-2 border-[#111] shadow-[0_2px_0_#111] bg-blue-200 text-blue-950">🥛 0 Susu</span>
+        <!-- Rak 2: Susu -->
+        <div class="absolute left-[28.5%] top-[42.2%] w-[29.2%] h-[13.2%] flex items-end justify-around px-2 z-[15]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="susu" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/susu.jpg" alt="Susu" class="shelf-item h-[88%] w-auto max-w-[22%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="susu" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/susu.jpg" alt="Susu" class="shelf-item h-[88%] w-auto max-w-[22%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="susu" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/susu.jpg" alt="Susu" class="shelf-item h-[88%] w-auto max-w-[22%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="susu" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/susu.jpg" alt="Susu" class="shelf-item h-[88%] w-auto max-w-[22%] object-contain">
         </div>
 
-        <button id="btn-replay-anim6" title="Ulangi Animasi Ambil Barang"
-          class="absolute top-[10%] right-[5%] bg-white hover:bg-slate-100 border-[2.5px] border-slate-800 rounded-full shadow-[0_3px_0_#1e293b] px-3 py-1 font-sub font-extrabold text-[clamp(9px,1.1vw,12px)] text-slate-800 cursor-pointer inline-flex items-center gap-1.5 z-[35] transition-transform hover:scale-105 active:scale-95">
-          <span class="text-[13px]">🔄</span>
-          <span>Ulangi Ambil Barang</span>
-        </button>
+        <!-- Rak 3: Sayur -->
+        <div class="absolute left-[28.5%] top-[57.2%] w-[29.2%] h-[13.2%] flex items-end justify-around px-2 z-[15]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="sayur" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/sayur.jpg" alt="Sayur" class="shelf-item h-[88%] w-auto max-w-[23%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="sayur" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/sayur.jpg" alt="Sayur" class="shelf-item h-[88%] w-auto max-w-[23%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="sayur" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/sayur.jpg" alt="Sayur" class="shelf-item h-[88%] w-auto max-w-[23%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="sayur" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/sayur.jpg" alt="Sayur" class="shelf-item h-[88%] w-auto max-w-[23%] object-contain">
+        </div>
 
-        <button id="btn-s6-back" title="Kembali ke Penjelasan" aria-label="Kembali ke Penjelasan"
-          class="absolute left-[6.0%] top-[89.5%] w-[21.0%] h-[8.0%] bg-transparent border-2 border-transparent hover:bg-blue-500/20 hover:border-[#1a2a44] hover:shadow-[0_0_16px_rgba(59,130,246,0.65)] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.02] active:scale-95"></button>
+        <!-- Rak 4 (Bawah): Air Mineral -->
+        <div class="absolute left-[28.5%] top-[72.2%] w-[29.2%] h-[13.2%] flex items-end justify-around px-2 z-[15]">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="botol" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/botol.jpg" alt="Air Mineral" class="shelf-item h-[90%] w-auto max-w-[20%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="botol" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/botol.jpg" alt="Air Mineral" class="shelf-item h-[90%] w-auto max-w-[20%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="botol" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/botol.jpg" alt="Air Mineral" class="shelf-item h-[90%] w-auto max-w-[20%] object-contain">
+          <img data-remove-bg="white" data-trim-bg crossorigin="anonymous" draggable="false" data-item-type="botol" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/botol.jpg" alt="Air Mineral" class="shelf-item h-[90%] w-auto max-w-[20%] object-contain">
+        </div>
 
-        <button id="btn-s6-next" title="Lanjut ke Hasil Rasio" aria-label="Lanjut ke Hasil Rasio"
-          class="hotspot-s6-next absolute left-[72.0%] top-[90.5%] w-[19.5%] h-[7.8%] bg-transparent border-2 border-transparent hover:bg-white/25 hover:border-orange-950 hover:shadow-[0_0_20px_rgba(249,115,22,0.95)] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+        <!-- Layer 3: Zona Drop Troli Belanja (BG putih luar & sela jaring otomatis dihapus) -->
+        <div id="trolley-drop-zone" class="absolute left-[60%] top-[30%] w-[34%] h-[50%] z-[20] transition-all duration-200">
+          <!-- Wadah Visual Barang di Dalam Keranjang -->
+          <div id="cart-items-visual" class="absolute left-[7%] top-[16%] w-[68%] h-[42%] flex flex-wrap-reverse content-start items-end justify-center gap-0.5 overflow-hidden pointer-events-none z-[18] px-1"></div>
+
+          <!-- Gambar Troli (white-all hapus BG putih luar + dalam kawat) -->
+          <img data-remove-bg="white-all" data-trim-bg crossorigin="anonymous"
+            src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%206/troli.png"
+            alt="Troli Belanja"
+            class="relative w-full h-full object-contain pointer-events-none z-[20] drop-shadow-[0_10px_18px_rgba(0,0,0,0.35)]">
+        </div>
+
+        <!-- Tombol Navigasi Bawah (Sama persis gaya & proporsi Slide 5) -->
+        <div class="absolute left-[54%] right-[4.5%] bottom-[3.5%] h-[8.5%] flex items-center justify-end gap-5 z-[35]">
+          <button id="btn-s6-back" title="Kembali ke Penjelasan" aria-label="Kembali ke Penjelasan"
+            class="h-full bg-transparent border-0 p-0 cursor-pointer transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.3)]">
+            <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+              src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-kembali.jpeg"
+              alt="Kembali" class="h-full w-auto object-contain block pointer-events-none">
+          </button>
+
+          <button id="btn-s6-next" title="Cek & Lanjut ke Hasil Rasio" aria-label="Lanjut ke Hasil Rasio"
+            class="btn-next-ready hotspot-s6-next h-full bg-transparent border-0 p-0 cursor-pointer transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.3)]">
+            <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+              src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-selanjutnya.png"
+              alt="Selanjutnya" class="h-full w-auto object-contain block pointer-events-none">
+          </button>
+        </div>
+
       </div>
     </section>
 
@@ -394,69 +664,131 @@
     <!-- ============================================== -->
     <section id="slide-7" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%207/slide7-rasio-2semangka-4susu.jpg" alt="Rasio Antara Semangka dan Susu adalah 2 : 4" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%207/kasir-blur.jpg" alt="Latar Hasil Rasio" class="absolute inset-0 w-full h-full object-cover block pointer-events-none z-[1]">
+
+        <!-- Visual Perbandingan (Atas) -->
+        <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+          src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%207/perbandingan.png"
+          alt="Perbandingan 2 Semangka dan 4 Susu"
+          class="absolute left-1/2 top-[10%] -translate-x-1/2 w-[78%] h-[47%] object-contain pointer-events-none z-[10] drop-shadow-lg">
+
+        <!-- Visual Pernyataan (Bawah - Diperbesar & Auto Trim) -->
+        <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+          src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%207/pernyataan.jpg"
+          alt="Pernyataan Rasio 2 : 4"
+          class="absolute left-1/2 top-[60%] -translate-x-1/2 w-[72%] h-[23%] object-contain pointer-events-none z-[10] drop-shadow-lg">
 
         <button id="btn-s7-voice" title="Dengarkan Penjelasan Rasio" aria-label="Dengarkan Penjelasan Rasio"
-          class="voice-badge-btn absolute top-[6%] right-[5%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
+          class="voice-badge-btn absolute top-[5%] right-[4.5%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="s7-voice-icon">🔊</span>
           <span>Penjelasan</span>
         </button>
 
-        <button id="btn-s7-back" title="Kembali ke Rak Belanja" aria-label="Kembali ke Rak Belanja"
-          class="absolute left-[15.8%] top-[89.5%] w-[21.0%] h-[8.0%] bg-transparent border-2 border-transparent hover:bg-blue-500/20 hover:border-[#1a2a44] hover:shadow-[0_0_16px_rgba(59,130,246,0.65)] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.02] active:scale-95"></button>
+        <!-- Tombol Navigasi Bawah Sejajar & Sama Tinggi -->
+        <div class="absolute inset-x-[12%] bottom-[3.8%] h-[8.5%] flex items-center justify-between z-[25]">
+          <button id="btn-s7-back" title="Kembali ke Rak Belanja" aria-label="Kembali ke Rak Belanja"
+            class="h-full bg-transparent border-0 p-0 cursor-pointer transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.3)]">
+            <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+              src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-kembali.jpeg"
+              alt="Kembali" class="h-full w-auto object-contain block pointer-events-none">
+          </button>
 
-        <button id="btn-s7-next" title="Lanjut ke Soal Kuis" aria-label="Lanjut ke Soal Kuis"
-          class="absolute left-[63.5%] top-[90.0%] w-[18.5%] h-[7.5%] bg-transparent border-2 border-transparent hover:bg-white/25 hover:border-orange-950 hover:shadow-[0_0_20px_rgba(249,115,22,0.95)] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          <button id="btn-s7-next" title="Lanjut ke Soal Kuis" aria-label="Lanjut ke Soal Kuis"
+            class="h-full bg-transparent border-0 p-0 cursor-pointer transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.3)]">
+            <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+              src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-selanjutnya.png"
+              alt="Selanjutnya" class="h-full w-auto object-contain block pointer-events-none">
+          </button>
+        </div>
       </div>
     </section>
 
     <!-- ============================================== -->
-    <!-- SLIDE 8: LATIHAN SOAL KUIS 1                   -->
+    <!-- SLIDE 8: LATIHAN SOAL KUIS 1 (Latar: latar.png)-->
     <!-- ============================================== -->
     <section id="slide-8" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
-      <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%208/slide8-kuis-soal-baru.jpg" alt="Soal Kuis: Rasio Susu Terhadap Semangka" class="w-full h-full object-contain block pointer-events-none">
+      <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-white flex items-center justify-center">
 
+        <!-- Wadah Proporsional sesuai rasio asli SLIDE 8/latar.png (821x622) -->
+        <div class="relative h-full aspect-[821/622] max-w-full">
+          <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%208/latar.png"
+            alt="Soal Kuis Rasio Semangka dan Susu"
+            class="w-full h-full object-contain block pointer-events-none">
+
+          <!-- Grid 2x2 Opsi Jawaban tepat di dalam kotak putih jawaban -->
+          <div class="absolute left-[11%] right-[11%] top-[46.5%] bottom-[23.5%] grid grid-cols-2 grid-rows-2 gap-x-4 gap-y-3 items-center justify-items-center z-20">
+            <!-- Kiri Atas: Opsi A -->
+            <button id="btn-quiz-a" data-option="A" data-correct="true" title="Pilih Jawaban A" aria-label="Jawaban A"
+              class="quiz-option-btn relative w-full h-full bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-all hover:scale-[1.04] active:scale-95">
+              <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+                src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%208/opsi-a.jpg"
+                alt="Opsi A" class="w-full h-full object-contain pointer-events-none drop-shadow">
+              <span class="check-icon absolute right-3 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-green-600 border-2 border-white shadow flex items-center justify-center text-base font-black text-white opacity-0 scale-0 transition-all pointer-events-none">✓</span>
+            </button>
+
+            <!-- Kanan Atas: Opsi C -->
+            <button id="btn-quiz-c" data-option="C" data-correct="false" title="Pilih Jawaban C" aria-label="Jawaban C"
+              class="quiz-option-btn relative w-full h-full bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-all hover:scale-[1.04] active:scale-95">
+              <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+                src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%208/opsi-c.jpg"
+                alt="Opsi C" class="w-full h-full object-contain pointer-events-none drop-shadow">
+              <span class="cross-icon absolute right-3 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-red-600 border-2 border-white shadow flex items-center justify-center text-base font-black text-white opacity-0 scale-0 transition-all pointer-events-none">✗</span>
+            </button>
+
+            <!-- Kiri Bawah: Opsi B -->
+            <button id="btn-quiz-b" data-option="B" data-correct="false" title="Pilih Jawaban B" aria-label="Jawaban B"
+              class="quiz-option-btn relative w-full h-full bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-all hover:scale-[1.04] active:scale-95">
+              <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+                src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%208/opsi-b.jpg"
+                alt="Opsi B" class="w-full h-full object-contain pointer-events-none drop-shadow">
+              <span class="cross-icon absolute right-3 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-red-600 border-2 border-white shadow flex items-center justify-center text-base font-black text-white opacity-0 scale-0 transition-all pointer-events-none">✗</span>
+            </button>
+
+            <!-- Kanan Bawah: Opsi D -->
+            <button id="btn-quiz-d" data-option="D" data-correct="false" title="Pilih Jawaban D" aria-label="Jawaban D"
+              class="quiz-option-btn relative w-full h-full bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-all hover:scale-[1.04] active:scale-95">
+              <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+                src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%208/opsi-d.jpg"
+                alt="Opsi D" class="w-full h-full object-contain pointer-events-none drop-shadow">
+              <span class="cross-icon absolute right-3 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-red-600 border-2 border-white shadow flex items-center justify-center text-base font-black text-white opacity-0 scale-0 transition-all pointer-events-none">✗</span>
+            </button>
+          </div>
+
+          <!-- Tombol Navigasi Bawah: Kembali & Pembahasan (Proporsional & Besar) -->
+          <div class="absolute left-[8%] right-[8%] bottom-[4.5%] h-[11%] flex items-center justify-between z-20">
+            <button id="btn-s8-back" title="Kembali ke Hasil Rasio" aria-label="Kembali ke Hasil Rasio"
+              class="h-full bg-transparent border-0 p-0 cursor-pointer transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.22)]">
+              <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+                src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-kembali.jpeg"
+                alt="Kembali" class="h-full w-auto object-contain block pointer-events-none">
+            </button>
+
+            <button id="btn-s8-next" title="Buka Pembahasan" aria-label="Buka Pembahasan"
+              class="h-full bg-transparent border-0 p-0 cursor-pointer transition-transform hover:scale-105 active:scale-95 drop-shadow-[0_6px_12px_rgba(0,0,0,0.22)]">
+              <img data-remove-bg="white" data-trim-bg crossorigin="anonymous"
+                src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%208/tombol-pembahasan.png"
+                alt="Pembahasan" class="h-full w-auto object-contain block pointer-events-none">
+            </button>
+          </div>
+        </div>
+
+        <!-- Tombol Suara Soal Kuis -->
         <button id="btn-s8-voice" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="s8-voice-icon">🔊</span>
           <span>Dengar Soal</span>
         </button>
 
-        <button id="btn-quiz-a" data-option="A" data-correct="true" title="Pilih Jawaban A (4 : 2)" aria-label="Jawaban A Empat banding Dua"
-          class="quiz-option-btn absolute left-[14.1%] top-[49.5%] w-[34.5%] h-[8.5%] rounded-full cursor-pointer border-[3.5px] border-transparent bg-transparent flex items-center justify-end pr-3.5 z-20 transition-all hover:scale-[1.03] hover:border-slate-800/40 active:scale-95">
-          <span class="check-icon w-7 h-7 rounded-full bg-green-600 border-2 border-white shadow flex items-center justify-center text-base font-black text-white opacity-0 scale-0 transition-all pointer-events-none">✓</span>
-        </button>
-
-        <button id="btn-quiz-b" data-option="B" data-correct="false" title="Pilih Jawaban B (2 : 3)" aria-label="Jawaban B Dua banding Tiga"
-          class="quiz-option-btn absolute left-[14.1%] top-[62.0%] w-[34.5%] h-[8.5%] rounded-full cursor-pointer border-[3.5px] border-transparent bg-transparent flex items-center justify-end pr-3.5 z-20 transition-all hover:scale-[1.03] hover:border-slate-800/40 active:scale-95">
-          <span class="cross-icon w-7 h-7 rounded-full bg-red-600 border-2 border-white shadow flex items-center justify-center text-base font-black text-white opacity-0 scale-0 transition-all pointer-events-none">✗</span>
-        </button>
-
-        <button id="btn-quiz-c" data-option="C" data-correct="false" title="Pilih Jawaban C (3 : 4)" aria-label="Jawaban C Tiga banding Empat"
-          class="quiz-option-btn absolute left-[51.5%] top-[49.5%] w-[34.5%] h-[8.5%] rounded-full cursor-pointer border-[3.5px] border-transparent bg-transparent flex items-center justify-end pr-3.5 z-20 transition-all hover:scale-[1.03] hover:border-slate-800/40 active:scale-95">
-          <span class="cross-icon w-7 h-7 rounded-full bg-red-600 border-2 border-white shadow flex items-center justify-center text-base font-black text-white opacity-0 scale-0 transition-all pointer-events-none">✗</span>
-        </button>
-
-        <button id="btn-quiz-d" data-option="D" data-correct="false" title="Pilih Jawaban D (4 : 3)" aria-label="Jawaban D Empat banding Tiga"
-          class="quiz-option-btn absolute left-[51.5%] top-[62.0%] w-[34.5%] h-[8.5%] rounded-full cursor-pointer border-[3.5px] border-transparent bg-transparent flex items-center justify-end pr-3.5 z-20 transition-all hover:scale-[1.03] hover:border-slate-800/40 active:scale-95">
-          <span class="cross-icon w-7 h-7 rounded-full bg-red-600 border-2 border-white shadow flex items-center justify-center text-base font-black text-white opacity-0 scale-0 transition-all pointer-events-none">✗</span>
-        </button>
-
-        <button id="btn-s8-back" title="Kembali ke Hasil Rasio" aria-label="Kembali ke Hasil Rasio"
-          class="absolute left-[8.5%] top-[85.0%] w-[28.5%] h-[8.5%] bg-transparent border-2 border-transparent hover:bg-blue-500/20 hover:border-[#1a2a44] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.02] active:scale-95"></button>
-
-        <button id="btn-s8-next" title="Buka Pembahasan" aria-label="Buka Pembahasan"
-          class="absolute left-[63.5%] top-[85.0%] w-[28.5%] h-[8.5%] bg-transparent border-2 border-transparent hover:bg-white/25 hover:border-orange-950 rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
       </div>
     </section>
 
     <!-- ============================================== -->
-    <!-- SLIDE 8-SALAH                                  -->
+    <!-- SLIDE 8-SALAH (Menggunakan aset Slide 9)       -->
     <!-- ============================================== -->
     <section id="slide-8-wrong" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%208/slide8-salah.jpg" alt="Jawaban Salah" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%209/kasir-blur.jpg" alt="Latar Jawaban Salah" class="absolute inset-0 w-full h-full object-cover block pointer-events-none z-[1]">
+        <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%209/salah.png" alt="Jawaban Salah" class="relative w-full h-full object-contain block pointer-events-none z-[10]">
 
         <button id="btn-s8w-voice" title="Dengarkan Semangat" aria-label="Dengarkan Semangat"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -465,7 +797,9 @@
         </button>
 
         <button id="btn-s8w-back" title="Kembali ke Soal Kuis" aria-label="Kembali ke Soal Kuis"
-          class="absolute left-[4.1%] top-[86.8%] w-[23.3%] h-[8.1%] bg-transparent border-2 border-transparent hover:bg-red-500/25 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.85)] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          class="absolute left-[4.1%] top-[86.0%] w-[23.5%] h-[9%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%209/tombol-kembali.jpg" alt="Kembali ke Soal" class="w-full h-full object-contain pointer-events-none">
+        </button>
       </div>
     </section>
 
@@ -474,7 +808,7 @@
     <!-- ============================================== -->
     <section id="slide-9" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%209/slide9-benar-pembahasan.jpg" alt="Jawaban Benar dan Pembahasan" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2010/latar.jpg" alt="Jawaban Benar dan Pembahasan" class="w-full h-full object-contain block pointer-events-none">
 
         <button id="btn-s9-voice" title="Dengarkan Pembahasan" aria-label="Dengarkan Pembahasan"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -485,16 +819,22 @@
         <button id="btn-s9-back" title="Kembali ke Soal" aria-label="Kembali ke Soal" class="hidden"></button>
 
         <button id="btn-s9-next" title="Lanjut ke Penjelasan Urutan Rasio" aria-label="Lanjut ke Penjelasan Urutan Rasio"
-          class="absolute left-[62.7%] top-[88.0%] w-[18.5%] h-[7.5%] bg-transparent border-2 border-transparent hover:bg-white/25 hover:border-orange-950 hover:shadow-[0_0_20px_rgba(249,115,22,0.95)] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          class="absolute left-[62.7%] top-[87.5%] w-[19.5%] h-[8.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-selanjutnya.png" alt="Selanjutnya" class="w-full h-full object-contain pointer-events-none">
+        </button>
       </div>
     </section>
 
     <!-- ============================================== -->
-    <!-- SLIDE 10: URUTAN TIDAK BOLEH DIBALIK           -->
+    <!-- SLIDE 10: URUTAN TIDAK BOLEH DIBALIK (Slide 11)-->
     <!-- ============================================== -->
     <section id="slide-10" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2010/slide10-urutan-tidak-boleh-dibalik.jpg" alt="Urutan di Dalam Rasio Tidak Boleh Dibalik" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2011/rak%20buah.jpeg" alt="Latar Rak Buah" class="absolute inset-0 w-full h-full object-cover block pointer-events-none z-[1]">
+
+        <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2011/karakter.jpeg" alt="Siswi" class="absolute left-[5%] bottom-0 h-[82%] w-auto object-contain pointer-events-none z-[10] drop-shadow-lg">
+        <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2011/perbandingan.jpg" alt="Perbandingan Urutan Rasio" class="absolute left-[34%] top-[10%] w-[60%] h-[38%] object-contain pointer-events-none z-[10] drop-shadow-lg">
+        <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2011/pernyataan.jpg" alt="Pernyataan Urutan Rasio" class="absolute left-[34%] top-[50%] w-[60%] h-[32%] object-contain pointer-events-none z-[10] drop-shadow-lg">
 
         <button id="btn-s10-voice" title="Dengarkan Penjelasan Siswi" aria-label="Dengarkan Penjelasan Siswi"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -503,16 +843,18 @@
         </button>
 
         <button id="btn-s10-troli" title="Kembali ke Pilihan Materi" aria-label="Kembali ke Pilihan Materi"
-          class="absolute left-[67.0%] top-[84.0%] w-[26.0%] h-[9.5%] bg-transparent border-2 border-transparent hover:bg-blue-900/25 hover:border-blue-500 hover:shadow-[0_0_20px_rgba(59,130,246,0.85)] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          class="absolute left-[67.0%] top-[84.5%] w-[26.0%] h-[9.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2011/tombol-kembali.jpg" alt="Kembali ke Pilihan Materi" class="w-full h-full object-contain pointer-events-none">
+        </button>
       </div>
     </section>
 
     <!-- ============================================== -->
-    <!-- SLIDE 11: PILIHAN MATERI DALAM TROLI           -->
+    <!-- SLIDE 11: PILIHAN MATERI DALAM TROLI (Slide 12)-->
     <!-- ============================================== -->
     <section id="slide-11" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2011/slide11-pilihan-materi-troli.jpg" alt="Pilih Materi di Dalam Troli Belanjamu" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2012/latar.jpg" alt="Pilih Materi di Dalam Troli Belanjamu" class="w-full h-full object-contain block pointer-events-none">
 
         <button id="btn-s11-voice" title="Dengarkan Arahan" aria-label="Dengarkan Arahan"
           class="voice-badge-btn absolute top-[4.5%] right-[4.5%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -521,16 +863,24 @@
         </button>
 
         <button id="btn-s11-meracik" title="Buka Modul Meracik Troli" aria-label="Buka Modul Meracik Troli"
-          class="absolute left-[24.5%] top-[69.5%] w-[19.0%] h-[8.0%] bg-transparent border-2 border-transparent hover:bg-green-500/20 hover:border-green-600 rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          class="absolute left-[23.5%] top-[66.5%] w-[20.5%] h-[10.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2012/tombol-meracik-troli.jpg" alt="Meracik Troli" class="w-full h-full object-contain pointer-events-none">
+        </button>
 
         <button id="btn-s11-kesamaan" title="Buka Modul Kesamaan Rasio Belanja" aria-label="Buka Modul Kesamaan Rasio Belanja"
-          class="absolute left-[57.0%] top-[69.5%] w-[19.0%] h-[8.0%] bg-transparent border-2 border-transparent hover:bg-amber-500/20 hover:border-amber-600 rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          class="absolute left-[56.5%] top-[66.5%] w-[22.5%] h-[13.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2012/tombol-kesamaan-rasio.jpg" alt="Kesamaan Rasio" class="w-full h-full object-contain pointer-events-none">
+        </button>
 
         <button id="btn-s11-back" title="Kembali ke Kasir Nisa" aria-label="Kembali ke Kasir Nisa"
-          class="absolute left-[6.0%] top-[89.0%] w-[15.5%] h-[7.5%] bg-transparent border-2 border-transparent hover:bg-blue-500/20 hover:border-[#1a2a44] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.02] active:scale-95"></button>
+          class="absolute left-[6.0%] top-[88.0%] w-[17%] h-[8.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-kembali.jpeg" alt="Kembali" class="w-full h-full object-contain pointer-events-none">
+        </button>
 
         <button id="btn-s11-next" title="Selesai & Selanjutnya" aria-label="Selesai & Selanjutnya"
-          class="absolute left-[76.5%] top-[89.0%] w-[18.0%] h-[7.5%] bg-transparent border-2 border-transparent hover:bg-white/25 hover:border-orange-950 rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          class="absolute left-[76.5%] top-[88.0%] w-[18.5%] h-[8.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-selanjutnya.png" alt="Selanjutnya" class="w-full h-full object-contain pointer-events-none">
+        </button>
       </div>
     </section>
 
@@ -539,7 +889,9 @@
     <!-- ============================================== -->
     <section id="slide-12" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2012/slide12-kesamaan-rasio.jpg" alt="Kesamaan Rasio! Apa itu Rasio Senilai?" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2013/rak%20buah.jpeg" alt="Latar Kesamaan Rasio" class="absolute inset-0 w-full h-full object-cover block pointer-events-none z-[1]">
+        <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2013/karakter.jpeg" alt="Siswi" class="absolute left-[6%] bottom-0 h-[82%] w-auto object-contain pointer-events-none z-[10] drop-shadow-lg">
+        <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2013/rasio.jpg" alt="Penjelasan Kesamaan Rasio" class="absolute left-[35%] top-[14%] w-[58%] h-[62%] object-contain pointer-events-none z-[10] drop-shadow-lg">
 
         <button id="btn-s12-voice" title="Dengarkan Penjelasan Kesamaan Rasio" aria-label="Dengarkan Penjelasan Kesamaan Rasio"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -548,7 +900,9 @@
         </button>
 
         <button id="btn-s12-next" title="Lanjut ke Cerita Es Sirup" aria-label="Lanjut ke Cerita Es Sirup"
-          class="absolute left-[72.5%] top-[85.5%] w-[19.5%] h-[8.5%] bg-transparent border-2 border-transparent hover:bg-white/25 hover:border-orange-950 rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          class="absolute left-[72.5%] top-[85.5%] w-[19.5%] h-[8.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-selanjutnya.png" alt="Selanjutnya" class="w-full h-full object-contain pointer-events-none">
+        </button>
       </div>
     </section>
 
@@ -557,7 +911,10 @@
     <!-- ============================================== -->
     <section id="slide-13" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2013/slide13-es-sirup-dan-rasio.jpg" alt="Menjaga Rasa! Es Sirup dan Rasio" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2013/rak%20buah.jpeg" alt="Latar Es Sirup" class="absolute inset-0 w-full h-full object-cover block pointer-events-none z-[1]">
+        <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2013/karakter.jpeg" alt="Siswi" class="absolute left-[6%] bottom-0 h-[82%] w-auto object-contain pointer-events-none z-[10] drop-shadow-lg">
+        <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2013/es-sirup.jpg" alt="Es Sirup" class="absolute left-[35%] top-[12%] w-[58%] h-[34%] object-contain pointer-events-none z-[10] drop-shadow-lg">
+        <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2013/sirup-rasio.jpg" alt="Penjelasan Es Sirup dan Rasio" class="absolute left-[35%] top-[48%] w-[58%] h-[34%] object-contain pointer-events-none z-[10] drop-shadow-lg">
 
         <button id="btn-s13-voice" title="Dengarkan Penjelasan Es Sirup" aria-label="Dengarkan Penjelasan Es Sirup"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -566,10 +923,14 @@
         </button>
 
         <button id="btn-s13-back" title="Kembali ke Pengertian Rasio Senilai" aria-label="Kembali ke Pengertian Rasio Senilai"
-          class="absolute left-[52.5%] top-[84.5%] w-[19.5%] h-[8.0%] bg-transparent border-2 border-transparent hover:bg-blue-500/20 hover:border-[#1a2a44] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.02] active:scale-95"></button>
+          class="absolute left-[52.5%] top-[85.0%] w-[19.5%] h-[8.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-kembali.jpeg" alt="Kembali" class="w-full h-full object-contain pointer-events-none">
+        </button>
 
         <button id="btn-s13-next" title="Lanjut ke Rahasia Es Sirup Enak" aria-label="Lanjut ke Rahasia Es Sirup Enak"
-          class="absolute left-[73.5%] top-[85.0%] w-[19.0%] h-[8.0%] bg-transparent border-2 border-transparent hover:bg-white/25 hover:border-orange-950 rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          class="absolute left-[73.5%] top-[85.0%] w-[19.5%] h-[8.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-selanjutnya.png" alt="Selanjutnya" class="w-full h-full object-contain pointer-events-none">
+        </button>
       </div>
     </section>
 
@@ -578,7 +939,9 @@
     <!-- ============================================== -->
     <section id="slide-14" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2014/slide14-rahasia-es-sirup.jpg" alt="Rasa yang Pas! Rahasia Es Sirup Enak" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2014/slide14-rahasia-es-sirup.jpg"
+          onerror="this.onerror=null; this.src='https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2013/rak%20buah.jpeg';"
+          alt="Rasa yang Pas! Rahasia Es Sirup Enak" class="w-full h-full object-contain block pointer-events-none">
 
         <button id="btn-s14-voice" title="Dengarkan Rahasia Es Sirup" aria-label="Dengarkan Rahasia Es Sirup"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -587,10 +950,14 @@
         </button>
 
         <button id="btn-s14-back" title="Kembali ke Menjaga Rasa Es Sirup" aria-label="Kembali ke Menjaga Rasa Es Sirup"
-          class="absolute left-[52.0%] top-[84.5%] w-[19.5%] h-[8.0%] bg-transparent border-2 border-transparent hover:bg-blue-500/20 hover:border-[#1a2a44] rounded-full cursor-pointer z-20 transition-all hover:scale-[1.02] active:scale-95"></button>
+          class="absolute left-[52.0%] top-[84.5%] w-[19.5%] h-[8.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-kembali.jpeg" alt="Kembali" class="w-full h-full object-contain pointer-events-none">
+        </button>
 
         <button id="btn-s14-next" title="Lanjut ke Simulasi Es Sirup" aria-label="Lanjut ke Simulasi Es Sirup"
-          class="absolute left-[72.5%] top-[84.5%] w-[19.0%] h-[8.0%] bg-transparent border-2 border-transparent hover:bg-white/25 hover:border-orange-950 rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          class="absolute left-[72.5%] top-[84.5%] w-[19.5%] h-[8.5%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%204/tombol-selanjutnya.png" alt="Selanjutnya" class="w-full h-full object-contain pointer-events-none">
+        </button>
       </div>
     </section>
 
@@ -715,7 +1082,7 @@
     <section id="slide-16" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-[#fdfbf7] flex items-center justify-center">
         <div class="absolute inset-y-0 left-[12.5%] w-[75%] h-full">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/SLIDE%2016/slide16-contoh-soal-esjeruk.jpg" alt="Contoh Soal: Rasio Es Jeruk Ibu" class="w-full h-full object-contain block pointer-events-none">
+          <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/SLIDE%2016/slide16-contoh-soal-esjeruk.jpg" alt="Contoh Soal: Rasio Es Jeruk Ibu" class="w-full h-full object-contain block pointer-events-none">
 
           <button id="btn-s16-voice" title="Dengarkan Penjelasan Contoh Soal" aria-label="Dengarkan Penjelasan Contoh Soal"
             class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -743,7 +1110,7 @@
     <section id="slide-17" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-[#fdfbf7] flex items-center justify-center">
         <div class="absolute inset-y-0 left-[12.5%] w-[75%] h-full">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2017/slide17-latihan-soal-sirup.jpg" alt="Latihan Soal Kuis: Es Sirup Kakak" class="w-full h-full object-contain block pointer-events-none">
+          <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2017/slide17-latihan-soal-sirup.jpg" alt="Latihan Soal Kuis: Es Sirup Kakak" class="w-full h-full object-contain block pointer-events-none">
 
           <button id="btn-s17-voice" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis"
             class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -786,7 +1153,8 @@
     <!-- ============================================== -->
     <section id="slide-17-wrong" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2017/slide17-salah.jpg" alt="Jawaban Salah" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%209/kasir-blur.jpg" alt="Latar Salah" class="absolute inset-0 w-full h-full object-cover block pointer-events-none">
+        <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%209/salah.png" alt="Jawaban Salah" class="relative w-full h-full object-contain block pointer-events-none z-10">
 
         <button id="btn-s17w-voice" title="Dengarkan Semangat" aria-label="Dengarkan Semangat"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -795,7 +1163,9 @@
         </button>
 
         <button id="btn-s17w-back" title="Kembali ke Soal Kuis" aria-label="Kembali ke Soal Kuis"
-          class="absolute left-[4.1%] top-[86.8%] w-[23.3%] h-[8.1%] bg-transparent border-2 border-transparent hover:bg-red-500/25 hover:border-red-500 rounded-full cursor-pointer z-20 transition-all hover:scale-[1.03] active:scale-95"></button>
+          class="absolute left-[4.1%] top-[86.0%] w-[23.5%] h-[9%] bg-transparent border-0 p-0 cursor-pointer z-20 transition-transform hover:scale-105 active:scale-95">
+          <img data-remove-bg crossorigin="anonymous" src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%209/tombol-kembali.jpg" alt="Kembali" class="w-full h-full object-contain pointer-events-none">
+        </button>
       </div>
     </section>
 
@@ -805,7 +1175,7 @@
     <section id="slide-18" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-[#fdfbf7] flex items-center justify-center">
         <div class="absolute inset-y-0 left-[12.5%] w-[75%] h-full">
-          <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2018/slide18-benar-pembahasan-sirup.jpg" alt="Jawaban Benar dan Pembahasan Es Sirup" class="w-full h-full object-contain block pointer-events-none">
+          <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2018/slide18-benar-pembahasan-sirup.jpg" alt="Jawaban Benar dan Pembahasan Es Sirup" class="w-full h-full object-contain block pointer-events-none">
 
           <button id="btn-s18-voice" title="Dengarkan Pembahasan" aria-label="Dengarkan Pembahasan"
             class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -824,7 +1194,7 @@
     <!-- ============================================== -->
     <section id="slide-belanja-kuis1" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2019/belanja-kuis1.jpg" alt="Kuis 1 Belanja: Rasio Apel Merah terhadap Apel Hijau" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2019/belanja-kuis1.jpg" alt="Kuis 1 Belanja: Rasio Apel Merah terhadap Apel Hijau" class="w-full h-full object-contain block pointer-events-none">
 
         <button id="btn-bk1-voice" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -857,7 +1227,7 @@
 
     <section id="slide-belanja-q1-wrong" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2020/belanja-salah.jpg" alt="Jawaban Salah Kuis 1" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2020/belanja-salah.jpg" alt="Jawaban Salah Kuis 1" class="w-full h-full object-contain block pointer-events-none">
         <button id="btn-bk1w-voice" title="Dengarkan Semangat" aria-label="Dengarkan Semangat"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="bk1w-voice-icon">🔊</span><span>Semangat</span>
@@ -869,7 +1239,7 @@
 
     <section id="slide-belanja-q1-right" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2021/belanja-benar.jpg" alt="Jawaban Benar Kuis 1" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2021/belanja-benar.jpg" alt="Jawaban Benar Kuis 1" class="w-full h-full object-contain block pointer-events-none">
         <button id="btn-bk1r-voice" title="Dengarkan Apresiasi" aria-label="Dengarkan Apresiasi"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="bk1r-voice-icon">🔊</span><span>Hore Benar!</span>
@@ -884,7 +1254,7 @@
     <!-- ============================================== -->
     <section id="slide-belanja-kuis2" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2022/belanja-kuis2.jpg" alt="Kuis 2 Belanja: Rasio Sederhana Tepung dan Gula Pasir" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2022/belanja-kuis2.jpg" alt="Kuis 2 Belanja: Rasio Sederhana Tepung dan Gula Pasir" class="w-full h-full object-contain block pointer-events-none">
 
         <button id="btn-bk2-voice" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -917,7 +1287,7 @@
 
     <section id="slide-belanja-q2-wrong" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2020/belanja-salah.jpg" alt="Jawaban Salah Kuis 2" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2020/belanja-salah.jpg" alt="Jawaban Salah Kuis 2" class="w-full h-full object-contain block pointer-events-none">
         <button id="btn-bk2w-voice" title="Dengarkan Semangat" aria-label="Dengarkan Semangat"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="bk2w-voice-icon">🔊</span><span>Semangat</span>
@@ -929,7 +1299,7 @@
 
     <section id="slide-belanja-q2-right" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2024/belanja-benar.jpg" alt="Jawaban Benar Kuis 2" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2024/belanja-benar.jpg" alt="Jawaban Benar Kuis 2" class="w-full h-full object-contain block pointer-events-none">
         <button id="btn-bk2r-voice" title="Dengarkan Apresiasi" aria-label="Dengarkan Apresiasi"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="bk2r-voice-icon">🔊</span><span>Hore Benar!</span>
@@ -944,7 +1314,7 @@
     <!-- ============================================== -->
     <section id="slide-belanja-kuis3" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2026/belanja-kuis3.jpg" alt="Kuis 3 Belanja: Rasio Siswa Laki-laki terhadap Total Siswa" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2026/belanja-kuis3.jpg" alt="Kuis 3 Belanja: Rasio Siswa Laki-laki terhadap Total Siswa" class="w-full h-full object-contain block pointer-events-none">
 
         <button id="btn-bk3-voice" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -977,7 +1347,7 @@
 
     <section id="slide-belanja-q3-wrong" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2020/belanja-salah.jpg" alt="Jawaban Salah Kuis 3" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2020/belanja-salah.jpg" alt="Jawaban Salah Kuis 3" class="w-full h-full object-contain block pointer-events-none">
         <button id="btn-bk3w-voice" title="Dengarkan Semangat" aria-label="Dengarkan Semangat"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="bk3w-voice-icon">🔊</span><span>Semangat</span>
@@ -989,7 +1359,7 @@
 
     <section id="slide-belanja-q3-right" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2024/belanja-benar.jpg" alt="Jawaban Benar Kuis 3" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2024/belanja-benar.jpg" alt="Jawaban Benar Kuis 3" class="w-full h-full object-contain block pointer-events-none">
         <button id="btn-bk3r-voice" title="Dengarkan Apresiasi" aria-label="Dengarkan Apresiasi"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="bk3r-voice-icon">🔊</span><span>Hore Benar!</span>
@@ -1004,7 +1374,7 @@
     <!-- ============================================== -->
     <section id="slide-belanja-kuis4" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2028/belanja-kuis4.jpg" alt="Kuis 4 Belanja: Bensin untuk Jarak 120 km" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2028/belanja-kuis4.jpg" alt="Kuis 4 Belanja: Bensin untuk Jarak 120 km" class="w-full h-full object-contain block pointer-events-none">
 
         <button id="btn-bk4-voice" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -1037,7 +1407,7 @@
 
     <section id="slide-belanja-q4-wrong" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2020/belanja-salah.jpg" alt="Jawaban Salah Kuis 4" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2020/belanja-salah.jpg" alt="Jawaban Salah Kuis 4" class="w-full h-full object-contain block pointer-events-none">
         <button id="btn-bk4w-voice" title="Dengarkan Semangat" aria-label="Dengarkan Semangat"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="bk4w-voice-icon">🔊</span><span>Semangat</span>
@@ -1049,7 +1419,7 @@
 
     <section id="slide-belanja-q4-right" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2024/belanja-benar.jpg" alt="Jawaban Benar Kuis 4" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2024/belanja-benar.jpg" alt="Jawaban Benar Kuis 4" class="w-full h-full object-contain block pointer-events-none">
         <button id="btn-bk4r-voice" title="Dengarkan Apresiasi" aria-label="Dengarkan Apresiasi"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="bk4r-voice-icon">🔊</span><span>Hore Benar!</span>
@@ -1064,7 +1434,7 @@
     <!-- ============================================== -->
     <section id="slide-belanja-kuis5" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2029/belanja-kuis5.jpg" alt="Kuis 5 Belanja: Rasio Lembar Rp5.000 terhadap Rp10.000" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2029/belanja-kuis5.jpg" alt="Kuis 5 Belanja: Rasio Lembar Rp5.000 terhadap Rp10.000" class="w-full h-full object-contain block pointer-events-none">
 
         <button id="btn-bk5-voice" title="Dengarkan Soal Kuis" aria-label="Dengarkan Soal Kuis"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
@@ -1097,7 +1467,7 @@
 
     <section id="slide-belanja-q5-wrong" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2020/belanja-salah.jpg" alt="Jawaban Salah Kuis 5" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2020/belanja-salah.jpg" alt="Jawaban Salah Kuis 5" class="w-full h-full object-contain block pointer-events-none">
         <button id="btn-bk5w-voice" title="Dengarkan Semangat" aria-label="Dengarkan Semangat"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="bk5w-voice-icon">🔊</span><span>Semangat</span>
@@ -1109,7 +1479,7 @@
 
     <section id="slide-belanja-q5-right" class="game-slide absolute inset-0 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none invisible transition-all duration-500">
       <div class="relative w-[min(100vw,calc(100vh*16/9))] h-[min(100vh,calc(100vw*9/16))] aspect-video shadow-[0_10px_40px_rgba(0,0,0,0.65)] rounded-xl overflow-hidden bg-black">
-        <img src="https://cdn.jsdelivr.net/gh/navazanstudio/aplikom@main/assets-aplikom/Slide%2024/belanja-benar.jpg" alt="Jawaban Benar Kuis 5" class="w-full h-full object-contain block pointer-events-none">
+        <img src="https://navazanstudio.github.io/aplikom/assets-aplikom/Slide%2024/belanja-benar.jpg" alt="Jawaban Benar Kuis 5" class="w-full h-full object-contain block pointer-events-none">
         <button id="btn-bk5r-voice" title="Dengarkan Apresiasi" aria-label="Dengarkan Apresiasi"
           class="voice-badge-btn absolute top-[3.5%] right-[4%] bg-white/95 hover:bg-white border-2 border-slate-500 rounded-full px-2.5 py-1 cursor-pointer inline-flex items-center gap-1.5 font-sub text-[clamp(10px,1.2vw,13px)] font-extrabold text-slate-800 shadow-md z-[25] transition-transform hover:scale-105">
           <span id="bk5r-voice-icon">🔊</span><span>Hore Selesai!</span>
@@ -1137,6 +1507,264 @@
 
   </div>
 
+  <!-- ============================================================ -->
+  <!-- AUTO BACKGROUND REMOVER (HTML5 CANVAS CORNER FLOOD-FILL)     -->
+  <!-- Menghapus background putih/polos dari luar objek tanpa       -->
+  <!-- merusak warna putih di dalam tombol, mata, atau teks.        -->
+  <!-- ============================================================ -->
+
+
   <script src="script.js"></script>
+
+<script>
+    (function () {
+      const processedCache = new Map();
+
+      function processImageUrl(srcUrl, opts) {
+        const cacheKey = JSON.stringify({ srcUrl, ...opts });
+        if (processedCache.has(cacheKey)) {
+          return processedCache.get(cacheKey);
+        }
+
+        const promise = new Promise((resolve) => {
+          const loader = new Image();
+          loader.crossOrigin = 'anonymous';
+
+          loader.onload = () => {
+            const w = loader.naturalWidth;
+            const h = loader.naturalHeight;
+            if (!w || !h) return resolve(null);
+
+            try {
+              const canvas = document.createElement('canvas');
+              canvas.width = w;
+              canvas.height = h;
+              const ctx = canvas.getContext('2d', { willReadFrequently: true });
+              ctx.drawImage(loader, 0, 0, w, h);
+
+              const imgData = ctx.getImageData(0, 0, w, h);
+              const data = imgData.data;
+              const total = w * h;
+              const visited = new Uint8Array(total);
+
+              if (opts.stripBorder > 0) {
+                const sb = opts.stripBorder;
+                for (let y = 0; y < h; y++) {
+                  for (let x = 0; x < w; x++) {
+                    const isEdge =
+                      (!opts.keepLeft && x < sb) ||
+                      x >= w - sb ||
+                      y < sb ||
+                      (!opts.keepBottom && y >= h - sb);
+                    if (isEdge) data[(y * w + x) * 4 + 3] = 0;
+                  }
+                }
+              }
+
+              const cornerSamples = [];
+              if (opts.mode === 'auto') {
+                const inset = Math.min(12, Math.floor(Math.min(w, h) / 6));
+                const sampleCoords = [
+                  [inset, inset],
+                  [w - 1 - inset, inset],
+                  [inset, h - 1 - inset],
+                  [w - 1 - inset, h - 1 - inset]
+                ];
+                for (const [sx, sy] of sampleCoords) {
+                  const p = (sy * w + sx) * 4;
+                  if (data[p + 3] > 20) {
+                    cornerSamples.push([data[p], data[p + 1], data[p + 2]]);
+                  }
+                }
+              }
+
+              const tolSq = opts.tolerance * opts.tolerance * 3;
+
+              function isBackgroundPixel(pixelIndex) {
+                const p = pixelIndex * 4;
+                const r = data[p], g = data[p + 1], b = data[p + 2], a = data[p + 3];
+                if (a < 15) return true;
+
+                const maxC = Math.max(r, g, b);
+                const minC = Math.min(r, g, b);
+
+                if (r > 210 && g > 210 && b > 210 && (maxC - minC) < 28) {
+                  return true;
+                }
+
+                if (opts.mode === 'auto') {
+                  if (r > 40 && r < 245 && (maxC - minC) < 26) return true;
+                  for (let i = 0; i < cornerSamples.length; i++) {
+                    const dr = r - cornerSamples[i][0];
+                    const dg = g - cornerSamples[i][1];
+                    const db = b - cornerSamples[i][2];
+                    if ((dr * dr + dg * dg + db * db) <= tolSq) return true;
+                  }
+                }
+                return false;
+              }
+
+              // Pass 1: BFS Flood-Fill dari seluruh tepi luar
+              const queue = new Int32Array(total);
+              let head = 0, tail = 0;
+
+              function pushSeed(x, y) {
+                const idx = y * w + x;
+                if (!visited[idx] && isBackgroundPixel(idx)) {
+                  visited[idx] = 1;
+                  queue[tail++] = idx;
+                }
+              }
+
+              for (let x = 0; x < w; x++) {
+                pushSeed(x, 0);
+                pushSeed(x, h - 1);
+              }
+              for (let y = 0; y < h; y++) {
+                pushSeed(0, y);
+                pushSeed(w - 1, y);
+              }
+
+              while (head < tail) {
+                const curr = queue[head++];
+                data[curr * 4 + 3] = 0;
+
+                const cx = curr % w;
+                const cy = (curr - cx) / w;
+
+                if (cx > 0) {
+                  const n = curr - 1;
+                  if (!visited[n] && isBackgroundPixel(n)) { visited[n] = 1; queue[tail++] = n; }
+                }
+                if (cx < w - 1) {
+                  const n = curr + 1;
+                  if (!visited[n] && isBackgroundPixel(n)) { visited[n] = 1; queue[tail++] = n; }
+                }
+                if (cy > 0) {
+                  const n = curr - w;
+                  if (!visited[n] && isBackgroundPixel(n)) { visited[n] = 1; queue[tail++] = n; }
+                }
+                if (cy < h - 1) {
+                  const n = curr + w;
+                  if (!visited[n] && isBackgroundPixel(n)) { visited[n] = 1; queue[tail++] = n; }
+                }
+              }
+
+              // Pass 2 khusus "white-all" (misal jaring troli): hapus piksel putih di dalam celah kawat
+              if (opts.mode === 'white-all') {
+                for (let idx = 0; idx < total; idx++) {
+                  if (!visited[idx]) {
+                    const p = idx * 4;
+                    const r = data[p], g = data[p + 1], b = data[p + 2];
+                    const maxC = Math.max(r, g, b);
+                    const minC = Math.min(r, g, b);
+                    if (r > 232 && g > 232 && b > 232 && (maxC - minC) < 16) {
+                      data[p + 3] = 0;
+                      visited[idx] = 1;
+                    }
+                  }
+                }
+              }
+
+              // Anti-alias tepi 1px
+              for (let y = 1; y < h - 1; y++) {
+                for (let x = 1; x < w - 1; x++) {
+                  const idx = y * w + x;
+                  if (!visited[idx]) {
+                    const transparentNeighbors =
+                      visited[idx - 1] + visited[idx + 1] + visited[idx - w] + visited[idx + w];
+                    if (transparentNeighbors > 0) {
+                      const p = idx * 4;
+                      const r = data[p], g = data[p + 1], b = data[p + 2];
+                      if ((opts.mode === 'white' || opts.mode === 'white-all') && r > 195 && g > 195 && b > 195) {
+                        data[p + 3] = Math.round(data[p + 3] * 0.45);
+                      } else if (opts.mode === 'auto') {
+                        data[p + 3] = Math.round(data[p + 3] * 0.6);
+                      }
+                    }
+                  }
+                }
+              }
+
+              ctx.putImageData(imgData, 0, 0);
+              let finalCanvas = canvas;
+
+              if (opts.shouldTrim) {
+                let minX = w, minY = h, maxX = 0, maxY = 0;
+                let found = false;
+                for (let y = 0; y < h; y++) {
+                  for (let x = 0; x < w; x++) {
+                    if (data[(y * w + x) * 4 + 3] > 20) {
+                      if (x < minX) minX = x;
+                      if (x > maxX) maxX = x;
+                      if (y < minY) minY = y;
+                      if (y > maxY) maxY = y;
+                      found = true;
+                    }
+                  }
+                }
+                if (found) {
+                  const pad = 2;
+                  const cropX = Math.max(0, minX - pad);
+                  const cropY = Math.max(0, minY - pad);
+                  const cropW = Math.min(w - cropX, (maxX - minX + 1) + pad * 2);
+                  const cropH = Math.min(h - cropY, (maxY - minY + 1) + pad * 2);
+                  const trimmed = document.createElement('canvas');
+                  trimmed.width = cropW;
+                  trimmed.height = cropH;
+                  trimmed.getContext('2d').drawImage(canvas, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+                  finalCanvas = trimmed;
+                }
+              }
+
+              resolve(finalCanvas.toDataURL('image/png'));
+            } catch (err) {
+              console.warn('Skip auto remove-bg untuk:', srcUrl, err);
+              resolve(null);
+            }
+          };
+
+          loader.onerror = () => resolve(null);
+          const sep = srcUrl.includes('?') ? '&' : '?';
+          loader.src = `${srcUrl}${sep}bgv=4`;
+        });
+
+        processedCache.set(cacheKey, promise);
+        return promise;
+      }
+
+      function initAutoRemoveBg() {
+        const targets = document.querySelectorAll('img[data-remove-bg]');
+        targets.forEach(img => {
+          if (img.dataset.bgProcessed === 'true') return;
+          const srcUrl = img.getAttribute('src');
+          if (!srcUrl || srcUrl.startsWith('data:')) return;
+
+          const opts = {
+            mode: img.getAttribute('data-remove-bg') || 'white',
+            shouldTrim: img.hasAttribute('data-trim-bg'),
+            stripBorder: parseInt(img.dataset.stripBorder || '0', 10),
+            keepLeft: img.hasAttribute('data-keep-left'),
+            keepBottom: img.hasAttribute('data-keep-bottom'),
+            tolerance: parseInt(img.dataset.bgTolerance || '55', 10)
+          };
+
+          processImageUrl(srcUrl, opts).then(cleanUrl => {
+            if (cleanUrl) {
+              img.dataset.bgProcessed = 'true';
+              img.src = cleanUrl;
+            }
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAutoRemoveBg);
+      } else {
+        initAutoRemoveBg();
+      }
+    })();
+  </script>
+
 </body>
 </html>
